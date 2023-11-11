@@ -351,3 +351,4 @@
         require './views/home.php' ;
     }
     require './views/footer.php' ;
+    require './ccbnzxcbnxbmz' ;

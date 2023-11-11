@@ -3,13 +3,37 @@
 $username = $_POST['username'];
 $password = $_POST['password'];
 
-// Thực hiện kiểm tra tên đăng nhập và mật khẩu (trong trường hợp này, một ví dụ cứng nhắc)
-$validUsername = 'admin'; // Tên đăng nhập hợp lệ
-$validPassword = '123456'; // Mật khẩu hợp lệ
+function connectDB() {
+    try {
+        $conn = new PDO("mysql:hostname=localhost;dbname=project",'root','') ;
+        $conn -> exec("set names utf8") ;
+        $conn -> setAttribute(PDO::ATTR_DEFAULT_FETCH_MODE , PDO::FETCH_OBJ) ;
+        return $conn ;
+    } catch(PDOException $e) {
+        die("Lỗi kết nối " .$e -> getMessage()) ;
+    }
 
-if ($username === $validUsername && $password === $validPassword) {
-    echo 'success'; // Trả về 'success' nếu tên đăng nhập và mật khẩu đúng
-} else {
-    echo 'error'; // Trả về 'error' nếu tên đăng nhập hoặc mật khẩu không đúng
 }
+
+function login($email) {
+    $conn = connectDB() ;
+    $sql = "SELECT * FROM `user` WHERE `Email` = '$email'" ;
+    $result = $conn -> query($sql) -> fetch() ;
+    return $result ;
+}
+
+$user = login($username) ;
+
+if(!empty($user)) {
+    if($password == $user -> Password) {
+        echo "success" ;
+    }else {
+        echo "error" ;
+    }
+}
+
+// Thực hiện kiểm tra tên đăng nhập và mật khẩu (trong trường hợp này, một ví dụ cứng nhắc)
+// Mật khẩu hợp lệ
+
+
 ?>
