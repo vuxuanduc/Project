@@ -339,8 +339,24 @@
 
             // Quản lí người dùng ;
             case 'managerUsers' : {
+                // Lấy tất cả user ;
                 $listUsers = getUsers() ;
+                // Xóa từng user ;
+                if(isset($_GET['DeleteUserID'])) {
+                    deleteUser($_GET['DeleteUserID']) ;
+                }
+                // Xóa nhiều người dùng ;
+                if(isset($_POST['delete_checked'])) {
+                    $listUsersDelete = $_POST['check'] ;
+                    foreach($listUsersDelete as $UserDelete => $UserID) {
+                        deleteUser($UserID) ;
+                    }
+                }
                 require './views/admin/user/managerUsers.php' ;
+                break ;
+            }
+            case 'updateUser' : {
+                require './views/admin/user/updateUser.php' ;
                 break ;
             }
             default : {

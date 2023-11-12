@@ -34,7 +34,13 @@
         return $result ;
     }
 
-
+    // Xóa người dùng ;
+    function deleteUser($UserID) {
+        $conn = connectDB() ;
+        $sql = "DELETE FROM `user` WHERE `UserID` IN ('$UserID')" ;
+        $result = $conn -> query($sql) ;
+        echo '<script type="text/javascript">window.location.href = "?action=managerUsers";</script>';
+    }
     
     
 ?>
