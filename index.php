@@ -341,6 +341,17 @@
             case 'managerUsers' : {
                 // Lấy tất cả user ;
                 $listUsers = getUsers() ;
+                // Thêm mới user ;
+                if(isset($_POST['btn-add-user'])) {
+                    // Kiểm tra xem email người dùng nhập đã tồn tại trong hệ thống hay chưa ;
+                    $error = [] ;
+                    if(!empty(login($_POST['email']))) {
+                        $error['admin_add_user']['email'] = "Email đã tồn tại" ;
+                    }else {
+                        createUser($_POST['password'] , $_POST['email'] , 2) ;
+                    }
+
+                }
                 // Xóa từng user ;
                 if(isset($_GET['DeleteUserID'])) {
                     deleteUser($_GET['DeleteUserID']) ;

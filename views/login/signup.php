@@ -14,7 +14,7 @@
         </div>
         <div class="form-group">
             <label for="">Mật khẩu</label> <span style="color:red;" id="password_signup_err"></span>
-            <input type="password" id="password_signup" name="password" class="form-control my-2" value="<?php echo isset($_POST['email']) ? $_POST['email'] : "" ; ?>">
+            <input type="password" id="password_signup" name="password" class="form-control my-2" value="<?php echo isset($_POST['password']) ? $_POST['password'] : "" ; ?>">
         </div>
         <div class="form-group">
             <input type="submit" value="Đăng ký" name="btn-signup" class="form-control btn btn-primary my-2">

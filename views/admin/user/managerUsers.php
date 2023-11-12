@@ -1,4 +1,7 @@
-<div class="box">
+<?php
+    if(isset($_SESSION['login']) && isset($_SESSION['role']) && $_SESSION['role'] == 1) {
+?>
+    <div class="box">
     <?php
         require './views/admin/navAdmin.php' ;
     ?>
@@ -32,7 +35,13 @@
                             <td><?php echo $User -> Email ?></td>
                             <td><?php echo $User -> Phone ?></td>
                             <td>
-                                <a href="?action=managerUsers&&DeleteUserID=<?php echo $User -> UserID ?>" onclick="return confirm('Bạn chắc chắn xóa chứ ?');" class="btn btn-danger">Xóa</a>
+                                <?php
+                                    if($_SESSION['userID'] != $User -> UserID) {
+                                ?>
+                                    <a href="?action=managerUsers&&DeleteUserID=<?php echo $User -> UserID ?>" onclick="return confirm('Bạn chắc chắn xóa chứ ?');" class="btn btn-danger">Xóa</a>
+                                <?php
+                                    }
+                                ?>
                                 <a href="?action=updateUser&&UpdateUserID=<?php echo $User -> UserID ?>" class="btn btn-primary my-1">Sửa</a>
                             </td>
                         </tr>
@@ -55,23 +64,102 @@
   <div class="modal-dialog">
     <div class="modal-content">
       <div class="modal-header">
-        <h1 class="modal-title fs-5" id="exampleModalLabel">Thêm loại phòng</h1>
+        <h1 class="modal-title fs-5" id="exampleModalLabel">Thêm người dùng</h1>
         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
       </div>
-      <form action="" method="post" enctype="multipart/form-data" onsubmit="return">
+      <form id="signupForm" action="" method="post" enctype="multipart/form-data" onsubmit="return validateSignupAdmin();">
         <div class="modal-body">
-          
-          
-    
+            <div class="form-group">
+                <label for="">Email</label> <span id="email_signup_admin_err" style="color:red;font-size:14px;"></span>
+                <span id="signup_error" style="color:red;font-size:14px;">
+                    <?php
+                        if(isset($error['admin_add_user']['email'])) {
+                            echo $error['admin_add_user']['email'] ;
+                        }
+                    ?>
+                </span>
+                <input type="text" value="<?php echo isset($_POST['email']) ? $_POST['email'] : "" ?>" id="email_signup_admin" name="email" class="form-control my-2">
+            </div>
+            <div class="form-group">
+                <label for="">Mật khẩu</label> <span id="password_signup_admin_err" style="color:red;font-size:14px;"></span>
+                <input type="password" value="<?php echo isset($_POST['password']) ? $_POST['password'] : "" ?>" id="password_signup_admin" name="password" class="form-control my-2">
+            </div>
         </div>
           
         <div class="modal-footer">
           <input type="reset" class="btn btn-secondary" value="Nhập lại">
-          <button type="submit" class="btn" name="btn-add-room" style="background-color:#86B817;color:white;">Thêm mới</button>
+          <button type="submit" class="btn" name="btn-add-user" style="background-color:#86B817;color:white;">Thêm mới</button>
         </div>
       </form>
     </div>
   </div>
 </div>
 
+<script>
+    
+const email_signup_admin = document.getElementById('email_signup_admin') ;
+const email_signup_admin_err = document.getElementById('email_signup_admin_err') ;
+const password_signup_admin = document.getElementById('password_signup_admin') ;
+const password_signup_admin_err = document.getElementById('password_signup_admin_err') ;
+function validateSignupAdmin() {
+    let check = true ;
+    let regexEmail = /^\w([_\.]?\w+)*@\w{2,}(\.\w{2,30})+$/;
+    if(email_signup_admin.value.trim() == "") {
+        email_signup_admin_err.innerText = "Vui lòng nhập email" ;
+        check = false ;
+    }
+    else if(regexEmail.test(email_signup_admin.value) == false) {
+        email_signup_admin_err.innerText = "Email không đúng định dạng" ;
+        check = false ;
+    }
+    else {
+        email_signup_admin_err.innerText = "" ;
+    }
+
+    let regaxPass = /^\w{6,}$/ ;
+    if(password_signup_admin.value.trim() == "") {
+        password_signup_admin_err.innerText = "Vui lòng nhập mật khẩu" ;
+        check = false ;
+    }
+    else if(regaxPass.test(password_signup_admin.value) == false) {
+        password_signup_admin_err.innerText = "Mật khẩu không đúng định dạng" ;
+        check = false ;
+    }
+    else {
+        password_signup_admin_err.innerText = "" ;
+    }
+    return check ;
+}
+
+
+$(document).ready(function() {
+    $('#loginForm').submit(function(e) {
+        e.preventDefault();
+        var username = $('#username').val();
+        var password = $('#password').val();
+
+        $.ajax({
+            type: 'POST',
+            url: '?action=managerUsers',
+            data: {
+                username: username,
+                password: password
+            },
+            success: function(response) {
+                if (response === 'success') {
+                    // Nếu đăng nhập thành công, chuyển hướng hoặc thực hiện hành động khác
+                    window.location.href = 'dashboard.php'; // Điều hướng tới trang dashboard.php
+                } else {
+                    $('#').click() ;
+                }
+            }
+        });
+    });
+});
+</script>
+
+<?php
+    }
+
+?>
 

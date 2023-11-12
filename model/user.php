@@ -8,7 +8,7 @@
         return $result ;
     }
 
-    // Phần đăng ký ;
+    // Phần đăng ký của người dùng ;
     function signup($password , $email , $RoleID) {
         $conn = connectDB() ;
         $sql = "INSERT INTO `user`(`Password` , `Email` , `RoleID`) VALUES('$password' , '$email' , '$RoleID')" ;
@@ -32,6 +32,14 @@
         $sql = "SELECT * FROM `user`" ;
         $result = $conn -> query($sql) -> fetchAll() ;
         return $result ;
+    }
+    
+    // Thêm người dùng trong trang admin ;
+    function createUser($password , $email , $RoleID) {
+        $conn = connectDB() ;
+        $sql = "INSERT INTO `user`(`Password` , `Email` , `RoleID`) VALUES('$password' , '$email' , '$RoleID')" ;
+        $result = $conn -> query($sql) ;
+        echo '<script type="text/javascript">window.location.href = "?action=managerUsers";</script>';
     }
 
     // Xóa người dùng ;
