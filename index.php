@@ -339,6 +339,7 @@
 
             // Quản lí người dùng ;
             case 'managerUsers' : {
+                $listUsers = getUsers() ;
                 require './views/admin/user/managerUsers.php' ;
                 break ;
             }
