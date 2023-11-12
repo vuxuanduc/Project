@@ -120,63 +120,13 @@
 
             // Quản lý khách sạn ;
             case 'managerHotels' : {
-                // Lấy danh sách khách sạn ;
-                $listHotels = getHotels() ;
+                // Kiểm tra xem tài khoản có đúng là admin không ;
+                if(isset($_SESSION['login']) && isset($_SESSION['role']) && $_SESSION['role'] == 1) {
+                    // Lấy danh sách khách sạn ;
+                    $listHotels = getHotels() ;
                 
                 // Thêm khách sạn ;
-                if(isset($_POST['btn-add-hotel'])) {
-                    foreach($_FILES['image']['tmp_name'] as $key => $value) {
-                        $image = './image_hotel/' .basename($_FILES['image']['name'][$key]) ;
-                        $file = $_FILES['image']['tmp_name'][$key] ;
-                        $err = $_FILES['image']['error'][$key] ;
-                        if(empty($err) && move_uploaded_file($file , $image)) {
-                            $imageUpload[] = $image ;
-                        }
-                    }
-                    if(!empty($imageUpload)) {
-                        $imagePaths = implode(',' , $imageUpload) ;
-                        $address = $_POST['apartmentNumber'] .',' .$_POST['ward'] .',' .$_POST['district'] .',' .$_POST['province'] ;
-                        createHotel($_POST['name'] , $imagePaths , $address , $_POST['phone'] , $_POST['email']) ;
-                        
-                    }
-                }
-
-                // Xóa từng khách sạn ;
-                if(isset($_GET['DeleteHotelID'])) {
-                    $stringImage = getHotelsID($_GET['DeleteHotelID']) ;
-                    $imagePaths = explode(',' , $stringImage -> Image) ;
-                    foreach($imagePaths as $images => $image) {
-                        if(file_exists($image)) {
-                            unlink($image) ;
-                        }
-                    }
-                    deleteHotel($_GET['DeleteHotelID']) ;
-                }
-
-                // Xóa nhiều khách sạn ;
-                if(isset($_POST['delete_checked'])) {
-                    $listIDHotel = $_POST['check'] ;
-                    foreach($listIDHotel as $HotelIDs => $HotelID) {
-                        $stringImage = getHotelsID($HotelID) ;
-                        $imagePaths = explode(',' , $stringImage -> Image) ;
-                        foreach($imagePaths as $images => $image) {
-                            if(file_exists($image)) {
-                                unlink($image) ;
-                            }
-                        }
-                        deleteHotel($HotelID) ;
-                    }
-                    
-                }
-                require './views/admin/hotel/managerHotels.php' ;
-                break ;
-            }
-
-            // Cập nhật khách sạn ;
-            case 'updateHotel' : {
-                $hotel = getHotelsID($_GET['updateHotelID']) ;
-                if(isset($_POST['btn-update-hotel'])) {
-                    if($_FILES['image']['size'] >= 0) {
+                    if(isset($_POST['btn-add-hotel'])) {
                         foreach($_FILES['image']['tmp_name'] as $key => $value) {
                             $image = './image_hotel/' .basename($_FILES['image']['name'][$key]) ;
                             $file = $_FILES['image']['tmp_name'][$key] ;
@@ -187,187 +137,256 @@
                         }
                         if(!empty($imageUpload)) {
                             $imagePaths = implode(',' , $imageUpload) ;
-                            $address = empty($_POST['province']) ? $hotel -> Address : $_POST['apartmentNumber'] .',' .$_POST['ward'] .',' .$_POST['district'] .',' .$_POST['province'] ;
-                            updateHotel($_POST['name'] , $imagePaths , $address , $_POST['phone'] , $_POST['email'] , $_POST['HotelID']) ;
-                            foreach(explode(',' , $hotel -> Image) as $oldImage) {
-                                $isUsed = false;
-                                foreach($imageUpload as $image) {
-                                    if($oldImage === $image) {
-                                        $isUsed = true ;
-                                        break ;
-                                    }
-                                }
-                                if(!$isUsed && isset($oldImage)) {
-                                    unlink($oldImage) ;
-                                }
-                            }
+                            $address = $_POST['apartmentNumber'] .',' .$_POST['ward'] .',' .$_POST['district'] .',' .$_POST['province'] ;
+                            createHotel($_POST['name'] , $imagePaths , $address , $_POST['phone'] , $_POST['email']) ;
                             
-                        }else {
-                            $address = empty($_POST['province']) ? $hotel -> Address : $_POST['apartmentNumber'] .',' .$_POST['ward'] .',' .$_POST['district'] .',' .$_POST['province'] ;
-                            updateHotelNoImage($_POST['name'] , $address , $_POST['phone'] , $_POST['email'] , $_POST['HotelID']) ;
                         }
                     }
-                }
-                require './views/admin/hotel/updateHotel.php' ;
-                break ;
-            }
 
-            // Quản lý loại phòng ;
-            case 'managerTypeRoom' : {
-                // Lấy danh sách loại phòng ;
-                $listRoomType = getRoomType() ;
-                // Thêm loại phòng ;
-                if(isset($_POST['btn-add-roomType'])) {
-                    createRoomType($_POST['RoomTypeName'] , $_POST['Description']) ;
-                }
-                // Xóa từng loại phòng ;
-                if(isset($_GET['DeleteTypeRoomID'])) {
-                    deleteRoomType($_GET['DeleteTypeRoomID']) ;
-                }
-                // Xóa nhiều loại phòng cùng lúc ;
-                if(isset($_POST['delete_checked'])) {
-                    $listRoomTypeDelete = $_POST['check'];
-                    foreach($listRoomTypeDelete as $lists => $list) {
-                        deleteRoomType($list) ;
-                    }
-                }
-                require './views/admin/roomtype/roomTypes.php' ;
-                break ;
-            }
-
-            // Cập nhật loại phòng ;
-            case 'updateRoomType' : {
-                $RoomTypeID = getRoomTypeID($_GET['UpdateRoomType']) ;
-                if(isset($_POST['btn-update-roomType'])) {
-                    updateRoomType($_POST['RoomTypeName'] , $_POST['Description'] , $_POST['RoomTypeID']) ;
-                }
-                require './views/admin/roomtype/updateRoomType.php' ;
-                break ;
-            }
-
-            // Quản lý phòng ;
-            case 'managerRoom' : {
-                // Lấy danh sách phòng ;
-                $listRooms = getRoom() ;
-                // Lấy danh sách loại phòng đưa vào select box ;
-                $listRoomType = getRoomType() ;
-                // Thêm phòng ;
-                if(isset($_POST['btn-add-room'])) {
-                    foreach($_FILES['image']['tmp_name'] as $key => $value) {
-                        $image = './image_room/' .basename($_FILES['image']['name'][$key]) ;
-                        $file = $_FILES['image']['tmp_name'][$key] ;
-                        $err = $_FILES['image']['error'][$key] ;
-                        if(empty($err) && move_uploaded_file($file , $image)) {
-                            $imageUpload[] = $image ;
-                        }
-                    }
-                    if(!empty($imageUpload)) {
-                        $imagePaths = implode(',' , $imageUpload) ;
-                        createRoom($_POST['HotelID'] , $_POST['RoomTypeID'] , $_POST['RoomName'] , $_POST['MaximumNumber'] , $_POST['Description'] , $imagePaths , $_POST['AvailableRooms'] , $_POST['Price']) ;
-                        
-                    }
-                }
-
-                // Xóa từng phòng phòng ;
-                if(isset($_GET['DeleteRoomID'])) {
-                    $stringImage = getRoomID($_GET['DeleteRoomID']) ;
-                    $imagePaths = explode(',' , $stringImage -> Image) ;
-                    foreach($imagePaths as $images => $image) {
-                        if(file_exists($image)) {
-                            unlink($image) ;
-                        }
-                    }
-                    deleteRoom($_GET['DeleteRoomID']) ;
-                }
-
-                // Xóa đồng thời nhiều phòng ;
-                if(isset($_POST['delete_checked'])) {
-                    $listIDRoom = $_POST['RoomID'] ;
-                    foreach($listIDRoom as $RoomIDs => $RoomID) {
-                        $stringImage = getRoomID($RoomID) ;
+                    // Xóa từng khách sạn ;
+                    if(isset($_GET['DeleteHotelID'])) {
+                        $stringImage = getHotelsID($_GET['DeleteHotelID']) ;
                         $imagePaths = explode(',' , $stringImage -> Image) ;
                         foreach($imagePaths as $images => $image) {
                             if(file_exists($image)) {
                                 unlink($image) ;
                             }
                         }
-                        deleteRoom($RoomID) ;
+                        deleteHotel($_GET['DeleteHotelID']) ;
                     }
-                    
+
+                    // Xóa nhiều khách sạn ;
+                    if(isset($_POST['delete_checked'])) {
+                        $listIDHotel = $_POST['check'] ;
+                        foreach($listIDHotel as $HotelIDs => $HotelID) {
+                            $stringImage = getHotelsID($HotelID) ;
+                            $imagePaths = explode(',' , $stringImage -> Image) ;
+                            foreach($imagePaths as $images => $image) {
+                                if(file_exists($image)) {
+                                    unlink($image) ;
+                                }
+                            }
+                            deleteHotel($HotelID) ;
+                        }
+                        
+                    }
+                    require './views/admin/hotel/managerHotels.php' ;
                 }
 
-                require './views/admin/room/rooms.php' ;
+                break ;
+            }
+
+            // Cập nhật khách sạn ;
+            case 'updateHotel' : {
+                if(isset($_SESSION['login']) && isset($_SESSION['role']) && $_SESSION['role'] == 1) {
+                    $hotel = getHotelsID($_GET['updateHotelID']) ;
+                    if(isset($_POST['btn-update-hotel'])) {
+                        if($_FILES['image']['size'] >= 0) {
+                            foreach($_FILES['image']['tmp_name'] as $key => $value) {
+                                $image = './image_hotel/' .basename($_FILES['image']['name'][$key]) ;
+                                $file = $_FILES['image']['tmp_name'][$key] ;
+                                $err = $_FILES['image']['error'][$key] ;
+                                if(empty($err) && move_uploaded_file($file , $image)) {
+                                    $imageUpload[] = $image ;
+                                }
+                            }
+                            if(!empty($imageUpload)) {
+                                $imagePaths = implode(',' , $imageUpload) ;
+                                $address = empty($_POST['province']) ? $hotel -> Address : $_POST['apartmentNumber'] .',' .$_POST['ward'] .',' .$_POST['district'] .',' .$_POST['province'] ;
+                                updateHotel($_POST['name'] , $imagePaths , $address , $_POST['phone'] , $_POST['email'] , $_POST['HotelID']) ;
+                                foreach(explode(',' , $hotel -> Image) as $oldImage) {
+                                    $isUsed = false;
+                                    foreach($imageUpload as $image) {
+                                        if($oldImage === $image) {
+                                            $isUsed = true ;
+                                            break ;
+                                        }
+                                    }
+                                    if(!$isUsed && isset($oldImage)) {
+                                        unlink($oldImage) ;
+                                    }
+                                }
+                                
+                            }else {
+                                $address = empty($_POST['province']) ? $hotel -> Address : $_POST['apartmentNumber'] .',' .$_POST['ward'] .',' .$_POST['district'] .',' .$_POST['province'] ;
+                                updateHotelNoImage($_POST['name'] , $address , $_POST['phone'] , $_POST['email'] , $_POST['HotelID']) ;
+                            }
+                        }
+                    }
+                    require './views/admin/hotel/updateHotel.php' ;
+                }
+                break ;
+            }
+
+            // Quản lý loại phòng ;
+            case 'managerTypeRoom' : {
+                if(isset($_SESSION['login']) && isset($_SESSION['role']) && $_SESSION['role'] == 1) {
+                    // Lấy danh sách loại phòng ;
+                    $listRoomType = getRoomType() ;
+                    // Thêm loại phòng ;
+                    if(isset($_POST['btn-add-roomType'])) {
+                        createRoomType($_POST['RoomTypeName'] , $_POST['Description']) ;
+                    }
+                    // Xóa từng loại phòng ;
+                    if(isset($_GET['DeleteTypeRoomID'])) {
+                        deleteRoomType($_GET['DeleteTypeRoomID']) ;
+                    }
+                    // Xóa nhiều loại phòng cùng lúc ;
+                    if(isset($_POST['delete_checked'])) {
+                        $listRoomTypeDelete = $_POST['check'];
+                        foreach($listRoomTypeDelete as $lists => $list) {
+                            deleteRoomType($list) ;
+                        }
+                    }
+                    require './views/admin/roomtype/roomTypes.php' ;
+                }
+                break ;
+            }
+
+            // Cập nhật loại phòng ;
+            case 'updateRoomType' : {
+                if(isset($_SESSION['login']) && isset($_SESSION['role']) && $_SESSION['role'] == 1) {
+                    $RoomTypeID = getRoomTypeID($_GET['UpdateRoomTypeID']) ;
+                    if(isset($_POST['btn-update-roomType'])) {
+                        updateRoomType($_POST['RoomTypeName'] , $_POST['Description'] , $_POST['RoomTypeID']) ;
+                    }
+                    require './views/admin/roomtype/updateRoomType.php' ;
+                }
+                break ;
+            }
+
+            // Quản lý phòng ;
+            case 'managerRoom' : {
+                if(isset($_SESSION['login']) && isset($_SESSION['role']) && $_SESSION['role'] == 1) {
+                    // Lấy danh sách phòng ;
+                    $listRooms = getRoom() ;
+                    // Lấy danh sách loại phòng đưa vào select box ;
+                    $listRoomType = getRoomType() ;
+                    // Thêm phòng ;
+                    if(isset($_POST['btn-add-room'])) {
+                        foreach($_FILES['image']['tmp_name'] as $key => $value) {
+                            $image = './image_room/' .basename($_FILES['image']['name'][$key]) ;
+                            $file = $_FILES['image']['tmp_name'][$key] ;
+                            $err = $_FILES['image']['error'][$key] ;
+                            if(empty($err) && move_uploaded_file($file , $image)) {
+                                $imageUpload[] = $image ;
+                            }
+                        }
+                        if(!empty($imageUpload)) {
+                            $imagePaths = implode(',' , $imageUpload) ;
+                            createRoom($_POST['HotelID'] , $_POST['RoomTypeID'] , $_POST['RoomName'] , $_POST['MaximumNumber'] , $_POST['Description'] , $imagePaths , $_POST['AvailableRooms'] , $_POST['Price']) ;
+                            
+                        }
+                    }
+
+                    // Xóa từng phòng phòng ;
+                    if(isset($_GET['DeleteRoomID'])) {
+                        $stringImage = getRoomID($_GET['DeleteRoomID']) ;
+                        $imagePaths = explode(',' , $stringImage -> Image) ;
+                        foreach($imagePaths as $images => $image) {
+                            if(file_exists($image)) {
+                                unlink($image) ;
+                            }
+                        }
+                        deleteRoom($_GET['DeleteRoomID']) ;
+                    }
+
+                    // Xóa đồng thời nhiều phòng ;
+                    if(isset($_POST['delete_checked'])) {
+                        $listIDRoom = $_POST['RoomID'] ;
+                        foreach($listIDRoom as $RoomIDs => $RoomID) {
+                            $stringImage = getRoomID($RoomID) ;
+                            $imagePaths = explode(',' , $stringImage -> Image) ;
+                            foreach($imagePaths as $images => $image) {
+                                if(file_exists($image)) {
+                                    unlink($image) ;
+                                }
+                            }
+                            deleteRoom($RoomID) ;
+                        }
+                        
+                    }
+
+                    require './views/admin/room/rooms.php' ;
+                    
+                }
                 break ;
             }
 
             case 'updateRoom' : {
-                // Lấy thông tin phòng theo ID ;
-                $RoomID = getRoomID($_GET['UpdateRoomID']) ;
-                // Lấy danh sách loại phòng ;
-                $listRoomType = getRoomType() ;
-                if(isset($_POST['btn-update-room'])) {
-                    foreach($_FILES['image']['tmp_name'] as $key => $value) {
-                        $image = './image_room/' .basename($_FILES['image']['name'][$key]) ;
-                        $file = $_FILES['image']['tmp_name'][$key] ;
-                        $err = $_FILES['image']['error'][$key] ;
-                        if(empty($err) && move_uploaded_file($file , $image)) {
-                            $imageUpload[] = $image ;
-                        }
-                    }
-                    if(!empty($imageUpload)) {
-                        $imagePaths = implode(',' , $imageUpload) ;
-                        updateRoom($_POST['RoomID'] , $_POST['HotelID'] , $_POST['RoomTypeID'] , $_POST['RoomName'] , $_POST['MaximumNumber'] , $_POST['Description'] , $imagePaths , $_POST['AvailableRooms'] , $_POST['Price']) ;
-                        foreach(explode(',' , $RoomID -> Image) as $oldImage) {
-                            $isUsed = false ;
-                            foreach($imageUpload as $newImage) {
-                                if($oldImage === $newImage) {
-                                    $isUsed = true ;
-                                    break ;
-                                }
-                            } 
-                            if(!$isUsed && isset($oldImage)) {
-                                unlink($oldImage) ;
+                if(isset($_SESSION['login']) && isset($_SESSION['role']) && $_SESSION['role'] == 1) {
+                    // Lấy thông tin phòng theo ID ;
+                    $RoomID = getRoomID($_GET['UpdateRoomID']) ;
+                    // Lấy danh sách loại phòng ;
+                    $listRoomType = getRoomType() ;
+                    if(isset($_POST['btn-update-room'])) {
+                        foreach($_FILES['image']['tmp_name'] as $key => $value) {
+                            $image = './image_room/' .basename($_FILES['image']['name'][$key]) ;
+                            $file = $_FILES['image']['tmp_name'][$key] ;
+                            $err = $_FILES['image']['error'][$key] ;
+                            if(empty($err) && move_uploaded_file($file , $image)) {
+                                $imageUpload[] = $image ;
                             }
                         }
-                    }else {
-                        updateRoomNoImage($_POST['RoomID'] , $_POST['HotelID'] , $_POST['RoomTypeID'] , $_POST['RoomName'] , $_POST['MaximumNumber'] , $_POST['Description'] , $_POST['AvailableRooms'] , $_POST['Price']) ;
+                        if(!empty($imageUpload)) {
+                            $imagePaths = implode(',' , $imageUpload) ;
+                            updateRoom($_POST['RoomID'] , $_POST['HotelID'] , $_POST['RoomTypeID'] , $_POST['RoomName'] , $_POST['MaximumNumber'] , $_POST['Description'] , $imagePaths , $_POST['AvailableRooms'] , $_POST['Price']) ;
+                            foreach(explode(',' , $RoomID -> Image) as $oldImage) {
+                                $isUsed = false ;
+                                foreach($imageUpload as $newImage) {
+                                    if($oldImage === $newImage) {
+                                        $isUsed = true ;
+                                        break ;
+                                    }
+                                } 
+                                if(!$isUsed && isset($oldImage)) {
+                                    unlink($oldImage) ;
+                                }
+                            }
+                        }else {
+                            updateRoomNoImage($_POST['RoomID'] , $_POST['HotelID'] , $_POST['RoomTypeID'] , $_POST['RoomName'] , $_POST['MaximumNumber'] , $_POST['Description'] , $_POST['AvailableRooms'] , $_POST['Price']) ;
+                        }
                     }
+                    require './views/admin/room/updateRoom.php' ;
                 }
-                require './views/admin/room/updateRoom.php' ;
                 break ;
             }
 
             // Quản lí người dùng ;
             case 'managerUsers' : {
-                // Lấy tất cả user ;
-                $listUsers = getUsers() ;
-                // Thêm mới user ;
-                if(isset($_POST['btn-add-user'])) {
-                    // Kiểm tra xem email người dùng nhập đã tồn tại trong hệ thống hay chưa ;
-                    $error = [] ;
-                    if(!empty(login($_POST['email']))) {
-                        $error['admin_add_user']['email'] = "Email đã tồn tại" ;
-                    }else {
-                        createUser($_POST['password'] , $_POST['email'] , 2) ;
-                    }
+                if(isset($_SESSION['login']) && isset($_SESSION['role']) && $_SESSION['role'] == 1) {
+                    // Lấy tất cả user ;
+                    $listUsers = getUsers() ;
+                    // Thêm mới user ;
+                    if(isset($_POST['btn-add-user'])) {
+                        // Kiểm tra xem email người dùng nhập đã tồn tại trong hệ thống hay chưa ;
+                        $error = [] ;
+                        if(!empty(login($_POST['email']))) {
+                            $error['admin_add_user']['email'] = "Email đã tồn tại" ;
+                        }else {
+                            createUser($_POST['password'] , $_POST['email'] , 2) ;
+                        }
 
-                }
-                // Xóa từng user ;
-                if(isset($_GET['DeleteUserID'])) {
-                    deleteUser($_GET['DeleteUserID']) ;
-                }
-                // Xóa nhiều người dùng ;
-                if(isset($_POST['delete_checked'])) {
-                    $listUsersDelete = $_POST['check'] ;
-                    foreach($listUsersDelete as $UserDelete => $UserID) {
-                        deleteUser($UserID) ;
                     }
+                    // Xóa từng user ;
+                    if(isset($_GET['DeleteUserID'])) {
+                        deleteUser($_GET['DeleteUserID']) ;
+                    }
+                    // Xóa nhiều người dùng ;
+                    if(isset($_POST['delete_checked'])) {
+                        $listUsersDelete = $_POST['check'] ;
+                        foreach($listUsersDelete as $UserDelete => $UserID) {
+                            deleteUser($UserID) ;
+                        }
+                    }
+                    require './views/admin/user/managerUsers.php' ;
                 }
-                require './views/admin/user/managerUsers.php' ;
                 break ;
             }
             case 'updateUser' : {
-                require './views/admin/user/updateUser.php' ;
+                if(isset($_SESSION['login']) && isset($_SESSION['role']) && $_SESSION['role'] == 1) {
+                    require './views/admin/user/updateUser.php' ;
+                }
                 break ;
             }
             default : {

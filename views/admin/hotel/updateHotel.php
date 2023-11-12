@@ -1,4 +1,5 @@
-<div class="box">
+
+  <div class="box">
     <?php
         require './views/admin/navAdmin.php' ;
     ?>
@@ -68,4 +69,3 @@
         </form>
     </div>
 </div>
-

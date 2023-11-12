@@ -1,6 +1,4 @@
-<?php
-    if(isset($_SESSION['login']) && isset($_SESSION['role']) && $_SESSION['role'] == 1) {
-?>
+
     <div class="box">
     <?php
         require './views/admin/navAdmin.php' ;
@@ -34,7 +32,7 @@
                             <td><?php echo substr($roomType -> Description , 0 , 150) .'...' ?></td>
                             <td>
                               <a href="?action=managerTypeRoom&&DeleteTypeRoomID=<?php echo $roomType -> RoomTypeID ?>" onclick="return confirm('Bạn chắc chắn xóa chứ ?');" class="btn btn-danger">Xóa</a>
-                              <a href="?action=updateRoomType&&UpdateRoomType=<?php echo $roomType -> RoomTypeID ?>" class="btn btn-primary my-1">Sửa</a>
+                              <a href="?action=updateRoomType&&UpdateRoomTypeID=<?php echo $roomType -> RoomTypeID ?>" class="btn btn-primary my-1">Sửa</a>
                             </td>
                         </tr>
                     <?php endforeach ; ?>
@@ -80,6 +78,3 @@
   </div>
 </div>
 
-<?php
-    }
-?>

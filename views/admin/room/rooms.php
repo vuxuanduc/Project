@@ -1,6 +1,4 @@
-<?php
-    if(isset($_SESSION['login']) && isset($_SESSION['role']) && $_SESSION['role'] == 1) {
-?>
+
     <div class="box">
     <?php
         require './views/admin/navAdmin.php' ;
@@ -205,6 +203,3 @@ function validateFormRoom() {
     return checkRoom ;
 }
 </script>
-<?php
-    }
-?>
