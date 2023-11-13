@@ -5,7 +5,7 @@
         ?>
         <div class="" style="padding : 0 10px;">
             <h6 class="text-center">CHỈNH SỬA LOẠI PHÒNG</h6>
-            <form action="" method="post" enctype="multipart/form-data">
+            <form action="" method="post" enctype="multipart/form-data" onsubmit="return validateRoomType();">
                 <input type="hidden" name="RoomTypeID" value="<?php echo $RoomTypeID -> RoomTypeID ?>" class="form-control my-1">
                 <div class="form-group">
                     <label for="" style="font-weight:500;">Tên loại phòng</label> <span id="RoomTypeName_err" style="color:red;font-size:14px;"></span>

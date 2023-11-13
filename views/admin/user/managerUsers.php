@@ -128,31 +128,5 @@ function validateSignupAdmin() {
     }
     return check ;
 }
-
-
-$(document).ready(function() {
-    $('#loginForm').submit(function(e) {
-        e.preventDefault();
-        var username = $('#username').val();
-        var password = $('#password').val();
-
-        $.ajax({
-            type: 'POST',
-            url: '?action=managerUsers',
-            data: {
-                username: username,
-                password: password
-            },
-            success: function(response) {
-                if (response === 'success') {
-                    // Nếu đăng nhập thành công, chuyển hướng hoặc thực hiện hành động khác
-                    window.location.href = 'dashboard.php'; // Điều hướng tới trang dashboard.php
-                } else {
-                    $('#').click() ;
-                }
-            }
-        });
-    });
-});
 </script>
 

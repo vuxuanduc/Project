@@ -5,11 +5,11 @@
     ?>
     <div class="" style="padding : 0 10px;">
         <h6 class="text-center">CHỈNH SỬA KHÁCH SẠN</h6>
-        <form action="" method="post" enctype="multipart/form-data">
+        <form action="" method="post" enctype="multipart/form-data" onsubmit="return validateAddHotelAdmin();">
             <input type="hidden" name="HotelID" value="<?php echo $hotel -> HotelID ?>" class="form-control my-1">
             <div class="form-group">
-                <label class="my-1" for="" style="font-weight:500;">Tên khách sạn</label>
-                <input type="text" name="name" value="<?php echo $hotel -> NameHotel ?>" class="form-control my-1">
+                <label for="" style="font-weight:500;">Tên khách sạn</label> <span id="nameHotel_err" style="color:red;font-size:14px;"></span>
+                <input type="text" id="nameHotel" name="name" value="<?php echo $hotel -> NameHotel ?>" class="form-control my-1">
             </div>
             <div class="form-group">
                 <label class="my-1" for="" style="font-weight:500;">Ảnh khách sạn</label>
@@ -69,3 +69,38 @@
         </form>
     </div>
 </div>
+
+<script>
+  const nameHotel = document.getElementById('nameHotel') ,
+    nameHotel_err = document.getElementById('nameHotel_err') ,
+    phone = document.getElementById('phone') ,
+    phone_err = document.getElementById('phone_err') ,
+    email = document.getElementById('email') ,
+    email_err = document.getElementById('email_err') ;
+
+    function validateAddHotelAdmin() {
+        let check = true ;
+        if(nameHotel.value.trim() == "") {
+            nameHotel_err.innerText = "Vui lòng nhập tên KS" ;
+            check = false ;
+        }else {
+            nameHotel_err.innerText = "" ;
+        }
+
+        if(phone.value.trim() == "") {
+            phone_err.innerText = "Vui lòng nhập SĐT" ;
+            check = false ;
+        }else {
+            phone_err.innerText = "" ;
+        }
+
+        if(email.value.trim() == "") {
+            email_err.innerText = "Vui lòng nhập địa chỉ email" ;
+            check = false ;
+        }else {
+            email_err.innerText = "" ;
+        }
+
+        return check ;
+    }
+</script>

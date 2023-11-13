@@ -385,6 +385,17 @@
             }
             case 'updateUser' : {
                 if(isset($_SESSION['login']) && isset($_SESSION['role']) && $_SESSION['role'] == 1) {
+                    $UserID = getUsersID($_GET['UpdateUserID']) ;
+                    if(isset($_POST['btn-update-user'])) {
+                        // Kiểm tra email xem nó đã tồn tại hay chưa;
+                        $error = [] ;
+                        $checkEmail = login($_POST['email']) ;
+                        if(!empty($checkEmail)) {
+                            $error['edit_user']['email'] = "Email đã tồn tại , hãy nhập email khác" ;
+                        }else {
+                            updateUser($_POST['email'] , $_POST['password'] , $_POST['UserID']) ;
+                        }
+                    }
                     require './views/admin/user/updateUser.php' ;
                 }
                 break ;

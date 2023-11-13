@@ -33,6 +33,14 @@
         $result = $conn -> query($sql) -> fetchAll() ;
         return $result ;
     }
+
+    // Lấy thông tin user theo ID ;
+    function getUsersID($UserID) {
+        $conn = connectDB() ;
+        $sql = "SELECT * FROM `user` WHERE `UserID` = '$UserID'" ;
+        $result = $conn -> query($sql) -> fetch() ;
+        return $result ;
+    }
     
     // Thêm người dùng trong trang admin ;
     function createUser($password , $email , $RoleID) {
@@ -46,6 +54,14 @@
     function deleteUser($UserID) {
         $conn = connectDB() ;
         $sql = "DELETE FROM `user` WHERE `UserID` IN ('$UserID')" ;
+        $result = $conn -> query($sql) ;
+        echo '<script type="text/javascript">window.location.href = "?action=managerUsers";</script>';
+    }
+
+    // Cập nhật tài khoản trong trong admin ;
+    function updateUser($email , $password , $UserID) {
+        $conn = connectDB() ;
+        $sql = "UPDATE `user` SET `Email` = '$email' , `Password` = '$password' WHERE `UserID` = '$UserID'" ;
         $result = $conn -> query($sql) ;
         echo '<script type="text/javascript">window.location.href = "?action=managerUsers";</script>';
     }
