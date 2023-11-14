@@ -18,7 +18,6 @@
                   <th>Chọn</th>
                   <th>Mã KS</th>
                   <th>Tên KS</th>
-                  <!-- <th>Ảnh</th> -->
                   <th>Số ĐT</th>
                   <th>Email</th>
                   <th>Địa chỉ</th>

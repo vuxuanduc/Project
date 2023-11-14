@@ -35,9 +35,9 @@
                                     Khách sạn
                                 </a>
                                 <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
-                                    <?php foreach($listHotels as $Hotels => $Hotel) : ?>
-                                        <a style="font-size:15px;" class="dropdown-item" href="?action=hotelDetails&&HotelID=<?php echo $Hotel -> HotelID ?>"><?php echo $Hotel -> NameHotel ?></a>
-                                    <?php endforeach ; ?>
+                                    <a style="font-size:15px;" class="dropdown-item" href="">TẤT CẢ KHÁCH SẠN</a>
+                                    <a style="font-size:15px;" class="dropdown-item" href="">TOP KHÁCH SẠN</a>
+                                    <a style="font-size:15px;" class="dropdown-item" href="">KHÁCH SẠN CÓ KHUYẾN MÃI</a>
                                 </div>
                             </li>
 

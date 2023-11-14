@@ -14,6 +14,7 @@
         $result = $conn -> query($sql) -> fetchAll() ;
         return $result ;
     }
+    
 
     // Lấy dữ liệu khách sạn theo id ;
     function getHotelsID($hotelID) {

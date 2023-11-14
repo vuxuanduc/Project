@@ -1,10 +1,20 @@
 <?php
-    // Lấy ra tất cả các khách sạn ;
+    // Lấy ra tất cả các phòng ;
     function getRoom() {
         $conn = connectDB() ;
         $sql = "SELECT `hotel`.`NameHotel` , `roomtype`.`RoomTypeName` , `room`.* FROM `room` 
         JOIN `hotel` ON `hotel`.`HotelID` = `room`.`HotelID`
         JOIN `roomtype` ON `roomtype`.`RoomTypeID` = `room`.`RoomTypeID`" ;
+        $result = $conn -> query($sql) -> fetchAll() ;
+        return $result ;
+    }
+
+    // Lấy danh sách phòng theo ID khách sạn ;
+    function getRoomHotelID($HotelID) {
+        $conn = connectDB() ;
+        $sql = "SELECT `roomtype`.`RoomTypeName` , `room`.* FROM `room`
+        JOIN `roomtype` ON `roomtype`.`RoomTypeID` = `room`.`RoomTypeID`
+        WHERE `HotelID` = '$HotelID'" ;
         $result = $conn -> query($sql) -> fetchAll() ;
         return $result ;
     }

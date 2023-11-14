@@ -110,7 +110,10 @@
             // Trang chi tiết khách sạn ;
             case 'hotelDetails' : {
                 // Lấy thông tin khách sạn theo ID ;
-                $Hotel = getHotelsID($_GET['HotelID']) ;
+                if(isset($_GET['HotelID'])) {
+                    $Hotel = getHotelsID($_GET['HotelID']) ;
+                    $listRoomHotelID = getRoomHotelID($_GET['HotelID']) ;
+                }
                 
                 require './views/hotelDetails.php' ;
                 break ;
