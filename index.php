@@ -412,4 +412,5 @@
         require './views/home.php' ;
     }
     require './views/footer.php' ;
+    // Đây là dự án 1
 ?>
