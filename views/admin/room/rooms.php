@@ -12,7 +12,7 @@
             </thead>
         </table>
         <form action="" method="post">
-            <table class="table">
+            <table class="table table-hover">
                 <thead class="table-success">
                     <tr>
                         <th>Chọn</th>
