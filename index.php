@@ -412,5 +412,5 @@
         require './views/home.php' ;
     }
     require './views/footer.php' ;
-    
+    // nơi đây để code
 ?>
