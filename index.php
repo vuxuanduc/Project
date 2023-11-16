@@ -412,5 +412,9 @@
         require './views/home.php' ;
     }
     require './views/footer.php' ;
+<<<<<<< HEAD
     
+=======
+    // nơi đây để code
+>>>>>>> d718a0698142834dd60a5b90c8029bd32fa9deeb
 ?>
