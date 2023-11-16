@@ -413,5 +413,12 @@
     }
     require './views/footer.php' ;
 
+<<<<<<< HEAD
     // hú le  lạnh thật sự
+=======
+// bạn luôn phải cố gắng
+// ddaau buoi
+
+
+>>>>>>> 5c2eae86f978acc266ef542f9816077f85fb756c
 ?>
