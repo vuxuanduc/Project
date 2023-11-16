@@ -412,8 +412,4 @@
         require './views/home.php' ;
     }
     require './views/footer.php' ;
-<<<<<<< HEAD
-// bạn luôn phải cố gắng
-=======
->>>>>>> 1e450afdc25d0b32515ec715146e2749d0e8a3a5
 ?>
