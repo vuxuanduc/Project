@@ -412,4 +412,9 @@
         require './views/home.php' ;
     }
     require './views/footer.php' ;
+
+// bạn luôn phải cố gắng
+// ddaau buoi
+
+
 ?>
