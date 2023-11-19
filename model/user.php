@@ -65,6 +65,20 @@
         $result = $conn -> query($sql) ;
         echo '<script type="text/javascript">window.location.href = "?action=managerUsers";</script>';
     }
-    
+
+    // Thay đổi mật khẩu trong trang thông tin tài khoản ;
+    function changePassword($Password , $UserID) {
+        $conn = connectDB() ;
+        $sql = "UPDATE `user` SET `Password` = '$Password' WHERE `UserID` = '$UserID'" ;
+        $result = $conn -> query($sql) ;
+        echo '<script type="text/javascript">window.location.href = "?action=profile";</script>';
+    }
+
+    function changeProfile($FullName , $Phone , $UserID) {
+        $conn = connectDB() ;
+        $sql = "UPDATE `user` SET `FullName` = '$FullName' , `Phone` = '$Phone' WHERE `UserID` = '$UserID'" ;
+        $result = $conn -> query($sql) ;
+        echo '<script type="text/javascript">window.location.href = "?action=profile";</script>';
+    }
     
 ?>

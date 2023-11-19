@@ -64,7 +64,8 @@
                                 <?php echo "Xin chào " .$_SESSION['email'] ; ?>
                             </a>
                             <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-                                <a class="dropdown-item" href="#">Thông tin tài khoản</a>
+                                <a class="dropdown-item" href="?action=profile">Thông tin tài khoản</a>
+                                <a class="dropdown-item" href="#">Danh sách đặt phòng</a>
                                 <?php
                                     if($_SESSION['role'] == 1) {
                                 ?>

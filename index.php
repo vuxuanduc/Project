@@ -119,6 +119,49 @@
                 break ;
             }
 
+            // Trang chi tiết phòng
+            case 'roomDetails' : {
+                if(isset($_GET['RoomID'])) {
+                    $RoomID = getRoomID($_GET['RoomID']) ;
+                    $listImageRoom = explode(',' , $RoomID -> Image) ;
+                }
+                require './views/roomDetails.php' ;
+                break ;
+            }
+
+            // Phần thông tin cá nhân và cập nhật thông tin cá nhân ;
+            case 'profile' : {
+                if(isset($_SESSION['login'])) {
+                    // Đổi mật khẩu trong trang thông tin tài khoản ;
+                    if(isset($_POST['btn_change_password'])) {
+                        $error = [] ;
+                        // Lấy mật khẩu theo email ;
+                        $old_password = login($_SESSION['email']) -> Password ;
+                        // So sánh mật khẩu cũ trong database với mật khẩu cũ người dùng nhập ở form ;
+                        if($old_password != $_POST['old_password']) {
+                            $error['old_password'] = "Mật khẩu cũ không đúng" ;
+                        }else {
+                            changePassword($_POST['new_password'] , $_SESSION['userID']) ;
+                        }
+                    }
+
+
+                    // Cập nhật thêm thông tin tài khoản trong trang thông tin tài khoản ;
+                    if(isset($_POST['btn_add_profile'])) {
+                        changeProfile($_POST['fullname'] , $_POST['phone'] , $_SESSION['userID']) ;
+                    }
+
+
+
+                    require './views/profile.php' ;
+                }
+                break; 
+            }
+
+
+
+
+
             // Phần quản trị
 
             // Quản lý khách sạn ;
