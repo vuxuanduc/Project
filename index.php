@@ -304,29 +304,7 @@
             }
 
             // Quản lý loại phòng ;
-            case 'managerTypeRoom' : {
-                if(isset($_SESSION['login']) && isset($_SESSION['role']) && $_SESSION['role'] == 1) {
-                    // Lấy danh sách loại phòng ;
-                    $listRoomType = getRoomType() ;
-                    // Thêm loại phòng ;
-                    if(isset($_POST['btn-add-roomType'])) {
-                        createRoomType($_POST['RoomTypeName'] , $_POST['Description']) ;
-                    }
-                    // Xóa từng loại phòng ;
-                    if(isset($_GET['DeleteTypeRoomID'])) {
-                        deleteRoomType($_GET['DeleteTypeRoomID']) ;
-                    }
-                    // Xóa nhiều loại phòng cùng lúc ;
-                    if(isset($_POST['delete_checked'])) {
-                        $listRoomTypeDelete = $_POST['check'];
-                        foreach($listRoomTypeDelete as $lists => $list) {
-                            deleteRoomType($list) ;
-                        }
-                    }
-                    require './views/admin/roomtype/roomTypes.php' ;
-                }
-                break ;
-            }
+            
 
             // Cập nhật loại phòng ;
             case 'updateRoomType' : {
