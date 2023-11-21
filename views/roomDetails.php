@@ -1,59 +1,139 @@
 <style>
+    .room-details {
+        display: grid ;
+        grid-template-columns : 1fr 1fr 1fr ;
+        gap : 10px ; 
+    }
+    @media (max-width : 1000px) {
+        .room-details {
+            display: grid ;
+            grid-template-columns : 1fr 1fr ;
+            gap : 10px ; 
+        }
+    }
+    @media (max-width : 685px) {
+        .room-details {
+            display: grid ;
+            grid-template-columns : 1fr ;
+            gap : 10px ; 
+        }
+    }
     .h6 {
-        display: block ;
-        background-color:#86B817;
+        background-color : #86B817;
     }
     .submit {
-        background-color:#86B817;
+        background-color : #86B817;
         color : white ;
-        font-weight : 500 ;
     }
-    label {
-        font-weight : 500 ;
-    }
-    .details {
+    .description {
         display: flex ;
         justify-content: space-between;
+        margin-top : 10px ;
     }
-    .title {
+    .description p {
         font-weight : 500 ;
     }
-    .fa-angles-right {
-        font-size : 12px ;
+    .modal-body {
+        text-align : justify ;
     }
-    .descriptionRoom {
+    .text-primary {
         cursor: pointer;
-        text-decoration: none;
     }
-    .modal-body p{
-        text-align: justify;
+    .room-details label {
+        font-weight : 500 ;
     }
 </style>
 
-<div class="row room-details my-2">
-    <div class="col-sm-6 col-12">
-        <h6 class="py-2 px-1 text-white h6">Kiểm tra phòng</h6>
-        <form action="" method="post" class="px-2" onsubmit="return validateCheckRoom();">
-            <div class="form-group">
-                <label for="">Ngày nhận phòng</label> <span id="check-in-date-err" style="color:red;"></span>
-                <input type="date" name="check-in-date" id="check-in-date" class="form-control my-2">
-            </div>
-            <div class="form-group">
-                <label for="">Ngày trả phòng</label> <span id="check-out-date-err" style="color:red;"></span>
-                <input type="date" name="check-out-date" id="check-out-date" class="form-control my-2">
-            </div>
-            <div class="form-group">
-                <label for="">Số lượng phòng</label> <span id="room-number-err" style="color:red;"></span>
-                <input type="number" name="room-number" id="room-number" min="1" step="1" class="form-control my-2">
-            </div>
-            <div class="form-group">
-                <input type="submit" name="check-room" value="Kiểm tra" class="form-control my-3 submit">
-            </div>
-        </form>
+
+<div class="room-details my-2">
+    <div>
+        <?php
+            if(empty($result)) {
+        ?>
+            <h6 class="py-2 px-1 text-white h6">Kiểm tra phòng</h6>
+            <form action="" method="post" class="px-2" onsubmit="return validateCheckRoom();">
+                <div class="form-group">
+                    <label for="">Ngày nhận phòng</label> <span id="check-in-date-err" style="color:red;"></span>
+                    <input type="date" name="check-in-date" id="check-in-date" class="form-control my-2">
+                </div>
+                <div class="form-group">
+                    <label for="">Ngày trả phòng</label> <span id="check-out-date-err" style="color:red;"></span>
+                    <input type="date" name="check-out-date" id="check-out-date" class="form-control my-2">
+                </div>
+                <div class="form-group">
+                    <label for="">Số lượng phòng</label> <span id="room-number-err" style="color:red;"></span>
+                    <input type="number" name="room-number" id="room-number" min="1" step="1" class="form-control my-2">
+                </div>
+                <div class="form-group">
+                    <input type="submit" name="check-room" value="Kiểm tra" class="form-control my-3 submit">
+                </div>
+            </form>
+        <?php
+            }else {
+        ?>
+            <h6 class="py-2 px-1 text-white h6">Nhập thông tin đặt phòng</h6>
+            <form action="" method="post" class="px-2" onsubmit="">
+                <div class="form-group">
+                    <label for="">Ngày nhận phòng</label> 
+                    <input type="date" name="check-in-date-booking" value="<?php echo $check_in_date ?>"  class="form-control my-2" readonly>
+                </div>
+                <div class="form-group">
+                    <label for="">Ngày trả phòng</label> 
+                    <input type="date" name="check-out-date-booking"  value="<?php echo $check_out_date ?>"  class="form-control my-2" readonly>
+                </div>
+                <div class="form-group">
+                    <label for="">Số lượng phòng</label> 
+                    <input type="number" name="room-number-booking"  value="<?php echo $RoomNumber ?>"  class="form-control my-2" readonly>
+                </div>
+                <div class="form-group">
+                    <label for="">Giá phòng</label> 
+                    <input type="number" name="price-room-booking"  value="<?php echo $RoomID -> Price ?>"  class="form-control my-2" readonly>
+                </div>
+                <div class="form-group">
+                    <label for="">Tổng tiền</label> 
+                    <input type="number" name="amount-booking"  value="<?php echo $RoomNumber * $RoomID -> Price ?>"  class="form-control my-2" readonly>
+                </div>
+                <?php
+                    if(isset($_SESSION['login'])) {
+                ?>
+                    <div class="form-group">
+                        <input type="submit" name="book-room" value="Đặt phòng" class="form-control my-3 submit">
+                    </div>
+                <?php
+                    }else {
+                ?>
+                    <input type="button" class="form-control my-3 submit" data-bs-toggle="modal" data-bs-target="#exampleModal" value="Đặt phòng">
+                <?php
+                    }
+                ?>
+            </form>
+        <?php
+            }
+        ?>
     </div>
-    <div class="col-sm-6 col-12">
-        <h6 class="py-2 px-1 text-white h6">Chi tiết phòng</h6>
-        <div id="carouselExampleFade" class="carousel slide carousel-fade">
+
+    <!-- Modal thông báo đăng nhập khi chưa đăng nhập mà đã bấm nút đặt phòng ; -->
+    <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h1 class="modal-title fs-5" id="exampleModalLabel">Thông báo!</h1>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    Vui lòng đăng nhập trước khi đặt phòng
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Hủy</button>
+                    <a href="?action=login" class="btn btn-primary">Đăng nhập</a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div>
+        <h6 class="px-1 py-2 text-white h6">Ảnh phòng</h6>
+        <div id="carouselExampleFade" class="carousel slide carousel-fade px-1">
             <div class="carousel-inner">
                 <?php foreach($listImageRoom as $Images => $Image) : ?>
                     <div class="carousel-item active">
@@ -70,45 +150,50 @@
                 <span class="visually-hidden">Next</span>
             </button>
         </div>
-        <hr>
-        <h5 style="font-weight:500;">Chi tiết giá phòng</h5>
-        <hr>
-        <div class="details">
-            <p class="title">Loại phòng :</p>
+    </div>
+    <div>
+        <h6 class="px-1 py-2 text-white h6">Chi tiết phòng</h6>
+        <div class="description px-1">
+            <p>Tên khách sạn</p>
+            <p><?php echo $RoomID -> NameHotel ?></p>
+        </div>
+        <div class="description px-1">
+            <p>Tên loại phòng</p>
             <p><?php echo $RoomID -> RoomTypeName ?></p>
         </div>
-        <div class="details">
-            <p class="title">Tên phòng :</p>
+        <div class="description px-1">
+            <p>Tên phòng</p>
             <p><?php echo $RoomID -> RoomName ?></p>
         </div>
-        <div class="details">
-            <p class="title">Giá phòng :</p>
+        <div class="description px-1">
+            <p>Giá phòng</p>
             <p><?php echo number_format($RoomID -> Price) .'đ' ?></p>
         </div>
-        <div class="details">
-            <a class="descriptionRoom" data-bs-toggle="modal" data-bs-target="#staticBackdrop">Mô tả phòng<i class="fa-solid fa-angles-right"></i></a>
-        </div>
-
-
-        <!-- Modal mô tả phòng-->
-        <div class="modal fade" id="staticBackdrop" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
-            <div class="modal-dialog">
-                <div class="modal-content">
-                    <div class="modal-header">
-                        <h1 class="modal-title fs-5" id="staticBackdropLabel">Mô tả phòng</h1>
-                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                    </div>
-                    <div class="modal-body">
-                        <p><?php echo $RoomID -> Description ?></p>
-                    </div>
-                    <div class="modal-footer">
-                        <button type="button" class="btn btn-primary" data-bs-dismiss="modal">OK</button>
-                    </div>
-                </div>
-            </div>
+        <div class="description px-1">
+            <p class="text-primary" data-bs-toggle="modal" data-bs-target="#staticBackdrop">Xem mô tả phòng</p>
         </div>
     </div>
 </div>
+
+
+<!-- Modal xem mô tả phòng -->
+<div class="modal fade" id="staticBackdrop" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h1 class="modal-title fs-5" id="staticBackdropLabel">Mô tả phòng</h1>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        <?php echo $RoomID -> Description ?>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-primary" data-bs-dismiss="modal">OK</button>
+      </div>
+    </div>
+  </div>
+</div>
+
 
 <script>
     const check_in_date = document.getElementById('check-in-date') ;

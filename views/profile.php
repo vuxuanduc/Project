@@ -77,7 +77,7 @@
         <h5 class="card-title card-title-1">Thông tin thành viên</h5>
         <ul class="nav-profile">
             <li><a href="?action=profile">Thông tin cá nhân</a></li>
-            <li><a href="">Lịch sử đặt phòng</a></li>
+            <li><a href="?action=historyBookingRoom">Lịch sử đặt phòng</a></li>
             <li><a href="?action=logout">Đăng xuất</a></li>
         </ul>
     </div>
@@ -149,7 +149,7 @@
                     <input type="text"  value="<?php echo isset(login($_SESSION['email']) -> FullName) ? login($_SESSION['email']) -> FullName : "" ?>" name="fullname" class="form-control my-2" id="profile_fullname">
                 </div>
                 <div class="form-group">
-                    <input type="submit" value="Thêm thông tin" id="btn-add-profile" name="btn_add_profile" class="btn  my-2">
+                    <input type="submit" value="Lưu thông tin" id="btn-add-profile" name="btn_add_profile" class="btn  my-2">
                 </div>
             </form>
         </div>

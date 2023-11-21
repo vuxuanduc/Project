@@ -20,12 +20,37 @@
         border : 1px dotted gray ;
         text-align: center ;
     }
+    .star {
+        font-size: 24px;
+        cursor: pointer;
+    }
+
+    .star:hover,
+    .star.active {
+        color: gold;
+    }
+    .btn-rating {
+        background-color : #86B817 ;
+        color : white ;
+    }
+    .text-center {
+        margin-top : -20px ;
+    }
+    .text-center span {
+        font-size : 35px ;
+    }
+    #content {
+        margin-top : -20px ;
+    }
+    .title-h6 {
+        margin-top : 0 ;
+    }
 </style>
 <div class="box-details">
     <div>
         <div style="border:1px dotted gray;margin-top:5px;">
             <div style="width:100%;background-color:#86B817;">
-                <h6 class="text-center py-2 text-white">TÌM KHÁCH SẠN</h6>
+                <h6 class="text-center py-2 text-white title-h6">TÌM KHÁCH SẠN</h6>
             </div>
             <div class="px-2">
                 <form action="" method="post">
@@ -116,6 +141,77 @@
                 <?php endforeach ; ?>
             </tbody>
         </table>
-        
+        <div class="rating my-4">
+            <h5>ĐÁNH GIÁ CỦA KHÁCH HÀNG</h5>
+            <hr>
+            <div class="d-flex">
+                <div>
+                    <span style="font-weight:500;font-size:18px;">Vũ Xuân Đức</span> <br>
+                    <span style="font-size:14px ;">21/11/2023</span>
+                </div>
+                <div class="mx-4">
+                    <span style="font-weight:400;font-size:18px;">Chất lượng phục vụ khách sạn rất tốt , tôi thục sự rất hài lòng.</span> <br>
+                </div>
+                <div style="margin-top:-7px;">
+                    <!-- <span class="star" data-rating="1">&#9734;</span>
+                    <span class="star" data-rating="2">&#9734;</span>
+                    <span class="star" data-rating="3">&#9734;</span>
+                    <span class="star" data-rating="4">&#9734;</span>
+                    <span class="star" data-rating="5">&#9734;</span> -->
+                </div>
+            </div>
+        </div>
+        <a class="btn btn-rating" data-bs-toggle="modal" data-bs-target="#exampleModal">Viết đánh giá</a>
+
+        <!-- Modal đánh giá ; -->
+        <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <form action="" method="post">
+                        <div class="modal-header">
+                            <h1 class="modal-title fs-5" id="exampleModalLabel">Đánh giá khách sạn</h1>
+                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                        </div>
+                        <div class="modal-body">
+                            <p class="text-center">
+                                <span class="star" data-rating="1">&#9734;</span>
+                                <span class="star" data-rating="2">&#9734;</span>
+                                <span class="star" data-rating="3">&#9734;</span>
+                                <span class="star" data-rating="4">&#9734;</span>
+                                <span class="star" data-rating="5">&#9734;</span>
+                            </p>
+                            <br>
+                            <input type="hidden" name="rating" id="input">
+                            <textarea name="content" id="content" placeholder="Viết đánh giá..." class="form-control"></textarea>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Hủy</button>
+                            <button type="submit" class="btn btn-primary">Gửi đánh giá</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
     </div>
 </div>
+
+<script>
+    const stars = document.querySelectorAll(".star");
+      const input = document.querySelector('#input') ;
+
+      stars.forEach((star) => {
+        star.addEventListener("click", (e) => {
+          const clickedStar = e.target;
+          const rating = clickedStar.getAttribute("data-rating");
+          input.value = rating ;
+
+          stars.forEach((s) => {
+            s.classList.remove("active");
+          });
+
+          for (let i = 0; i < rating; i++) {
+            stars[i].classList.add("active");
+          }
+        });
+      });
+</script>

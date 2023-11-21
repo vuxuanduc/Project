@@ -35,6 +35,7 @@ body {
     background-color: transparent;
     border : none ;
 }
+
 .transparent {
     color : transparent ;
 }
@@ -184,6 +185,7 @@ body {
     .nav-admin {
         display: none;
     }
+    
     
 }
 

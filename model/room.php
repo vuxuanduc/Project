@@ -62,23 +62,57 @@
     }
 
     // Check xem phòng có còn phòng trong một khoảng thời gian nhất định không ;
+    // function checkRoom($roomID , $room_number , $check_in_date , $check_out_date) {
+    //     $conn = connectDB() ;
+    //     $sql = "SELECT r.*
+    //     FROM room r
+    //     JOIN hotel h ON r.HotelID = h.HotelID
+    //     JOIN roomtype rt ON r.RoomTypeID = rt.RoomTypeID
+    //     WHERE r.RoomID = $roomID
+    //       AND r.AvailableRooms >= $room_number
+    //       AND NOT EXISTS (
+    //         SELECT 1
+    //         FROM reservation res
+    //         WHERE res.RoomID = r.RoomID
+    //           AND ('$check_in_date' BETWEEN res.`Check-In-Date` AND res.`Check-Out-Date`
+    //             OR '$check_out_date' BETWEEN res.`Check-In-Date` AND res.`Check-Out-Date`)
+    //       );" ;
+    //     $result = $conn -> query($sql) -> fetchAll() ;
+    //     return $result ;
+    // }
+
     function checkRoom($roomID , $room_number , $check_in_date , $check_out_date) {
         $conn = connectDB() ;
-        $sql = "SELECT r.*
+        $sql = "SELECT 1
         FROM room r
-        JOIN hotel h ON r.HotelID = h.HotelID
-        JOIN roomtype rt ON r.RoomTypeID = rt.RoomTypeID
-        WHERE r.RoomID = 
+        WHERE r.RoomID = $roomID
           AND r.AvailableRooms >= $room_number
           AND NOT EXISTS (
             SELECT 1
-            FROM bookingdetails bd
-            JOIN reservation res ON bd.ReservationID = res.ReservationID
+            FROM reservation res
             WHERE res.RoomID = r.RoomID
-              AND ('$check_in_date' BETWEEN bd.`Check-In-Date` AND bd.`Check-Out-Date`
-                OR '$check_out_date' BETWEEN bd.`Check-In-Date` AND bd.`Check-Out-Date`)
-          )" ;
+              AND ('$check_in_date' BETWEEN res.`Check-In-Date` AND res.`Check-Out-Date`
+                OR '$check_out_date' BETWEEN res.`Check-In-Date` AND res.`Check-Out-Date`)
+          );
+        " ;
         $result = $conn -> query($sql) -> fetchAll() ;
         return $result ;
+    }
+
+    // Đặt phòng ;
+    function bookingRoom($UserID , $RoomID , $ReservationDate , $Check_In_Date , $Check_Out_Date , $RoomNumber , $Price , $TotalAmount , $Status) {
+        $conn = connectDB() ;
+        $sql = "INSERT INTO `reservation` (`UserID` , `RoomID` , `ReservationDate` , `Check-In-Date` , 
+        `Check-Out-Date` , `RoomNumber` , `Price` , `TotalAmount` , `StatusID`) VALUES('$UserID' , '$RoomID' , 
+        '$ReservationDate' , '$Check_In_Date' , '$Check_Out_Date' , '$RoomNumber' , '$Price' , '$TotalAmount' , '$Status')" ;
+        $result = $conn -> query($sql) ;
+        echo '<script type="text/javascript">window.location.href = "?action=historyBookingRoom";</script>';
+    }
+
+    // Trừ đi số lượng phòng còn lại sau khi người dùng đặt phòng thành công ;
+    function updateNumberRoom($RoomID , $RoomNumber) {
+        $conn = connectDB() ;
+        $sql = "UPDATE `room` SET `AvailableRooms` = '$RoomNumber' WHERE `RoomID` = '$RoomID'" ;
+        $result = $conn -> query($sql) ;
     }
 ?>

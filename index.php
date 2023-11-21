@@ -5,6 +5,7 @@
     require './model/hotel.php' ;
     require './model/roomType.php' ;
     require './model/room.php' ;
+    require './model/status.php' ;
     require './views/header.php' ;
     
     if(isset($_GET['action'])) {
@@ -124,8 +125,40 @@
                 if(isset($_GET['RoomID'])) {
                     $RoomID = getRoomID($_GET['RoomID']) ;
                     $listImageRoom = explode(',' , $RoomID -> Image) ;
+
+                    // Kiểm tra xem phòng khách hàng đã chọn có còn trống không ;
+                    if(isset($_POST['check-room'])) {
+                        $check_in_date = $_POST['check-in-date'] ;
+                        $check_out_date = $_POST['check-out-date'] ;
+                        $RoomNumber = $_POST['room-number'] ;
+                        $result = checkRoom($_GET['RoomID'] , $RoomNumber , $check_in_date , $check_out_date) ;
+                        if(empty($result)) {
+                            echo "<script>alert('Không còn phòng trong thời gian bạn mong muốn')</script>" ;
+                        }
+                    }
+
+                    // Đặt phòng ;
+                    if(isset($_POST['book-room'])) {
+                        // Lấy số lượng phòng hiện tại ;
+                        $AvailableRooms = $RoomID -> AvailableRooms - $_POST['room-number-booking'] ;
+                        // Cập nhật số lượng phòng sau khi khách đặt ;
+                        updateNumberRoom($_GET['RoomID'] , $AvailableRooms) ;
+
+
+                        // Lấy thời gian hiện tại ;
+                        $ReservationDate = date('Y-m-d H:i:s') ;
+                        // Cập nhật phòng ;
+                        bookingRoom($_SESSION['userID'] , $_GET['RoomID'] , $ReservationDate , $_POST['check-in-date-booking'] , 
+                        $_POST['check-out-date-booking'] , $_POST['room-number-booking'] , $_POST['price-room-booking'] , $_POST['amount-booking'] , 1) ;
+
+                        
+                    }
+
+
+                    require './views/roomDetails.php' ;
                 }
-                require './views/roomDetails.php' ;
+
+                
                 break ;
             }
 
@@ -156,6 +189,12 @@
                     require './views/profile.php' ;
                 }
                 break; 
+            }
+
+            // Lịch sửa đặt phòng ;
+            case 'historyBookingRoom' : {
+                require './views/historyBookingRoom.php' ;
+                break ;
             }
 
 
@@ -429,6 +468,8 @@
                 }
                 break ;
             }
+
+            // Update người dùng trong trang admin ;
             case 'updateUser' : {
                 if(isset($_SESSION['login']) && isset($_SESSION['role']) && $_SESSION['role'] == 1) {
                     $UserID = getUsersID($_GET['UpdateUserID']) ;
@@ -446,6 +487,13 @@
                 }
                 break ;
             }
+
+            // Quản lý trạng thái trong trang admin ;
+            case 'managerStatus' : {
+                $listStatus = getStatus() ;
+                require './views/admin/status/managerStatus.php' ;
+                break ;
+            }
             default : {
                 require './views/home.php' ;
                 break ;
@@ -455,10 +503,5 @@
         require './views/home.php' ;
     }
     require './views/footer.php' ;
-// cc
-
-   
-
-
 
 ?>
