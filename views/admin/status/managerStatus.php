@@ -58,3 +58,15 @@
         <div class="modal-body">
           <div class="form-group">
             <label for="" style="font-weight:500;">Tên trạng thái</label> <span id="status_name_err" style="color:red;font-size:14px;"></span>
+            <input type="text" class="form-control my-2" id="status_name" name="name-status">
+          </div>
+        </div>
+          
+        <div class="modal-footer">
+          <input type="reset" class="btn btn-secondary" value="Nhập lại">
+          <button type="submit" class="btn" name="btn-add-status" style="background-color:#86B817;color:white;">Thêm mới</button>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
