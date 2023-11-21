@@ -191,7 +191,7 @@
                 break; 
             }
 
-            // Lịch sửa đặt phòng ;
+            // Lịch sử đặt phòng ;
             case 'historyBookingRoom' : {
                 require './views/historyBookingRoom.php' ;
                 break ;
@@ -489,11 +489,7 @@
             }
 
             // Quản lý trạng thái trong trang admin ;
-            case 'managerStatus' : {
-                $listStatus = getStatus() ;
-                require './views/admin/status/managerStatus.php' ;
-                break ;
-            }
+            
             default : {
                 require './views/home.php' ;
                 break ;
