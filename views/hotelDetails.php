@@ -43,7 +43,7 @@
         margin-top : -20px ;
     }
     .title-h6 {
-        margin-top : 0 ;
+        margin-top : 0 ;    
     }
 </style>
 <div class="box-details">
