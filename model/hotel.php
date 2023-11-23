@@ -32,6 +32,7 @@
         echo '<script type="text/javascript">window.location.href = "?action=managerHotels";</script>';
     }
 
+    // Cập nhật khách sạn kèm ảnh ;
     function updateHotel($name , $image , $address , $phone , $email , $hotelID) {
         $conn = connectDB() ;
         $sql = "UPDATE `hotel` SET `NameHotel` = '$name' , `Image` = '$image' , `Address` = '$address' , `Phone` = '$phone' , `Email` = '$email' WHERE `HotelID` = '$hotelID'" ;
@@ -39,10 +40,28 @@
         echo '<script type="text/javascript">window.location.href = "?action=managerHotels";</script>';
     }
 
+    // Cập nhật khách sạn không kèm ảnh ;
     function updateHotelNoImage($name , $address , $phone , $email , $hotelID) {
         $conn = connectDB() ;
         $sql = "UPDATE `hotel` SET `NameHotel` = '$name' , `Address` = '$address' , `Phone` = '$phone' , `Email` = '$email' WHERE `HotelID` = '$hotelID'" ;
         $result = $conn -> query($sql) ;
         echo '<script type="text/javascript">window.location.href = "?action=managerHotels";</script>';
     }
+
+    // Cập nhật số lượt xem của khách sạn ;
+    function updateViews($hotelID , $views) {
+        $conn = connectDB() ;
+        $sql = "UPDATE `hotel` SET `Views` = '$views' WHERE `HotelID` = '$hotelID'" ;
+        $result = $conn -> query($sql) ;
+    }
+
+    // Lấy top 10 khách sạn có lượt views cao nhất ;
+    function topViewsHotel() {
+        $conn = connectDB() ;
+        $sql = "SELECT `HotelID` , `Image` , `NameHotel` FROM `hotel` ORDER BY `Views` DESC LIMIT 10" ;
+        $result = $conn -> query($sql) -> fetchAll() ;
+        return $result ;
+    }
+
+    
 ?>

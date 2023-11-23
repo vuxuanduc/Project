@@ -60,10 +60,7 @@
                     <label for="">Ngày trả phòng</label> <span id="check-out-date-err" style="color:red;"></span>
                     <input type="date" name="check-out-date" id="check-out-date" class="form-control my-2">
                 </div>
-                <div class="form-group">
-                    <label for="">Số lượng phòng</label> <span id="room-number-err" style="color:red;"></span>
-                    <input type="number" name="room-number" id="room-number" min="1" step="1" class="form-control my-2">
-                </div>
+
                 <div class="form-group">
                     <input type="submit" name="check-room" value="Kiểm tra" class="form-control my-3 submit">
                 </div>
@@ -75,23 +72,23 @@
             <form action="" method="post" class="px-2" onsubmit="">
                 <div class="form-group">
                     <label for="">Ngày nhận phòng</label> 
-                    <input type="date" name="check-in-date-booking" value="<?php echo $check_in_date ?>"  class="form-control my-2" readonly>
+                    <input type="date" name="check-in-date-booking" value="<?php echo $_POST['check-in-date'] ?>"  class="form-control my-2" readonly>
                 </div>
                 <div class="form-group">
                     <label for="">Ngày trả phòng</label> 
-                    <input type="date" name="check-out-date-booking"  value="<?php echo $check_out_date ?>"  class="form-control my-2" readonly>
-                </div>
-                <div class="form-group">
-                    <label for="">Số lượng phòng</label> 
-                    <input type="number" name="room-number-booking"  value="<?php echo $RoomNumber ?>"  class="form-control my-2" readonly>
+                    <input type="date" name="check-out-date-booking"  value="<?php echo $_POST['check-out-date'] ?>"  class="form-control my-2" readonly>
                 </div>
                 <div class="form-group">
                     <label for="">Giá phòng</label> 
                     <input type="number" name="price-room-booking"  value="<?php echo $RoomID -> Price ?>"  class="form-control my-2" readonly>
                 </div>
                 <div class="form-group">
+                    <label for="">Số ngày ở</label> 
+                    <input type="number" name="numberOfNights"  value="<?php echo $numberOfNights ?>"  class="form-control my-2" readonly>
+                </div>
+                <div class="form-group">
                     <label for="">Tổng tiền</label> 
-                    <input type="number" name="amount-booking"  value="<?php echo $RoomNumber * $RoomID -> Price ?>"  class="form-control my-2" readonly>
+                    <input type="number" name="amount-booking"  value="<?php echo $RoomID -> Price * $numberOfNights ?>"  class="form-control my-2" readonly>
                 </div>
                 <?php
                     if(isset($_SESSION['login'])) {
@@ -167,7 +164,7 @@
         </div>
         <div class="description px-1">
             <p>Giá phòng</p>
-            <p><?php echo number_format($RoomID -> Price) .'đ' ?></p>
+            <p><?php echo number_format($RoomID -> Price) .'đ/1 đêm' ?></p>
         </div>
         <div class="description px-1">
             <p class="text-primary" data-bs-toggle="modal" data-bs-target="#staticBackdrop">Xem mô tả phòng</p>

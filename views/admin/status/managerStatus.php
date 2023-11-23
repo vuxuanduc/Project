@@ -39,7 +39,7 @@
             <tr>
                 <a class="btn open_checked button-admin">Chọn tất cả</a>
                 <a class="btn close_checked mx-2 button-admin">Bỏ chọn tất cả</a>
-                <button type="submit" class="btn delete_checked button-admin" onclick="return confirm('Bạn chắc chắn xóa chứ ?');" name="delete_checked">Xóa mục đã chọn</button>
+                <button type="submit" class="btn delete_checked button-admin" onclick="return confirm('Bạn chắc chắn xóa chứ ?');" name="delete_checked_status">Xóa mục đã chọn</button>
                 <a class="btn mx-2 button-admin" data-bs-toggle="modal" data-bs-target="#exampleModal">Thêm mới</a>
             </tr>
         </form>
@@ -54,7 +54,7 @@
         <h1 class="modal-title fs-5" id="exampleModalLabel">Thêm trạng thái</h1>
         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
       </div>
-      <form action="" method="post" enctype="multipart/form-data" onsubmit="return ">
+      <form action="" method="post" enctype="multipart/form-data" onsubmit="return validateAddStatus();">
         <div class="modal-body">
           <div class="form-group">
             <label for="" style="font-weight:500;">Tên trạng thái</label> <span id="status_name_err" style="color:red;font-size:14px;"></span>
@@ -70,3 +70,18 @@
     </div>
   </div>
 </div>
+
+<script>
+  const status_name_err = document.getElementById('status_name_err') ;
+  const status_name = document.getElementById('status_name') ;
+  function validateAddStatus() {
+    let checkStatus = true ;
+    if(status_name.value.trim() == "") {
+      status_name_err.innerText = "Hãy nhập trạng thái" ;
+      checkStatus = false ;
+    }else {
+      status_name_err.innerText = "" ;
+    }
+    return checkStatus ;
+  }
+</script>

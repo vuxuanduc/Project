@@ -29,7 +29,7 @@
     .nav-profile li:hover {
         background-color : #4790cd ;
     }
-    .nav-profile li a:hover {
+    .nav-profile li:hover a {
         color : white ;
     }
     .profile-user {

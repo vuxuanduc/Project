@@ -23,7 +23,7 @@
             <div class="col-lg-3 col-md-3 col-md-4 col-sm-6 col-12 my-2">
                 <div class="card">
                     <label for="" class="search-label">ĐIỂM ĐẾN</label>
-                    <input type="text" placeholder="Thành phố, khách sạn" class="form-control my-1">
+                    <input type="text" placeholder="Tên khách sạn" class="form-control my-1">
                 </div>
             </div>
             <div class="col-lg-3 col-md-3 col-md-4 col-sm-6 col-12 my-2">
@@ -36,12 +36,6 @@
                 <div class="card">
                     <label for="" class="search-label">NGÀY TRẢ PHÒNG</label>
                     <input type="date" class="form-control my-1">
-                </div>
-            </div>
-            <div class="col-lg-3 col-md-3 col-md-4 col-sm-6 col-12 my-2">
-                <div class="card">
-                    <label for="" class="search-label">SỐ PHÒNG</label>
-                    <input type="number" min="0" step="1" placeholder="Số lượng phòng" class="form-control my-1">
                 </div>
             </div>
             <div class="col-lg-3 col-md-3 col-md-4 col-sm-6 col-12 my-2">

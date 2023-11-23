@@ -29,21 +29,45 @@
     .star.active {
         color: gold;
     }
+
+    .stars {
+        font-size: 24px;
+        cursor: pointer;
+      }
+
+      .stars.actives {
+        color: gold;
+      }
+
     .btn-rating {
         background-color : #86B817 ;
         color : white ;
     }
-    .text-center {
+    .modal-body div{
         margin-top : -20px ;
     }
+   
     .text-center span {
         font-size : 35px ;
     }
-    #content {
-        margin-top : -20px ;
-    }
+    
     .title-h6 {
         margin-top : 0 ;    
+    }
+    .top-views {
+        padding : 0 ;
+    }
+    .top-views li {
+        border-bottom : 1px dotted gray ;
+        padding: 5px 0 ;
+    }
+    .top-views li a {
+        text-decoration : none ;
+        color : black ;
+    }
+    .top-views li h6 {
+        font-size : 13px ;
+        margin-left : 5px ;
     }
 </style>
 <div class="box-details">
@@ -55,7 +79,7 @@
             <div class="px-2">
                 <form action="" method="post">
                     <div class="form-group">
-                        <label for="">ĐIỂM ĐẾN</label>
+                        <label for="">KHÁCH SẠN</label>
                         <input style="height:30px;" type="text" class="form-control my-2">
                     </div>
                     <div class="form-group">
@@ -67,10 +91,6 @@
                         <input style="height:30px;" type="date" class="form-control my-2">
                     </div>
                     <div class="form-group">
-                        <label for="">SỐ PHÒNG</label>
-                        <input style="height:30px;" type="number" min="0" step="1" class="form-control my-2">
-                    </div>
-                    <div class="form-group">
                         <label for="">SỐ NGƯỜI</label>
                         <input style="height:30px;" type="number" min="0" step="1" class="form-control my-2">
                     </div>
@@ -80,12 +100,34 @@
                 </form>
             </div>
         </div>
-        <div style="border:1px dotted gray; margin-top:20px;">
+        <div style="border:1px dotted gray; margin-top:30px;">
             <div style="width:100%;background-color:#86B817;">
                 <h6 class="text-center py-2 text-white">LỰA CHỌN PHỔ BIẾN</h6>
             </div>
             <div class="px-2">
-                
+                <ul class="top-views top-reservation">
+                    <?php foreach($topReservationHotel as $reservations => $reservation) : ?>
+                        <li class="d-flex">
+                            <img src="<?php echo explode(',' , $reservation -> Image)[0] ?>" width="70px" height="auto" alt="">
+                            <a href="?action=hotelDetails&&HotelID=<?php echo $reservation -> HotelID ?>"><h6><?php echo $reservation -> NameHotel ?></h6></a>
+                        </li>
+                    <?php endforeach ; ?>
+                </ul>
+            </div>
+        </div>
+        <div style="border:1px dotted gray; margin-top:30px;">
+            <div style="width:100%;background-color:#86B817;">
+                <h6 class="text-center py-2 text-white">TOP LƯỢT XEM</h6>
+            </div>
+            <div class="px-2">
+                <ul class="top-views">
+                    <?php foreach($topViewsHotel as $Views => $View) : ?>
+                        <li class="d-flex">
+                            <img src="<?php echo explode(',' , $View -> Image)[0] ?>" width="70px" height="auto" alt="">
+                            <a href="?action=hotelDetails&&HotelID=<?php echo $View -> HotelID ?>"><h6><?php echo $View -> NameHotel ?></h6></a>
+                        </li>
+                    <?php endforeach ; ?>
+                </ul>
             </div>
         </div>
     </div>
@@ -153,21 +195,26 @@
                     <span style="font-weight:400;font-size:18px;">Chất lượng phục vụ khách sạn rất tốt , tôi thục sự rất hài lòng.</span> <br>
                 </div>
                 <div style="margin-top:-7px;">
-                    <!-- <span class="star" data-rating="1">&#9734;</span>
-                    <span class="star" data-rating="2">&#9734;</span>
-                    <span class="star" data-rating="3">&#9734;</span>
-                    <span class="star" data-rating="4">&#9734;</span>
-                    <span class="star" data-rating="5">&#9734;</span> -->
+                    <span class="stars" data-ratings="1">&#9734;</span>
+                    <span class="stars" data-ratings="2">&#9734;</span>
+                    <span class="stars" data-ratings="3">&#9734;</span>
+                    <span class="stars" data-ratings="4">&#9734;</span>
+                    <span class="stars" data-ratings="5">&#9734;</span>
                 </div>
             </div>
         </div>
-        <a class="btn btn-rating" data-bs-toggle="modal" data-bs-target="#exampleModal">Viết đánh giá</a>
-
+        <?php
+            if(!empty($checkBooking) && $checkBooking -> StatusID == 4) {
+        ?>
+            <a class="btn btn-rating" data-bs-toggle="modal" data-bs-target="#exampleModal">Viết đánh giá</a>
+        <?php
+            }
+        ?>
         <!-- Modal đánh giá ; -->
         <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
             <div class="modal-dialog">
                 <div class="modal-content">
-                    <form action="" method="post">
+                    <form action="" method="post" onsubmit="return validateRating();">
                         <div class="modal-header">
                             <h1 class="modal-title fs-5" id="exampleModalLabel">Đánh giá khách sạn</h1>
                             <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
@@ -180,13 +227,16 @@
                                 <span class="star" data-rating="4">&#9734;</span>
                                 <span class="star" data-rating="5">&#9734;</span>
                             </p>
-                            <br>
-                            <input type="hidden" name="rating" id="input">
-                            <textarea name="content" id="content" placeholder="Viết đánh giá..." class="form-control"></textarea>
+                                <input type="hidden" name="rating" id="input">
+                                <input type="hidden" name="ReservationID" value="<?php echo $checkBooking ->ReservationID ?>">
+                            <div>
+                                <label for=""></label> <label for="" style="display: flex;justify-content: space-between;"><span id="content-err" style="color : red ;"></span><span id="rating-form-err" style="color:red;"></span></label>
+                                <textarea name="content" id="content" placeholder="Viết đánh giá..." class="form-control"></textarea> 
+                            </div>
                         </div>
                         <div class="modal-footer">
                             <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Hủy</button>
-                            <button type="submit" class="btn btn-primary">Gửi đánh giá</button>
+                            <button type="submit" name="new-rating" class="btn btn-primary">Gửi đánh giá</button>
                         </div>
                     </form>
                 </div>
@@ -196,7 +246,7 @@
 </div>
 
 <script>
-    const stars = document.querySelectorAll(".star");
+      const stars = document.querySelectorAll(".star");
       const input = document.querySelector('#input') ;
 
       stars.forEach((star) => {
@@ -214,4 +264,40 @@
           }
         });
       });
+
+      // Validate form đánh giá ;
+      const rating_form_err = document.getElementById('rating-form-err') ;
+      const content = document.getElementById('content') ;
+      const content_err = document.getElementById('content-err') ;
+      function validateRating() {
+        let checkRating = true ;
+        if(input.value.trim() == "") {
+            rating_form_err.innerText = " Vui lòng chọn số sao" ;
+            checkRating = false ;
+        }else {
+            rating_form_err.innerText = "" ;
+        }
+
+        if(content.value.trim() == "") {
+            content_err.innerText = "Vui lòng nhập đánh giá" ;
+            checkRating = false ;
+        }else {
+            content_err.innerText = "" ;
+        }
+        return checkRating ;
+      }
+
+      const starss = document.querySelectorAll(".stars");
+
+      function setRating(ratings) {
+        starss.forEach((s, indexs) => {
+          if (indexs < ratings) {
+            s.classList.add("actives");
+          } else {
+            s.classList.remove("actives");
+          }
+        });
+      }
+      setRating(3) ;
+
 </script>

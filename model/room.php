@@ -30,9 +30,9 @@
     }
 
     // Thêm mới phòng ;
-    function createRoom($HotelID , $RoomTypeID , $RoomName , $Max , $Des , $Image , $AvailableRooms , $Price) {
+    function createRoom($HotelID , $RoomTypeID , $RoomName , $Max , $Des , $Image , $Price) {
         $conn = connectDB() ;
-        $sql = "INSERT INTO `room` (`HotelID` , `RoomTypeID` , `RoomName` , `MaximumNumber` , `Description` , `Image` , `AvailableRooms` , `Price`) VALUES('$HotelID' , '$RoomTypeID' , '$RoomName' , '$Max' , '$Des' , '$Image' , '$AvailableRooms' , '$Price')" ;
+        $sql = "INSERT INTO `room` (`HotelID` , `RoomTypeID` , `RoomName` , `MaximumNumber` , `Description` , `Image` , `Price`) VALUES('$HotelID' , '$RoomTypeID' , '$RoomName' , '$Max' , '$Des' , '$Image' , '$Price')" ;
         $result = $conn -> query($sql) ;
         echo '<script type="text/javascript">window.location.href = "?action=managerRoom";</script>';
     }
@@ -46,17 +46,17 @@
     }
     
     // Cập nhật phòng không chỉnh sửa ảnh của phòng ;
-    function updateRoom($RoomID , $HotelID , $RoomTypeID , $RoomName , $Max , $Des , $Image , $AvailableRooms , $Price) {
+    function updateRoom($RoomID , $HotelID , $RoomTypeID , $RoomName , $Max , $Des , $Image , $Price) {
         $conn = connectDB() ;
-        $sql = "UPDATE `room` SET `HotelID` = '$HotelID' , `RoomTypeID` = '$RoomTypeID' , `RoomName` = '$RoomName' , `MaximumNumber` = '$Max' , `Description` = '$Des' , `Image` = '$Image' , `AvailableRooms` = '$AvailableRooms' , `Price` = '$Price' WHERE `RoomID` = '$RoomID'" ;
+        $sql = "UPDATE `room` SET `HotelID` = '$HotelID' , `RoomTypeID` = '$RoomTypeID' , `RoomName` = '$RoomName' , `MaximumNumber` = '$Max' , `Description` = '$Des' , `Image` = '$Image' , `Price` = '$Price' WHERE `RoomID` = '$RoomID'" ;
         $result = $conn -> query($sql) ;
         echo '<script type="text/javascript">window.location.href = "?action=managerRoom";</script>';
     }
 
     // Cập nhật ảnh phòng có chỉnh sửa ảnh của phòng ;
-    function updateRoomNoImage($RoomID , $HotelID , $RoomTypeID , $RoomName , $Max , $Des , $AvailableRooms , $Price) {
+    function updateRoomNoImage($RoomID , $HotelID , $RoomTypeID , $RoomName , $Max , $Des , $Price) {
         $conn = connectDB() ;
-        $sql = "UPDATE `room` SET `HotelID` = '$HotelID' , `RoomTypeID` = '$RoomTypeID' , `RoomName` = '$RoomName' , `MaximumNumber` = '$Max' , `Description` = '$Des' , `AvailableRooms` = '$AvailableRooms' , `Price` = '$Price' WHERE `RoomID` = '$RoomID'" ;
+        $sql = "UPDATE `room` SET `HotelID` = '$HotelID' , `RoomTypeID` = '$RoomTypeID' , `RoomName` = '$RoomName' , `MaximumNumber` = '$Max' , `Description` = '$Des' , `Price` = '$Price' WHERE `RoomID` = '$RoomID'" ;
         $result = $conn -> query($sql) ;
         echo '<script type="text/javascript">window.location.href = "?action=managerRoom";</script>';
     }
@@ -81,38 +81,8 @@
     //     return $result ;
     // }
 
-    function checkRoom($roomID , $room_number , $check_in_date , $check_out_date) {
-        $conn = connectDB() ;
-        $sql = "SELECT 1
-        FROM room r
-        WHERE r.RoomID = $roomID
-          AND r.AvailableRooms >= $room_number
-          AND NOT EXISTS (
-            SELECT 1
-            FROM reservation res
-            WHERE res.RoomID = r.RoomID
-              AND ('$check_in_date' BETWEEN res.`Check-In-Date` AND res.`Check-Out-Date`
-                OR '$check_out_date' BETWEEN res.`Check-In-Date` AND res.`Check-Out-Date`)
-          );
-        " ;
-        $result = $conn -> query($sql) -> fetchAll() ;
-        return $result ;
-    }
+    
 
-    // Đặt phòng ;
-    function bookingRoom($UserID , $RoomID , $ReservationDate , $Check_In_Date , $Check_Out_Date , $RoomNumber , $Price , $TotalAmount , $Status) {
-        $conn = connectDB() ;
-        $sql = "INSERT INTO `reservation` (`UserID` , `RoomID` , `ReservationDate` , `Check-In-Date` , 
-        `Check-Out-Date` , `RoomNumber` , `Price` , `TotalAmount` , `StatusID`) VALUES('$UserID' , '$RoomID' , 
-        '$ReservationDate' , '$Check_In_Date' , '$Check_Out_Date' , '$RoomNumber' , '$Price' , '$TotalAmount' , '$Status')" ;
-        $result = $conn -> query($sql) ;
-        echo '<script type="text/javascript">window.location.href = "?action=historyBookingRoom";</script>';
-    }
+    
 
-    // Trừ đi số lượng phòng còn lại sau khi người dùng đặt phòng thành công ;
-    function updateNumberRoom($RoomID , $RoomNumber) {
-        $conn = connectDB() ;
-        $sql = "UPDATE `room` SET `AvailableRooms` = '$RoomNumber' WHERE `RoomID` = '$RoomID'" ;
-        $result = $conn -> query($sql) ;
-    }
 ?>

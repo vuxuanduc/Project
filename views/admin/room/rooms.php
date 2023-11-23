@@ -23,7 +23,6 @@
                         <th>SL người tối đa</th>
                         <th>Mô tả</th>
                         <th>Giá</th>
-                        <th>SLP còn lại</th>
                         <th>Thao tác</th>
                     </tr>
                 </thead>
@@ -39,7 +38,6 @@
                             <td><?php echo $Room -> MaximumNumber ?></td>
                             <td><?php echo substr($Room -> Description , 0 , 55) .'...' ?></td>
                             <td><?php echo number_format($Room -> Price) .'đ' ?></td>
-                            <td><?php echo $Room -> AvailableRooms ?></td>
                             <td>
                                 <a href="?action=managerRoom&&DeleteRoomID=<?php echo $Room -> RoomID ?>" onclick="return confirm('Bạn chắc chắn xóa chứ ?');" class="btn btn-danger">Xóa</a>
                                 <a href="?action=updateRoom&&UpdateRoomID=<?php echo $Room -> RoomID ?>" class="btn btn-primary my-1">Sửa</a>
@@ -104,10 +102,6 @@
             <input type="file" class="form-control my-2" id="ImageInRoom" name="image[]" accept="image/*" multiple>
           </div>
           <div class="form-group">
-            <label for="" style="font-weight:500;">Số lượng phòng</label> <span id="AvailableRooms_err" style="color:red;font-size:14px;"></span>
-            <input type="number" class="form-control my-2"  min="1" step="1" id="AvailableRooms" name="AvailableRooms">
-          </div>
-          <div class="form-group">
             <label for="" style="font-weight:500;">Giá phòng</label> <span id="Price_err" style="color:red;font-size:14px;"></span>
             <input type="number" class="form-control my-2"  min="1" step="1" id="Price" name="Price">
           </div>
@@ -137,8 +131,6 @@ const DescriptionRoom = document.getElementById('DescriptionRoom') ;
 const DescriptionRoom_err = document.getElementById('DescriptionRoom_err') ;
 const MaximumNumber = document.getElementById('MaximumNumber') ;
 const MaximumNumber_err = document.getElementById('MaximumNumber_err') ;
-const AvailableRooms = document.getElementById('AvailableRooms') ;
-const AvailableRooms_err = document.getElementById('AvailableRooms_err') ;
 const Price = document.getElementById('Price') ;
 const Price_err = document.getElementById('Price_err') ;
 
@@ -177,13 +169,6 @@ function validateFormRoom() {
         checkRoom = false ;
     }else {
         DescriptionRoom_err.innerText = "" ;
-    }
-
-    if(AvailableRooms.value.trim() == "") {
-        AvailableRooms_err.innerText = "Vui lòng nhập SL phòng" ;
-        checkRoom = false ;
-    }else {
-        AvailableRooms_err.innerText = "" ;
     }
 
     if(Price.value.trim() == "") {

@@ -6,6 +6,8 @@
     require './model/roomType.php' ;
     require './model/room.php' ;
     require './model/status.php' ;
+    require './model/reservation.php' ;
+    require './model/rating.php' ;
     require './views/header.php' ;
     
     if(isset($_GET['action'])) {
@@ -113,10 +115,35 @@
                 // Lấy thông tin khách sạn theo ID ;
                 if(isset($_GET['HotelID'])) {
                     $Hotel = getHotelsID($_GET['HotelID']) ;
+                    // Lấy thông tin tất cả các phòng của khách sạn ;
                     $listRoomHotelID = getRoomHotelID($_GET['HotelID']) ;
+
+                    // Danh sách top khách sạn có lượt xem cao nhất ;
+                    $topViewsHotel = topViewsHotel() ;
+                    // Danh sách top 10 khách sạn có lượt đặt phòng cao nhất ;
+                    $topReservationHotel = topReservationHotel() ;
+                    
+                    // Lấy số lượt xem khách sạn hiện tại cộng với 1 lượt xem ;
+                    $views = $Hotel -> Views + 1 ;
+                    updateViews($_GET['HotelID'] , $views) ;
+
+                    // Lấy thông tin đánh giá của khách hàng ;
+                    $listRating = getRatingHotelID($_GET['HotelID']) ;
+
+                    // Kiểm tra xem người dùng đã từng đặt phòng ở khách sạn này chưa để hiển thị ra nút đánh giá ;
+                    if(isset($_SESSION['login'])) {
+                        $checkBooking = checkBooking($_SESSION['userID'] , $_GET['HotelID']) ;
+                        // Thêm mới đánh giá ;
+                        if(isset($_POST['new-rating'])) {
+                            // Lấy thời gian hiện tại ;
+                            $RatingDate = date('Y/m/d') ;
+                            newRating($_POST['ReservationID'] , $_POST['rating'] , $_POST['content'] , $RatingDate , $_GET['HotelID']) ;
+                        }
+                    }
+                    require './views/hotelDetails.php' ;
                 }
                 
-                require './views/hotelDetails.php' ;
+                
                 break ;
             }
 
@@ -128,31 +155,29 @@
 
                     // Kiểm tra xem phòng khách hàng đã chọn có còn trống không ;
                     if(isset($_POST['check-room'])) {
-                        $check_in_date = $_POST['check-in-date'] ;
-                        $check_out_date = $_POST['check-out-date'] ;
-                        $RoomNumber = $_POST['room-number'] ;
-                        $result = checkRoom($_GET['RoomID'] , $RoomNumber , $check_in_date , $check_out_date) ;
+                        $check_in_date = new DateTime($_POST['check-in-date']) ;
+                        $check_out_date = new DateTime($_POST['check-out-date']) ;
+                        // Lấy số đêm khách đặt ;
+                        $numberOfNights = $check_in_date->diff($check_out_date) -> format('%a') ;
+                        $result = checkRoom($_GET['RoomID'] , $_POST['check-in-date'] , $_POST['check-out-date']) ;
                         if(empty($result)) {
                             echo "<script>alert('Không còn phòng trong thời gian bạn mong muốn')</script>" ;
                         }
                     }
+                    
 
                     // Đặt phòng ;
                     if(isset($_POST['book-room'])) {
-                        // Lấy số lượng phòng hiện tại ;
-                        $AvailableRooms = $RoomID -> AvailableRooms - $_POST['room-number-booking'] ;
-                        // Cập nhật số lượng phòng sau khi khách đặt ;
-                        updateNumberRoom($_GET['RoomID'] , $AvailableRooms) ;
-
-
+                        // Lấy múi giờ của Việt Nam ;
+                        date_default_timezone_set('Asia/Ho_Chi_Minh') ;
                         // Lấy thời gian hiện tại ;
                         $ReservationDate = date('Y-m-d H:i:s') ;
                         // Cập nhật phòng ;
                         bookingRoom($_SESSION['userID'] , $_GET['RoomID'] , $ReservationDate , $_POST['check-in-date-booking'] , 
-                        $_POST['check-out-date-booking'] , $_POST['room-number-booking'] , $_POST['price-room-booking'] , $_POST['amount-booking'] , 1) ;
+                        $_POST['check-out-date-booking'] , $_POST['price-room-booking'] , $_POST['amount-booking'] , 1) ;
 
-                        
                     }
+
 
 
                     require './views/roomDetails.php' ;
@@ -193,12 +218,17 @@
 
             // Lịch sử đặt phòng ;
             case 'historyBookingRoom' : {
-                require './views/historyBookingRoom.php' ;
+                if(isset($_SESSION['login'])) {
+                    // Lấy danh sách sách các phòng đã từng đặt theo người dùng ;
+                    $historyBookingRoom = reservationUserID($_SESSION['userID']) ;
+                    // Hủy đặt phòng ;
+                    if(isset($_GET['cancelBookingRoomID'])) {
+                        cancelBookingRoom($_GET['cancelBookingRoomID']) ;
+                    }
+                    require './views/historyBookingRoom.php' ;
+                }
                 break ;
             }
-
-
-
 
 
             // Phần quản trị
@@ -359,7 +389,7 @@
                         }
                         if(!empty($imageUpload)) {
                             $imagePaths = implode(',' , $imageUpload) ;
-                            createRoom($_POST['HotelID'] , $_POST['RoomTypeID'] , $_POST['RoomName'] , $_POST['MaximumNumber'] , $_POST['Description'] , $imagePaths , $_POST['AvailableRooms'] , $_POST['Price']) ;
+                            createRoom($_POST['HotelID'] , $_POST['RoomTypeID'] , $_POST['RoomName'] , $_POST['MaximumNumber'] , $_POST['Description'] , $imagePaths , $_POST['Price']) ;
                             
                         }
                     }
@@ -415,7 +445,7 @@
                         }
                         if(!empty($imageUpload)) {
                             $imagePaths = implode(',' , $imageUpload) ;
-                            updateRoom($_POST['RoomID'] , $_POST['HotelID'] , $_POST['RoomTypeID'] , $_POST['RoomName'] , $_POST['MaximumNumber'] , $_POST['Description'] , $imagePaths , $_POST['AvailableRooms'] , $_POST['Price']) ;
+                            updateRoom($_POST['RoomID'] , $_POST['HotelID'] , $_POST['RoomTypeID'] , $_POST['RoomName'] , $_POST['MaximumNumber'] , $_POST['Description'] , $imagePaths , $_POST['Price']) ;
                             foreach(explode(',' , $RoomID -> Image) as $oldImage) {
                                 $isUsed = false ;
                                 foreach($imageUpload as $newImage) {
@@ -429,7 +459,7 @@
                                 }
                             }
                         }else {
-                            updateRoomNoImage($_POST['RoomID'] , $_POST['HotelID'] , $_POST['RoomTypeID'] , $_POST['RoomName'] , $_POST['MaximumNumber'] , $_POST['Description'] , $_POST['AvailableRooms'] , $_POST['Price']) ;
+                            updateRoomNoImage($_POST['RoomID'] , $_POST['HotelID'] , $_POST['RoomTypeID'] , $_POST['RoomName'] , $_POST['MaximumNumber'] , $_POST['Description'] , $_POST['Price']) ;
                         }
                     }
                     require './views/admin/room/updateRoom.php' ;
@@ -488,10 +518,57 @@
                 break ;
             }
 
+            // Quản lí danh sách đặt phòng ;
+            case 'listReservation' : {
+                if(isset($_SESSION['login']) && isset($_SESSION['role']) && $_SESSION['role'] == 1) {
+                    $listReservation = reservation() ;
+                    require './views/admin/listbooking/managerBooking.php' ;
+                }
+                break ;
+            }
+
             // Quản lý trạng thái trong trang admin ;
             case 'managerStatus' : {
-                $listStatus = getStatus() ;
-                require './views/admin/status/managerStatus.php' ;
+                if(isset($_SESSION['login']) && isset($_SESSION['role']) && $_SESSION['role'] == 1) {
+                    // Lấy ra danh sách trạng thái ;
+                    $listStatus = getStatus() ;
+
+                    // Thêm trạng thái ;
+                    if(isset($_POST['btn-add-status'])) {
+                        createStatus($_POST['name-status']) ;
+                    }
+
+                    // Xóa từng trạng thái
+                    if(isset($_GET['DeleteStatusID'])) {
+                        deleteStatus($_GET['DeleteStatusID']) ;
+                    }
+
+                    // Xóa nhiều trạng thái cùng một lúc ;
+                    if(isset($_POST['delete_checked_status'])) {
+                        $list_delete_statusID = $_POST['check'] ;
+                        foreach($list_delete_statusID as $listStatusID => $statusID) {
+                            deleteStatus($statusID) ;
+                        }
+                    }
+
+                    require './views/admin/status/managerStatus.php' ;
+                    }
+                break ;
+            }
+
+            case 'updateStatus' : {
+                if(isset($_SESSION['login']) && isset($_SESSION['role']) && $_SESSION['role'] == 1) {
+                    if(isset($_GET['UpdateStatusID'])) {
+                        // Lấy thông tin trạng thái theo ID ;
+                        $StatusID = getStatusID($_GET['UpdateStatusID']) ;
+                        // Cập nhật trạng thái ;
+                        if(isset($_POST['btn-update-status'])) {
+                            updateStatus($_POST['statusID'] , $_POST['name-status']) ;
+                        }
+
+                    }
+                    require './views/admin/status/updateStatus.php' ;
+                }
                 break ;
             }
             

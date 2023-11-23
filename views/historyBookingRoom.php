@@ -29,7 +29,7 @@
     .nav-profile li:hover {
         background-color : #4790cd ;
     }
-    .nav-profile li a:hover {
+    .nav-profile li:hover a {
         color : white ;
     }
     
@@ -42,7 +42,16 @@
         color : white ;
     }
     
-    
+    .btn {
+        font-size : 10px ;
+    }
+    .table-background {
+        background-color : #86B817;
+    }
+    .table-background tr th {
+        color : white ;
+        font-weight : 400 ;
+    }
 </style>
 
 <div class="box-profile px-1">
@@ -55,65 +64,57 @@
         </ul>
     </div>
     <div class="">
-        
+            <table class="table table-hover">
+                <thead class="table-background">
+                    <tr>
+                        <th>Tên KS</th>
+                        <th>Tên phòng</th>
+                        <th>Ngày đặt</th>
+                        <th>Ngày vào</th>
+                        <th>Ngày ra</th>
+                        <th>Giá</th>
+                        <th>Tổng tiền</th>
+                        <th>Trạng thái</th>
+                        <th>Thao tác</th>
+                    </tr>
+                </thead>
+
+                <tbody>
+                    <?php foreach($historyBookingRoom as $Bookings => $Booking) : ?>
+                        <tr>
+                            <td><?php echo $Booking -> NameHotel ?></td>
+                            <td><?php echo $Booking -> RoomName ?></td>
+                            <td><?php echo $Booking -> ReservationDate ?></td>
+                            <td><?php echo $Booking -> Check_In_Date ?></td>
+                            <td><?php echo $Booking -> Check_Out_Date ?></td>
+                            <td><?php echo $Booking -> Price ?></td>
+                            <td><?php echo $Booking -> TotalAmount ?></td>
+                            <td><?php echo $Booking -> NameStatus ?></td>
+                            <td>
+                                <?php
+                                    if($Booking -> StatusID == 1) {
+                                ?>
+                                    <a href="?action=historyBookingRoom&&cancelBookingRoomID=<?php echo $Booking -> ReservationID ?>" class="btn btn-danger" onclick="return confirm('Bạn chắc chắn muốn hủy đặt phòng chứ ?');">Hủy</a>
+                                <?php
+                                    }if($Booking -> StatusID == 2) {
+                                ?>
+                                    <a class="btn btn-primary">Đã TT</a>
+                                <?php
+                                    }if($Booking -> StatusID == 3) {
+                                ?>
+                                    <a class="btn btn-danger">Đã hủy</a>
+                                <?php
+                                    }if($Booking -> StatusID == 4) {
+                                ?>
+                                    <a class="btn btn-danger">Đã HThành</a>
+                                <?php
+                                    }
+                                ?>
+                            </td>
+                        </tr>
+                    <?php endforeach ; ?>
+                </tbody>
+                
+            </table>
     </div>
 </div>
-
-<script>
-    // Validate form thay đổi mật khẩu ;
-    const old_password = document.getElementById('old_password') ;
-    const old_password_err = document.getElementById('old_password_err') ;
-    const new_password = document.getElementById('new_password') ;
-    const new_password_err = document.getElementById('new_password_err') ;
-    function validateChangePassword() {
-        let checkPass = true ;
-        reGaxPass = /^\w{6,}$/ ;
-        if(old_password.value.trim() == "") {
-            old_password_err.innerText = "Hãy nhập mật khẩu cũ" ;
-            checkPass = false ;
-        }
-        else if(reGaxPass.test(old_password.value) == false) {
-            old_password_err.innerText = "Mật khẩu không đúng định dạng" ;
-            checkPass = false ;
-        }else {
-            old_password_err.innerText = "" ;
-        }
-
-        if(new_password.value.trim() == "") {
-            new_password_err.innerText = "Hãy nhập mật khẩu mới" ;
-            checkPass = false ;
-        }
-        else if(reGaxPass.test(new_password.value) == false) {
-            new_password_err.innerText = "Mật khẩu không đúng định dạng" ;
-            checkPass = false ;
-        }else {
-            new_password_err.innerText = "" ;
-        }
-        return checkPass ;
-    }
-
-
-    // Validate form thay đổi thông tin cá nhân ;
-    const profile_phone = document.getElementById('profile_phone') ;
-    const profile_phone_err = document.getElementById('profile_phone_err') ;
-    const profile_fullname = document.getElementById('profile_fullname') ;
-    const profile_fullname_err = document.getElementById('profile_fullname_err') ;
-    function validateProfile() {
-        let checkProfile = true ;
-        if(profile_phone.value.trim() == "") {
-            profile_phone_err.innerText = "Hãy nhập số điện thoại" ;
-            checkProfile = false ;
-        }else {
-            profile_phone_err.innerText = "" ;
-        }
-
-        if(profile_fullname.value.trim() == "") {
-            profile_fullname_err.innerText = "Hãy nhập họ và tên" ;
-            checkProfile = false ;
-        }else {
-            profile_fullname_err.innerText = "" ;
-        }
-
-        return checkProfile ;
-    }
-</script>

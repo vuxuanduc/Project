@@ -51,10 +51,6 @@
             <input type="file" class="form-control my-2" id="ImageInRoom" name="image[]" accept="image/*" multiple>
           </div>
           <div class="form-group">
-            <label for="" style="font-weight:500;">Số lượng phòng</label> <span id="AvailableRooms_err" style="color:red;font-size:14px;"></span>
-            <input type="number" class="form-control my-2" value="<?php echo $RoomID -> AvailableRooms ?>" min="1" step="1" id="AvailableRooms" name="AvailableRooms">
-          </div>
-          <div class="form-group">
             <label for="" style="font-weight:500;">Giá phòng</label> <span id="Price_err" style="color:red;font-size:14px;"></span>
             <input type="number" class="form-control my-2" value="<?php echo $RoomID -> Price ?>" min="1" step="1" id="Price" name="Price">
           </div>

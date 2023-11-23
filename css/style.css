@@ -150,12 +150,13 @@ body {
     margin-left : 10px ;
     color : black ;
     
+    
 }
 .nav-admin ul li:hover {
     background-color: #86B817;
 }
 
-.nav-admin ul li a:hover {
+.nav-admin ul li:hover a{
     color: #ffffff;
 }
 
