@@ -624,30 +624,7 @@
 
             // Phần thống kê ;
             // Thống kê theo lượt đặt phòng của mỗi khách sạn ;
-            case 'chartBookings' : {
-                if(isset($_SESSION['login']) && isset($_SESSION['role']) && $_SESSION['role'] == 1) {
-                    if(isset($_POST['btn-statistical']) && !empty($_POST['time'])) {
-                        $sqlQuery = SQLQueryBookings($_POST['time']) ;
-                        $StatisticsOfBookings = ReservationHotel($sqlQuery) ;
-                        
-                    }
-                    require './views/admin/chart/chartBookings.php' ;
-                }
-                break ;
-            }
-
-            // Thống kê theo doanh thu của mỗi khách sạn ;
-            case 'RevenueStatistics' : {
-                if(isset($_SESSION['login']) && isset($_SESSION['role']) && $_SESSION['role'] == 1) {
-                    if(isset($_POST['btn-statistical']) && !empty($_POST['time'])) {
-                        $sqlQuery = RevenueSQLQuery($_POST['time']) ;
-                        $StatisticsRevenue = ReservationHotel($sqlQuery) ;
-                        
-                    }
-                    require './views/admin/chart/revenueStatistics.php' ;
-                }
-                break ;
-            }
+            
             
             default : {
                 $topReservationHotel = topReservationHotel() ;
