@@ -1,22 +1,7 @@
 <div class="box">
-    <?php
-    require './view/admin.navAdmin.php';
-
-
-    ?>
-    <div >
-        <h6>CHỈNH SỬA LOẠI PHÒNG</h6>
-        <form action="" method="post" enctype="multipart/form-data" onsubmit="">
-        <input type="hidden" name="RoomTypeID" value="<?php echo $RoomTypeID -> RoomTypeID ?> " class="form-control my-1" id="">
-</form>
-    </div>
-</div>
-
-
-
-
-<!-- <div class="box">
-        
+        <?php
+            require './views/admin/navAdmin.php' ;
+        ?>
         <div class="" style="padding : 0 10px;">
             <h6 class="text-center">CHỈNH SỬA LOẠI PHÒNG</h6>
             <form action="" method="post" enctype="multipart/form-data" onsubmit="return validateRoomType();">
@@ -35,4 +20,4 @@
                 </div>
             </form>
         </div>
-    </div> -->
+    </div>
