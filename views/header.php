@@ -14,6 +14,12 @@
     <link href="https://getbootstrap.com/docs/5.3/assets/css/docs.css" rel="stylesheet">
     <link rel="stylesheet" href="css/style.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
+    <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
+
+    
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/morris.js/0.5.1/morris.css" />
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/raphael/2.3.0/raphael.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/morris.js/0.5.1/morris.min.js"></script>
 </head>
 
 <body>
@@ -36,8 +42,8 @@
                                     Khách sạn
                                 </a>
                                 <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
-                                    <a style="font-size:15px;" class="dropdown-item" href="?action=hotel">Tất cả khách sạn</a>
-                                    <a style="font-size:15px;" class="dropdown-item" href="">Top khách sạn</a>
+                                    <a style="font-size:15px;" class="dropdown-item" href="?action=hotel&&listHotel">Tất cả khách sạn</a>
+                                    <a style="font-size:15px;" class="dropdown-item" href="?action=hotel&&topHotel">Top khách sạn</a>
                                     <a style="font-size:15px;" class="dropdown-item" href="">Khách sạn có khuyến mãi</a>
                                 </div>
                             </li>

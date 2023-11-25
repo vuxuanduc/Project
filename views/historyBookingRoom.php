@@ -106,7 +106,7 @@
                                 <?php
                                     }if($Booking -> StatusID == 4) {
                                 ?>
-                                    <a class="btn btn-danger">Đã HThành</a>
+                                    <a class="btn btn-primary">Đã hoàn thành</a>
                                 <?php
                                     }
                                 ?>

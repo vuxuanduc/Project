@@ -8,6 +8,7 @@
     require './model/status.php' ;
     require './model/reservation.php' ;
     require './model/rating.php' ;
+    require './model/statistical.php' ;
     require './views/header.php' ;
     
     if(isset($_GET['action'])) {
@@ -85,7 +86,7 @@
                         if (!$mail->Send()) {
                             echo "Mailer Error: " . $mail->ErrorInfo;
                         } else {
-                            header("Location:?action=notification") ;
+                            echo "<script>window.location.href = '?action=notification'</script>" ;
                         }                            
                     }
                 }
@@ -100,12 +101,26 @@
 
             // Trang chủ ;
             case 'home' : {
+                $topReservationHotel = topReservationHotel() ;
+                
                 require './views/home.php' ;
                 break ;
             }
 
+            // Trang tìm phòng ;
+            case 'searchHotel' : {
+                if(isset($_POST['btn-search-room'])) {
+                    echo $_POST['nameHotel'] ;
+                }
+                require './views/searchHotel.php' ;
+                break ;
+            }
+           
+
             // Trang khách sạn ;
             case 'hotel' : {
+                $listHotel = getHotels() ;
+                $topReservationHotel = topReservationHotel() ;
                 require './views/hotel.php' ;
                 break ;
             }
@@ -133,16 +148,19 @@
                     // Kiểm tra xem người dùng đã từng đặt phòng ở khách sạn này chưa để hiển thị ra nút đánh giá ;
                     if(isset($_SESSION['login'])) {
                         $checkBooking = checkBooking($_SESSION['userID'] , $_GET['HotelID']) ;
+                        // Kiểm tra xem người dùng đã từng đánh giá khách sạn hay chưa ;
+                        $checkReview = checkReview($_GET['HotelID'] , $_SESSION['userID']) ;
                         // Thêm mới đánh giá ;
                         if(isset($_POST['new-rating'])) {
                             // Lấy thời gian hiện tại ;
                             $RatingDate = date('Y/m/d') ;
-                            newRating($_POST['ReservationID'] , $_POST['rating'] , $_POST['content'] , $RatingDate , $_GET['HotelID']) ;
+                            if(empty($checkReview)) {
+                                newRating($_POST['ReservationID'] , $_POST['rating'] , $_POST['content'] , $RatingDate , $_GET['HotelID']) ;
+                            }
                         }
                     }
                     require './views/hotelDetails.php' ;
                 }
-                
                 
                 break ;
             }
@@ -571,13 +589,74 @@
                 }
                 break ;
             }
+
+            case 'managerRating' : {
+                if(isset($_SESSION['login']) && isset($_SESSION['role']) && $_SESSION['role'] == 1) {
+                    $listHotels = getHotels() ;
+                    require './views/admin/rating/managerRating.php' ;
+                }
+                break ;
+            }
+
+            // Phần quản lí đánh giá của từng khách sạn ;
+            case 'RatingHotel' : {
+                if(isset($_SESSION['login']) && isset($_SESSION['role']) && $_SESSION['role'] == 1) {
+                    if(isset($_GET['RatingDetailsHotel'])) {
+                        // Lấy danh sách bình luận theo khách sạn ;
+                        $listRatingHotelID = getRatingHotelID($_GET['RatingDetailsHotel']) ;
+                        // Xóa từng đánh giá ;
+                        if(isset($_GET['deleteRating'])) {
+                            deleteRating($_GET['deleteRating'] , $_GET['RatingDetailsHotel']) ;
+                        }
+                        // Xóa nhiều đánh giá cùng lúc ;
+                        if(isset($_POST['delete_checked_rating']) && isset($_POST['check'])) {
+                            $listDeleteRating = $_POST['check'] ;
+                            foreach($listDeleteRating as $deleteRaings => $Rating) {
+                                deleteRating($Rating , $_GET['RatingDetailsHotel']) ;
+                            }
+                        }
+                        
+                    }
+                    require './views/admin/rating/RatingHotel.php' ;
+                }
+                break ;
+            }
+
+            // Phần thống kê ;
+            // Thống kê theo lượt đặt phòng của mỗi khách sạn ;
+            case 'chartBookings' : {
+                if(isset($_SESSION['login']) && isset($_SESSION['role']) && $_SESSION['role'] == 1) {
+                    if(isset($_POST['btn-statistical']) && !empty($_POST['time'])) {
+                        $sqlQuery = SQLQueryBookings($_POST['time']) ;
+                        $StatisticsOfBookings = ReservationHotel($sqlQuery) ;
+                        
+                    }
+                    require './views/admin/chart/chartBookings.php' ;
+                }
+                break ;
+            }
+
+            // Thống kê theo doanh thu của mỗi khách sạn ;
+            case 'RevenueStatistics' : {
+                if(isset($_SESSION['login']) && isset($_SESSION['role']) && $_SESSION['role'] == 1) {
+                    if(isset($_POST['btn-statistical']) && !empty($_POST['time'])) {
+                        $sqlQuery = RevenueSQLQuery($_POST['time']) ;
+                        $StatisticsRevenue = ReservationHotel($sqlQuery) ;
+                        
+                    }
+                    require './views/admin/chart/revenueStatistics.php' ;
+                }
+                break ;
+            }
             
             default : {
+                $topReservationHotel = topReservationHotel() ;
                 require './views/home.php' ;
                 break ;
             }
         }
     }else {
+        $topReservationHotel = topReservationHotel() ;
         require './views/home.php' ;
     }
     require './views/footer.php' ;

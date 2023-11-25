@@ -69,6 +69,14 @@
         font-size : 13px ;
         margin-left : 5px ;
     }
+    .content {
+        display: grid;
+        grid-template-columns: 2.5fr 1fr;
+        justify-content: space-between;
+    }
+    .content-item {
+        display: flex;
+    }
 </style>
 <div class="box-details">
     <div>
@@ -108,7 +116,7 @@
                 <ul class="top-views top-reservation">
                     <?php foreach($topReservationHotel as $reservations => $reservation) : ?>
                         <li class="d-flex">
-                            <img src="<?php echo explode(',' , $reservation -> Image)[0] ?>" width="70px" height="auto" alt="">
+                            <img src="<?php echo explode(',' , $reservation -> Image)[2] ?>" width="70px" height="auto" alt="">
                             <a href="?action=hotelDetails&&HotelID=<?php echo $reservation -> HotelID ?>"><h6><?php echo $reservation -> NameHotel ?></h6></a>
                         </li>
                     <?php endforeach ; ?>
@@ -123,7 +131,7 @@
                 <ul class="top-views">
                     <?php foreach($topViewsHotel as $Views => $View) : ?>
                         <li class="d-flex">
-                            <img src="<?php echo explode(',' , $View -> Image)[0] ?>" width="70px" height="auto" alt="">
+                            <img src="<?php echo explode(',' , $View -> Image)[2] ?>" width="70px" height="auto" alt="">
                             <a href="?action=hotelDetails&&HotelID=<?php echo $View -> HotelID ?>"><h6><?php echo $View -> NameHotel ?></h6></a>
                         </li>
                     <?php endforeach ; ?>
@@ -186,25 +194,36 @@
         <div class="rating my-4">
             <h5>ĐÁNH GIÁ CỦA KHÁCH HÀNG</h5>
             <hr>
-            <div class="d-flex">
+            <div class="content">
                 <div>
-                    <span style="font-weight:500;font-size:18px;">Vũ Xuân Đức</span> <br>
-                    <span style="font-size:14px ;">21/11/2023</span>
+                    <?php foreach($listRating as $Ratings => $Rating) : ?>
+                        <div class="content-item my-2">
+                            <div>
+                                <span style="font-weight:500;font-size:18px;"><?php echo $Rating -> Email ?></span> <br>
+                                <span style="font-size:14px ;"><?php echo $Rating -> RatingDate ?></span>
+                            </div>
+                            <div class="mx-4">
+                                <span style="font-weight:400;font-size:16px;"><?php echo $Rating -> Comment ?></span> <br>
+                            </div>
+                        </div>
+                    <?php endforeach ; ?>
                 </div>
-                <div class="mx-4">
-                    <span style="font-weight:400;font-size:18px;">Chất lượng phục vụ khách sạn rất tốt , tôi thục sự rất hài lòng.</span> <br>
-                </div>
-                <div style="margin-top:-7px;">
-                    <span class="stars" data-ratings="1">&#9734;</span>
-                    <span class="stars" data-ratings="2">&#9734;</span>
-                    <span class="stars" data-ratings="3">&#9734;</span>
-                    <span class="stars" data-ratings="4">&#9734;</span>
-                    <span class="stars" data-ratings="5">&#9734;</span>
+                <div style="margin-top:11px;text-align:right;">
+                    <div>
+                        <h6>Điểm trung bình : <?php echo round(avgRating($_GET['HotelID']) -> AvgRating , 1) ?></h6>
+                    </div>
+                    <div>
+                        <span class="stars" data-ratings="1">&#9734;</span>
+                        <span class="stars" data-ratings="2">&#9734;</span>
+                        <span class="stars" data-ratings="3">&#9734;</span>
+                        <span class="stars" data-ratings="4">&#9734;</span>
+                        <span class="stars" data-ratings="5">&#9734;</span>
+                    </div>
                 </div>
             </div>
         </div>
         <?php
-            if(!empty($checkBooking) && $checkBooking -> StatusID == 4) {
+            if(!empty($checkBooking) && $checkBooking -> StatusID == 4 && empty($checkReview)) {
         ?>
             <a class="btn btn-rating" data-bs-toggle="modal" data-bs-target="#exampleModal">Viết đánh giá</a>
         <?php
@@ -287,17 +306,21 @@
         return checkRating ;
       }
 
-      const starss = document.querySelectorAll(".stars");
+      
 
-      function setRating(ratings) {
-        starss.forEach((s, indexs) => {
-          if (indexs < ratings) {
+      function setRating(rating) {
+        const stars = document.querySelectorAll(".stars");
+        stars.forEach((s, index) => {
+          if (index < rating) {
             s.classList.add("actives");
           } else {
             s.classList.remove("actives");
           }
         });
       }
-      setRating(3) ;
+      
+      
+      setRating(<?php echo avgRating($_GET['HotelID']) -> AvgRating ?> ) ;
+      
 
 </script>

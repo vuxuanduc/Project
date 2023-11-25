@@ -1,21 +1,25 @@
 <?php
     // Kiểm tra phòng ;
-    function checkRoom($roomID , $check_in_date , $check_out_date) {
-        $conn = connectDB() ;
+    function checkRoom($roomID, $check_in_date, $check_out_date) {
+        $conn = connectDB();
+        $currentDate = date("Y-m-d");
+        
         $sql = "SELECT 1
-        FROM room r
-        WHERE r.RoomID = $roomID
-          AND NOT EXISTS (
-            SELECT 1
-            FROM reservation res
-            WHERE res.RoomID = r.RoomID
-              AND ('$check_in_date' BETWEEN res.`Check_In_Date` AND res.`Check_Out_Date`
-                OR '$check_out_date' BETWEEN res.`Check_In_Date` AND res.`Check_Out_Date`)
-          );
-        " ;
-        $result = $conn -> query($sql) -> fetchAll() ;
-        return $result ;
+                FROM room r
+                WHERE r.RoomID = $roomID
+                  AND '$check_in_date' >= '$currentDate' -- Check if check_in_date is in the future
+                  AND NOT EXISTS (
+                    SELECT 1
+                    FROM reservation res
+                    WHERE res.RoomID = r.RoomID
+                      AND ('$check_in_date' BETWEEN res.`Check_In_Date` AND res.`Check_Out_Date`
+                        OR '$check_out_date' BETWEEN res.`Check_In_Date` AND res.`Check_Out_Date`)
+                  );";
+    
+        $result = $conn->query($sql)->fetchAll();
+        return $result;
     }
+    
 
     // Đặt phòng ;
     function bookingRoom($UserID , $RoomID , $ReservationDate , $Check_In_Date , $Check_Out_Date , $Price , $TotalAmount , $Status) {

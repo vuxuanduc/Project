@@ -18,36 +18,36 @@
         <span class="carousel-control-next-icon" aria-hidden="true"></span>
         <span class="visually-hidden">Next</span>
     </button>
-    <form action="" method="post">
+    <form action="?action=searchHotel" method="post" onsubmit="return validateSearch();">
         <div class="row row-responsive">
             <div class="col-lg-3 col-md-3 col-md-4 col-sm-6 col-12 my-2">
                 <div class="card">
                     <label for="" class="search-label">ĐIỂM ĐẾN</label>
-                    <input type="text" placeholder="Tên khách sạn" class="form-control my-1">
+                    <input type="text" id="nameHotel" name="nameHotel" placeholder="Tên khách sạn" class="form-control my-1">
                 </div>
             </div>
             <div class="col-lg-3 col-md-3 col-md-4 col-sm-6 col-12 my-2">
                 <div class="card">
                     <label for="" class="search-label">NGÀY NHẬN PHÒNG</label>
-                    <input type="date" class="form-control my-1">
+                    <input type="date" id="checkIn" name="checkIn" class="form-control my-1">
                 </div>
             </div>
             <div class="col-lg-3 col-md-3 col-md-4 col-sm-6 col-12 my-2">
                 <div class="card">
                     <label for="" class="search-label">NGÀY TRẢ PHÒNG</label>
-                    <input type="date" class="form-control my-1">
+                    <input type="date" name="checkOut" id="checkOut" class="form-control my-1">
                 </div>
             </div>
             <div class="col-lg-3 col-md-3 col-md-4 col-sm-6 col-12 my-2">
                 <div class="card">
                     <label for="" class="search-label">SỐ NGƯỜI</label>
-                    <input type="number" min="0" step="1" placeholder="Số người" class="form-control my-1">
+                    <input type="number" name="quantity" id="quantity" min="0" step="1" placeholder="Số người" class="form-control my-1">
                 </div>
             </div>
             <div class="col-lg-3 col-md-3 col-md-4 col-sm-6 col-12 my-2">
                 <div class="card">
                     <label for="" class="search-label transparent">Tìm</label>
-                    <input type="submit" value="Tìm phòng" class="form-control my-1 btn-search-room">
+                    <input type="submit" name="btn-search-room" value="Tìm phòng" class="form-control my-1 btn-search-room">
                 </div>
             </div>
         </div>
@@ -87,38 +87,16 @@
 
 <div class="row" style="padding: 10px;margin-top: 20px;">
     <h5>TOP ĐIỂM ĐẾN</h5>
-    <div class="col-lg-3 col-md-3 col-md-4 col-sm-6 col-12 my-2" style="padding: 20px;background-color: #ffffff;">
-        <div class="card">
-            <img src="./image/vung-tau.jpg" class="card-img-top" alt="Lỗi tải ảnh">
-            <div class="card-name">
-                <h6 class="card-title my-2">VŨNG TÀU</h6>
+    <?php foreach($topReservationHotel as $Hotels => $Hotel) : ?>
+        <div class="col-lg-3 col-md-3 col-md-4 col-sm-6 col-12 my-2" style="padding: 20px;background-color: #ffffff;">
+            <div class="card">
+                <img src="<?php echo explode(',' , $Hotel -> Image)[1] ; ?>" class="card-img-top" alt="Lỗi tải ảnh">
+                <div class="card-name">
+                    <h6 class="card-title my-2"><a style="color:black;text-decoration:none;" href="?action=hotelDetails&&HotelID=<?php echo $Hotel -> HotelID ?>"><?php echo $Hotel -> NameHotel ?></a></h6>
+                </div>
             </div>
         </div>
-    </div>
-    <div class="col-lg-3 col-md-3 col-md-4 col-sm-6 col-12 my-2" style="padding: 20px;background-color: #ffffff;">
-        <div class="card">
-            <img src="./image/phan-thiet.jpg" class="card-img-top" alt="Lỗi tải ảnh">
-            <div class="card-name">
-                <h6 class="card-title my-2">PHAN THIẾT</h6>
-            </div>
-        </div>
-    </div>
-    <div class="col-lg-3 col-md-3 col-md-4 col-sm-6 col-12 my-2" style="padding: 20px;background-color: #ffffff;">
-        <div class="card">
-            <img src="./image/da-nang.jpg" class="card-img-top" alt="Lỗi tải ảnh">
-            <div class="card-name">
-                <h6 class="card-title my-2">ĐÀ NẴNG</h6>
-            </div>
-        </div>
-    </div>
-    <div class="col-lg-3 col-md-3 col-md-4 col-sm-6 col-12 my-2" style="padding: 20px;background-color: #ffffff;">
-        <div class="card">
-            <img src="./image/ho-chi-minh.jpg" class="card-img-top" alt="Lỗi tải ảnh">
-            <div class="card-name">
-                <h6 class="card-title my-2">HỒ CHÍ MINH</h6>
-            </div>
-        </div>
-    </div>
+    <?php endforeach ; ?>
 </div>
 
 <div class="row" style="padding: 10px;margin-top: 20px;">
@@ -136,4 +114,20 @@
         </div>
     <?php endforeach ; ?>
 </div>
+
+<script>
+    const nameHotel = document.getElementById('nameHotel') ;
+    const checkIn = document.getElementById('checkIn') ;
+    const checkOut = document.getElementById('checkOut') ;
+    const quantity = document.getElementById('quantity') ;
+
+    function validateSearch() {
+        let check = true ;
+        if(nameHotel.value.trim() == "" || checkIn.value.trim() == "" || checkOut.value.trim() == "" || quantity.value.trim() == "") {
+            alert("Vui lòng nhập đầy đủ thông tin !") ;
+            check = false ;
+        }
+        return check ;
+    }
+</script>
 
