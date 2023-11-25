@@ -32,6 +32,28 @@
     }
 
     // Top 10 khách sạn có lượt đặt phòng nhiều nhất ;
+    function topReservationHotel() {
+        $conn = connectDB() ;
+        $sql = "SELECT
+        h.`HotelID`,
+        h.`NameHotel`,
+        h.`Image` ,
+        COUNT(r.`ReservationID`) AS `TotalReservations`
+        FROM
+            `hotel` h
+        JOIN
+            `room` ro ON h.`HotelID` = ro.`HotelID`
+        JOIN
+            `reservation` r ON ro.`RoomID` = r.`RoomID`
+        GROUP BY
+            h.`HotelID`, h.`NameHotel` , h.`Image`
+        ORDER BY
+            `TotalReservations` DESC
+        LIMIT 10;
+        " ;
+        $result = $conn -> query($sql) -> fetchAll() ;
+        return $result ;
+    }
     
     // Quản lí danh sách đặt phòng trong trang admin ;
     function reservation() {
