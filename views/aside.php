@@ -4,25 +4,25 @@
                 <h6 class="text-center py-2 text-white title-h6">TÌM KHÁCH SẠN</h6>
             </div>
             <div class="px-2">
-                <form action="" method="post">
+                <form action="?action=searchHotel" method="post" onsubmit="return validateSearch();">
                     <div class="form-group">
                         <label for="">KHÁCH SẠN</label>
-                        <input style="height:30px;" type="text" class="form-control my-2">
+                        <input style="height:30px;" type="text" name="nameHotel" id="nameHotel" placeholder="Tên khách sạn..." class="form-control my-2">
                     </div>
                     <div class="form-group">
                         <label for="">NGÀY NHẬN PHÒNG</label>
-                        <input style="height:30px;" type="date" class="form-control my-2">
+                        <input style="height:30px;" name="checkIn" id="checkIn" type="date" class="form-control my-2">
                     </div>
                     <div class="form-group">
                         <label for="">NGÀY TRẢ PHÒNG</label>
-                        <input style="height:30px;" type="date" class="form-control my-2">
+                        <input style="height:30px;" name="checkOut" id="checkOut" type="date" class="form-control my-2">
                     </div>
                     <div class="form-group">
                         <label for="">SỐ NGƯỜI</label>
-                        <input style="height:30px;" type="number" min="0" step="1" class="form-control my-2">
+                        <input style="height:30px;" name="quantity" id="quantity" type="number" min="0" step="1" class="form-control my-2">
                     </div>
                     <div class="form-group">
-                        <input type="submit" value="TÌM KIẾM" class="form-control my-3" style="background-color:#86B817;color:white;">
+                        <input type="submit" value="TÌM PHÒNG" name="btn-search-room" class="form-control my-3" style="background-color:#86B817;color:white;">
                     </div>
                 </form>
             </div>
@@ -58,3 +58,20 @@
             </div>
         </div>
     </div>
+
+    
+<script>
+    const nameHotel = document.getElementById('nameHotel') ;
+    const checkIn = document.getElementById('checkIn') ;
+    const checkOut = document.getElementById('checkOut') ;
+    const quantity = document.getElementById('quantity') ;
+
+    function validateSearch() {
+        let check = true ;
+        if(nameHotel.value.trim() == "" || checkIn.value.trim() == "" || checkOut.value.trim() == "" || quantity.value.trim() == "") {
+            alert("Vui lòng nhập đầy đủ thông tin !") ;
+            check = false ;
+        }
+        return check ;
+    }
+</script>

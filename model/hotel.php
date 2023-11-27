@@ -63,5 +63,38 @@
         return $result ;
     }
 
-    
+    // Tìm khách sạn ;
+    function searchHotel($nameHotel , $checkIn , $checkOut , $quantity) {
+        $conn = connectDB() ;
+        $sql = "SELECT
+            h.HotelID,
+            h.NameHotel,
+            h.Address ,
+            rm.RoomID,
+            rm.RoomName,
+            rm.Price,
+            rm.Image ,
+            rt.RoomTypeName
+        FROM
+            hotel h
+            JOIN room rm ON h.HotelID = rm.HotelID
+            JOIN roomtype rt ON rt.RoomTypeID = rm.RoomTypeID
+        WHERE
+            rm.MaximumNumber >= $quantity
+            AND '$checkIn' >= CURDATE()
+            AND h.NameHotel LIKE '%$nameHotel%' 
+            AND NOT EXISTS (
+                SELECT 1
+                FROM reservation res
+                WHERE res.RoomID = rm.RoomID
+                    AND (
+                        '$checkIn' BETWEEN res.Check_In_Date AND res.Check_Out_Date
+                        OR '$checkOut' BETWEEN res.Check_In_Date AND res.Check_Out_Date
+                        OR res.Check_In_Date BETWEEN '$checkIn' AND '$checkOut'
+                        OR res.Check_Out_Date BETWEEN '$checkIn' AND '$checkOut'
+                    )
+            )" ;
+        $result = $conn -> query($sql) -> fetchAll() ;
+        return $result ;
+    }
 ?>

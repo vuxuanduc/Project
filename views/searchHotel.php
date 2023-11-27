@@ -56,6 +56,10 @@
         display: grid ;
         grid-template-columns: 1fr 2fr;
         border : 1px dotted gray ;
+        margin-top : 20px ;
+    }
+    .main:nth-child(1) {
+        margin-top : 0 ;
     }
     .price {
         text-align : right ;
@@ -117,25 +121,27 @@
         require './views/aside.php' ;
     ?>
     <div style="margin-left:10px;margin-top:5px;">
-        <div class="main px-2 py-2">
-            <div>
-                <img src="./image_hotel/1.1.jpg" alt="Lỗi tải ảnh" width="100%" height="auto">
-            </div>
-            <div class="details">
-                <div class="">
-                    <h5><a href="">KHÁCH SẠN HÀ NỘI</a></h5>
-                    <p style="margin-top:10px;">
-                        <i class="fa-solid fa-thumbs-up"></i> <span class="count-rating">300 Lượt đánh giá</span>
-                    </p>
-                    <p style="margin-top:10px;font-size:13px;color:#4790cd;"><i class="fa-solid fa-location-dot"></i>Quỳnh Liên, TX Hoàng Mai, Tỉnh Nghệ An</p>
-                    <h6><a href="">PHÒNG TIÊU CHUẨN VIEW SIÊU BIỂN ĐẸP</a></h6>
-                    <p class="room-type"><span>Loại phòng : </span><span>Phòng siêu VIP</span></p>
+        <?php foreach($listHotelSearch as $HotelsSearch => $Hotel) : ?>
+            <div class="main px-2 py-2">
+                <div>
+                    <img src="<?php echo explode(',' , $Hotel -> Image)[1] ?>" alt="Lỗi tải ảnh" width="100%" height="auto">
                 </div>
-                <div class="box-booking">
-                    <p class="price"><span style="font-weight:500;color:#86B817;">3.000.000</span><span style="font-size:15px;margin-left:3px;">VND/đêm</span></p> <br>
-                    <a href="" class="btn-booking-room">Đặt phòng</a>
+                <div class="details">
+                    <div class="">
+                        <h5><a href="?action=hotelDetails&&HotelID=<?php echo $Hotel -> HotelID ?>"><?php echo $Hotel -> NameHotel ?></a></h5>
+                        <p style="margin-top:10px;">
+                            <i class="fa-solid fa-thumbs-up"></i> <span class="count-rating"><?php echo countRatingHotelID($Hotel -> HotelID) -> CountRating .' Đánh lượt giá' ?></span>
+                        </p>
+                        <p style="margin-top:10px;font-size:13px;color:#4790cd;"><i class="fa-solid fa-location-dot"></i><?php echo $Hotel -> Address ?></p>
+                        <h6><a href="?action=roomDetails&&RoomID=<?php echo $Hotel -> RoomID ?>"><?php echo $Hotel -> RoomName?></a></h6>
+                        <p class="room-type"><span>Loại phòng : </span><span><?php echo $Hotel -> RoomTypeName ?></span></p>
+                    </div>
+                    <div class="box-booking">
+                        <p class="price"><span style="font-weight:500;color:#86B817;"><?php echo number_format($Hotel -> Price) ?></span><span style="font-size:15px;margin-left:3px;">VND/đêm</span></p> <br>
+                        <a href="?action=roomDetails&&RoomID=<?php echo $Hotel -> RoomID ?>&&checkRoom&&checkIn=<?php echo $_POST['checkIn'] ?>&&checkOut=<?php echo $_POST['checkOut'] ?>" class="btn-booking-room">Đặt phòng</a>
+                    </div>
                 </div>
             </div>
-        </div>
+        <?php endforeach ; ?>
     </div>
 </div>

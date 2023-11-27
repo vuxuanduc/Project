@@ -115,9 +115,10 @@
                 // Danh sách top 10 khách sạn có lượt đặt phòng cao nhất ;
                 $topReservationHotel = topReservationHotel() ;
                 if(isset($_POST['btn-search-room'])) {
-                    echo $_POST['nameHotel'] ;
+                    $listHotelSearch = searchHotel($_POST['nameHotel'] , $_POST['checkIn'] , $_POST['checkOut'] , $_POST['quantity']) ;
+                    require './views/searchHotel.php' ;
                 }
-                require './views/searchHotel.php' ;
+                
                 break ;
             }
            
@@ -176,13 +177,25 @@
                     $RoomID = getRoomID($_GET['RoomID']) ;
                     $listImageRoom = explode(',' , $RoomID -> Image) ;
 
-                    // Kiểm tra xem phòng khách hàng đã chọn có còn trống không ;
+                    // Kiểm tra xem phòng khách hàng đã chọn có còn trống không theo luồng người dùng chọn phòng ngẫu nhiên ;
                     if(isset($_POST['check-room'])) {
                         $check_in_date = new DateTime($_POST['check-in-date']) ;
                         $check_out_date = new DateTime($_POST['check-out-date']) ;
                         // Lấy số đêm khách đặt ;
                         $numberOfNights = $check_in_date->diff($check_out_date) -> format('%a') ;
                         $result = checkRoom($_GET['RoomID'] , $_POST['check-in-date'] , $_POST['check-out-date']) ;
+                        if(empty($result)) {
+                            echo "<script>alert('Không còn phòng trong thời gian bạn mong muốn')</script>" ;
+                        }
+                    }
+
+                    // Kiểm tra xem phòng khách hàng đã chọn có còn trống không theo luồng người dùng chọn tìm kiếm khách sạn ;
+                    if(isset($_GET['checkRoom'])) {
+                        $check_in_date = new DateTime($_GET['checkIn']) ;
+                        $check_out_date = new DateTime($_GET['checkOut']) ;
+                        // Lấy số đêm khách đặt ;
+                        $numberOfNights = $check_in_date->diff($check_out_date) -> format('%a') ;
+                        $result = checkRoom($_GET['RoomID'] , $_GET['checkIn'] , $_GET['checkOut']) ;
                         if(empty($result)) {
                             echo "<script>alert('Không còn phòng trong thời gian bạn mong muốn')</script>" ;
                         }

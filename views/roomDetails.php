@@ -72,11 +72,11 @@
             <form action="" method="post" class="px-2" onsubmit="">
                 <div class="form-group">
                     <label for="">Ngày nhận phòng</label> 
-                    <input type="date" name="check-in-date-booking" value="<?php echo $_POST['check-in-date'] ?>"  class="form-control my-2" readonly>
+                    <input type="date" name="check-in-date-booking" value="<?php echo $_GET['checkIn'] ?>"  class="form-control my-2" readonly>
                 </div>
                 <div class="form-group">
                     <label for="">Ngày trả phòng</label> 
-                    <input type="date" name="check-out-date-booking"  value="<?php echo $_POST['check-out-date'] ?>"  class="form-control my-2" readonly>
+                    <input type="date" name="check-out-date-booking"  value="<?php echo $_GET['checkOut'] ?>"  class="form-control my-2" readonly>
                 </div>
                 <div class="form-group">
                     <label for="">Giá phòng</label> 
