@@ -54,7 +54,7 @@
                         GROUP BY h.HotelID";
             case "month":
                 return "SELECT h.NameHotel, SUM(r.TotalAmount) AS total_revenue
-                        FROM hotel hLEFT JOIN room rm ON h.HotelID = rm.HotelID
+                        FROM hotel h JOIN room rm ON h.HotelID = rm.HotelID
                         LEFT JOIN reservation r ON rm.RoomID = r.RoomID
                         WHERE MONTH(r.ReservationDate) = MONTH(CURDATE())
                         GROUP BY h.HotelID";

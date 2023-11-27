@@ -1,6 +1,7 @@
 <?php
     session_start() ;
     require './model/connect.php' ;
+    require './model/role.php' ;
     require './model/user.php' ;
     require './model/hotel.php' ;
     require './model/roomType.php' ;
@@ -109,6 +110,10 @@
 
             // Trang tìm phòng ;
             case 'searchHotel' : {
+                // Danh sách top khách sạn có lượt xem cao nhất ;
+                $topViewsHotel = topViewsHotel() ;
+                // Danh sách top 10 khách sạn có lượt đặt phòng cao nhất ;
+                $topReservationHotel = topReservationHotel() ;
                 if(isset($_POST['btn-search-room'])) {
                     echo $_POST['nameHotel'] ;
                 }
@@ -488,6 +493,8 @@
             // Quản lí người dùng ;
             case 'managerUsers' : {
                 if(isset($_SESSION['login']) && isset($_SESSION['role']) && $_SESSION['role'] == 1) {
+                    // Lấy danh sách kiểu người dùng ;
+                    $listRoles = getRole() ;
                     // Lấy tất cả user ;
                     $listUsers = getUsers() ;
                     // Thêm mới user ;
@@ -497,7 +504,7 @@
                         if(!empty(login($_POST['email']))) {
                             $error['admin_add_user']['email'] = "Email đã tồn tại" ;
                         }else {
-                            createUser($_POST['password'] , $_POST['email'] , 2) ;
+                            createUser($_POST['password'] , $_POST['email'] , $_POST['role']) ;
                         }
 
                     }
@@ -520,15 +527,18 @@
             // Update người dùng trong trang admin ;
             case 'updateUser' : {
                 if(isset($_SESSION['login']) && isset($_SESSION['role']) && $_SESSION['role'] == 1) {
+                    // Lấy tất cả các kiểu người dùng trong bảng Role ;
+                    $listRoles = getRole() ;
+                    // Lấy thông tin người dùng theo ID ;
                     $UserID = getUsersID($_GET['UpdateUserID']) ;
                     if(isset($_POST['btn-update-user'])) {
                         // Kiểm tra email xem nó đã tồn tại hay chưa;
                         $error = [] ;
                         $checkEmail = login($_POST['email']) ;
-                        if(!empty($checkEmail)) {
+                        if(!empty($checkEmail) && $_POST['email'] != $UserID -> Email) {
                             $error['edit_user']['email'] = "Email đã tồn tại , hãy nhập email khác" ;
                         }else {
-                            updateUser($_POST['email'] , $_POST['password'] , $_POST['UserID']) ;
+                            updateUser($_POST['email'] , $_POST['password'] , $_POST['UserID'] , $_POST['role']) ;
                         }
                     }
                     require './views/admin/user/updateUser.php' ;

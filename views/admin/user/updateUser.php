@@ -22,6 +22,14 @@
                     <label for="">Mật khẩu</label> <span id="password_signup_admin_err" style="color:red;font-size:14px;"></span>
                     <input type="password" value="<?php echo $UserID -> Password ?>" id="password_signup_admin" name="password" class="form-control my-2">
                 </div>
+                <div class="form-group">
+                    <label for="">Kiểu người dùng</label>
+                    <select name="role" id="role_signup_admin" class="form-control my-2">
+                        <?php foreach($listRoles as $Roles => $Role) : ?>
+                            <option <?php echo $Role -> RoleID == $UserID -> RoleID ? "selected" : "" ; ?> value="<?php echo $Role -> RoleID ?>"><?php echo $Role -> Role ?></option>
+                        <?php endforeach ; ?>
+                    </select>
+                </div>
                 
                 <div style="margin-top:15px;">
                     <input class="btn button-admin" type="submit" name="btn-update-user" value="Cập nhật">

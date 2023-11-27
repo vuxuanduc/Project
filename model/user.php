@@ -29,7 +29,8 @@
     // Lấy tất cả thông tin user ra ;
     function getUsers() {
         $conn = connectDB() ;
-        $sql = "SELECT * FROM `user`" ;
+        $sql = "SELECT r.`Role` , u.* FROM `user` u 
+        JOIN `role` r ON r.`RoleID` = u.`RoleID`" ;
         $result = $conn -> query($sql) -> fetchAll() ;
         return $result ;
     }
@@ -37,7 +38,8 @@
     // Lấy thông tin user theo ID ;
     function getUsersID($UserID) {
         $conn = connectDB() ;
-        $sql = "SELECT * FROM `user` WHERE `UserID` = '$UserID'" ;
+        $sql = "SELECT r.`Role` , u.* FROM `user` u 
+        JOIN `role` r ON r.`RoleID` = u.`RoleID` WHERE `UserID` = '$UserID'" ;
         $result = $conn -> query($sql) -> fetch() ;
         return $result ;
     }
@@ -59,9 +61,9 @@
     }
 
     // Cập nhật tài khoản trong trong admin ;
-    function updateUser($email , $password , $UserID) {
+    function updateUser($email , $password , $UserID , $roleID) {
         $conn = connectDB() ;
-        $sql = "UPDATE `user` SET `Email` = '$email' , `Password` = '$password' WHERE `UserID` = '$UserID'" ;
+        $sql = "UPDATE `user` SET `Email` = '$email' , `Password` = '$password' , `RoleID` = '$roleID' WHERE `UserID` = '$UserID'" ;
         $result = $conn -> query($sql) ;
         echo '<script type="text/javascript">window.location.href = "?action=managerUsers";</script>';
     }

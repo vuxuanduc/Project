@@ -20,6 +20,7 @@
                         <th>Họ & tên</th>
                         <th>Email</th>
                         <th>Số điện thoại</th>
+                        <th>Quyền</th>
                         <th>Thao tác</th>
                     </tr>
                 </thead>
@@ -32,6 +33,7 @@
                             <td><?php echo $User -> FullName ?></td>
                             <td><?php echo $User -> Email ?></td>
                             <td><?php echo $User -> Phone ?></td>
+                            <td><?php echo $User -> Role ?></td>
                             <td>
                                 <?php
                                     if($_SESSION['userID'] != $User -> UserID) {
@@ -81,6 +83,14 @@
             <div class="form-group">
                 <label for="">Mật khẩu</label> <span id="password_signup_admin_err" style="color:red;font-size:14px;"></span>
                 <input type="password" value="<?php echo isset($_POST['password']) ? $_POST['password'] : "" ?>" id="password_signup_admin" name="password" class="form-control my-2">
+            </div>
+            <div class="form-group">
+                <label for="">Kiểu người dùng</label> <span id="role_signup_admin_err" style="color:red;font-size:14px;"></span>
+                <select name="role" id="role_signup_admin" class="form-control my-2">
+                    <?php foreach($listRoles as $Roles => $Role) : ?>
+                        <option value="<?php echo $Role -> RoleID ?>"><?php echo $Role -> Role ?></option>
+                    <?php endforeach ; ?>
+                </select>
             </div>
         </div>
           

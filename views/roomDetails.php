@@ -94,7 +94,7 @@
                     if(isset($_SESSION['login'])) {
                 ?>
                     <div class="form-group">
-                        <input type="submit" name="book-room" value="Đặt phòng" class="form-control my-3 submit">
+                        <input type="submit" name="book-room" value="Đặt phòng" class="form-control my-3 submit" onclick="return confirm('Sau khi đặt phòng 30 phút nếu quý khách không thanh toán đơn sẽ tự động hủy!');">
                     </div>
                 <?php
                     }else {
