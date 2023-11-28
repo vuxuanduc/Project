@@ -80,6 +80,14 @@
         return $result ;
     }
 
+    // Lấy thông tin đặt phòng theo ReservationID ;
+    function ReservationID($ReservationID) {
+        $conn = connectDB() ;
+        $sql = "SELECT  r.* FROM `reservation` r WHERE `ReservationID` = '$ReservationID'" ;
+        $result = $conn -> query($sql) -> fetch() ;
+        return $result ;
+    }
+
     // Kiểm tra xem người dùng đã từng đặt phòng tại khách sạn đó hay chưa để hiển thị nút đánh giá ;
     function checkBooking($UserID , $HotelID) {
         $conn = connectDB() ;
@@ -97,5 +105,28 @@
         $sql = "UPDATE `reservation` SET `StatusID` = '3' WHERE `ReservationID` = '$ReservationID' " ;
         $result = $conn -> query($sql) ;
         echo '<script type="text/javascript">window.location.href = "?action=historyBookingRoom";</script>';
+    }
+
+    // Lấy danh sách đặt phòng để kiểm tra trạng thái khi đơn đặt chưa thanh toán ;
+    function getReservation() {
+        $conn = connectDB() ;
+        $sql = "SELECT `ReservationID` , `ReservationDate` FROM `reservation` WHERE `StatusID` = '1'" ;
+        $result = $conn -> query($sql) -> fetchAll() ;
+        return $result ;
+    }
+
+    // Lấy danh sách đặt phòng để cập nhật trạng thái các đơn đặt phòng đã thanh toán ;
+    function getReservationStatus() {
+        $conn = connectDB() ;
+        $sql = "SELECT `ReservationID` , `Check_Out_Date` FROM `reservation` WHERE `StatusID` = '2'" ;
+        $result = $conn -> query($sql) -> fetchAll() ;
+        return $result ;
+    }
+
+    // Cập nhật lại trạng thái đặt phòng sau khi thanh toán thành công ;
+    function updateStatusReservation($ReservationID) {
+        $conn = connectDB() ;
+        $sql = "UPDATE `reservation` SET `StatusID` = '2' WHERE `ReservationID` = '$ReservationID'" ;
+        $result = $conn -> query($sql) ;
     }
 ?>

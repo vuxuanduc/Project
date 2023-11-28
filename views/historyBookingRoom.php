@@ -52,6 +52,10 @@
         color : white ;
         font-weight : 400 ;
     }
+    .btn-pay {
+        background-color : #ea4aaa ;
+        color : white ;
+    }
 </style>
 
 <div class="box-profile px-1">
@@ -95,6 +99,8 @@
                                     if($Booking -> StatusID == 1) {
                                 ?>
                                     <a href="?action=historyBookingRoom&&cancelBookingRoomID=<?php echo $Booking -> ReservationID ?>" class="btn btn-danger" onclick="return confirm('Bạn chắc chắn muốn hủy đặt phòng chứ ?');">Hủy</a>
+                                    <a href="?action=payMomoQR&&ReservationID=<?php echo $Booking -> ReservationID ?>" class="btn btn-pay my-1">QR Momo</a>
+                                    <a href="?action=payMomoATM&&ReservationID=<?php echo $Booking -> ReservationID ?>" class="btn btn-pay my-1">ATM Momo</a>
                                 <?php
                                     }if($Booking -> StatusID == 2) {
                                 ?>

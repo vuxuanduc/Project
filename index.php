@@ -1,6 +1,7 @@
 <?php
     session_start() ;
     require './model/connect.php' ;
+    require './model/checkBooking.php' ;
     require './model/role.php' ;
     require './model/user.php' ;
     require './model/hotel.php' ;
@@ -10,8 +11,13 @@
     require './model/reservation.php' ;
     require './model/rating.php' ;
     require './model/statistical.php' ;
+    require './model/pay.php' ;
     require './views/header.php' ;
-    
+
+    // Kiểm tra trạng thái đặt phòng đã quá hạn thanh toán hay chưa ;
+    updateReservation() ;
+    // Kiểm tra thời gian nghỉ dưỡng tại khách sạn đã hết hay chưa ;
+    updateReservationStatus() ;
     if(isset($_GET['action'])) {
         $action = $_GET['action'] ;
         switch($action) {
@@ -176,7 +182,8 @@
                 if(isset($_GET['RoomID'])) {
                     $RoomID = getRoomID($_GET['RoomID']) ;
                     $listImageRoom = explode(',' , $RoomID -> Image) ;
-
+                    // Lấy danh sách phòng cùng khách sạn ;
+                    $listRooms = getRooms($RoomID -> HotelID , $RoomID -> RoomID) ;
                     // Kiểm tra xem phòng khách hàng đã chọn có còn trống không theo luồng người dùng chọn phòng ngẫu nhiên ;
                     if(isset($_POST['check-room'])) {
                         $check_in_date = new DateTime($_POST['check-in-date']) ;
@@ -223,6 +230,25 @@
                 break ;
             }
 
+            // Phần thanh toán online bằng Momo QR ;
+            case 'payMomoQR' : {
+                if(isset($_GET['ReservationID'])) {
+                    $ReservationID = ReservationID($_GET['ReservationID']) ;
+                    require './views/payMomoQR.php' ;
+                }
+                break ;
+            }
+
+            // Phần thanh toán online bằng Momo ATM ;
+            case 'payMomoATM' : {
+                if(isset($_GET['ReservationID'])) {
+                    // Lấy thông tin đơn đặt phòng theo ReservationID ;
+                    $ReservationID = ReservationID($_GET['ReservationID']) ;
+                    require './views/payMomoATM.php' ;
+                }
+                break ;
+            }
+
             // Phần thông tin cá nhân và cập nhật thông tin cá nhân ;
             case 'profile' : {
                 if(isset($_SESSION['login'])) {
@@ -261,6 +287,16 @@
                     if(isset($_GET['cancelBookingRoomID'])) {
                         cancelBookingRoom($_GET['cancelBookingRoomID']) ;
                     }
+
+                    // Cập nhật lại thông tin sau khi thanh toán thành công ;
+                    if(isset($_GET['partnerCode'])) {
+                        // Cập nhật lại trạng thái đơn đặt hàng (Trong trường hợp này thì biến $extraData sẽ thay thế cho ReservationID)
+                        updateStatusReservation($_GET['extraData']) ;
+                        // Thêm thông tin thanh toán vào bảng thanh toán ;
+                        createPay($_GET['extraData'] , $_GET['orderInfo']) ;
+                    }
+
+
                     require './views/historyBookingRoom.php' ;
                 }
                 break ;
@@ -432,13 +468,13 @@
 
                     // Xóa từng phòng phòng ;
                     if(isset($_GET['DeleteRoomID'])) {
-                        $stringImage = getRoomID($_GET['DeleteRoomID']) ;
-                        $imagePaths = explode(',' , $stringImage -> Image) ;
-                        foreach($imagePaths as $images => $image) {
-                            if(file_exists($image)) {
-                                unlink($image) ;
-                            }
-                        }
+                        // $stringImage = getRoomID($_GET['DeleteRoomID']) ;
+                        // $imagePaths = explode(',' , $stringImage -> Image) ;
+                        // foreach($imagePaths as $images => $image) {
+                        //     if(file_exists($image)) {
+                        //         unlink($image) ;
+                        //     }
+                        // }
                         deleteRoom($_GET['DeleteRoomID']) ;
                     }
 
@@ -446,13 +482,13 @@
                     if(isset($_POST['delete_checked'])) {
                         $listIDRoom = $_POST['RoomID'] ;
                         foreach($listIDRoom as $RoomIDs => $RoomID) {
-                            $stringImage = getRoomID($RoomID) ;
-                            $imagePaths = explode(',' , $stringImage -> Image) ;
-                            foreach($imagePaths as $images => $image) {
-                                if(file_exists($image)) {
-                                    unlink($image) ;
-                                }
-                            }
+                            // $stringImage = getRoomID($RoomID) ;
+                            // $imagePaths = explode(',' , $stringImage -> Image) ;
+                            // foreach($imagePaths as $images => $image) {
+                            //     if(file_exists($image)) {
+                            //         unlink($image) ;
+                            //     }
+                            // }
                             deleteRoom($RoomID) ;
                         }
                         
@@ -668,6 +704,15 @@
                         
                     }
                     require './views/admin/chart/revenueStatistics.php' ;
+                }
+                break ;
+            }
+
+            // Quản lý thanh toán ;
+            case 'managerPay' : {
+                if(isset($_SESSION['login']) && isset($_SESSION['role']) && $_SESSION['role'] == 1) {
+                    $listPays = getPays() ;
+                    require './views/admin/pay/managerPay.php' ;
                 }
                 break ;
             }

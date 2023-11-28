@@ -61,28 +61,13 @@
         echo '<script type="text/javascript">window.location.href = "?action=managerRoom";</script>';
     }
 
-    // Check xem phòng có còn phòng trong một khoảng thời gian nhất định không ;
-    // function checkRoom($roomID , $room_number , $check_in_date , $check_out_date) {
-    //     $conn = connectDB() ;
-    //     $sql = "SELECT r.*
-    //     FROM room r
-    //     JOIN hotel h ON r.HotelID = h.HotelID
-    //     JOIN roomtype rt ON r.RoomTypeID = rt.RoomTypeID
-    //     WHERE r.RoomID = $roomID
-    //       AND r.AvailableRooms >= $room_number
-    //       AND NOT EXISTS (
-    //         SELECT 1
-    //         FROM reservation res
-    //         WHERE res.RoomID = r.RoomID
-    //           AND ('$check_in_date' BETWEEN res.`Check-In-Date` AND res.`Check-Out-Date`
-    //             OR '$check_out_date' BETWEEN res.`Check-In-Date` AND res.`Check-Out-Date`)
-    //       );" ;
-    //     $result = $conn -> query($sql) -> fetchAll() ;
-    //     return $result ;
-    // }
-
-    
-
-    
-
+    // Lấy danh sách phòng cùng khách sạn ;
+    function getRooms($HotelID , $RoomID) {
+        $conn = connectDB() ;
+        $sql = "SELECT `roomtype`.`RoomTypeName` , `room`.* FROM `room`
+        JOIN `roomtype` ON `roomtype`.`RoomTypeID` = `room`.`RoomTypeID`
+        WHERE `HotelID` = '$HotelID' AND `room`.`RoomID` <> '$RoomID'" ;
+        $result = $conn -> query($sql) -> fetchAll() ;
+        return $result ;
+    }
 ?>

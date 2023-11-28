@@ -143,5 +143,12 @@
                 </div>
             </div>
         <?php endforeach ; ?>
+        <?php
+            if(empty($listHotelSearch)) {
+        ?>
+            <h4>Không tìm thấy kết quả nào !</h4>
+        <?php
+            }
+        ?>
     </div>
 </div>

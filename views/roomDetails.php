@@ -42,6 +42,27 @@
     .room-details label {
         font-weight : 500 ;
     }
+    table {
+        width : 100% ;
+        margin-top : 15px ;
+        border-collapse:collapse ;
+        border : 1px dotted gray ;
+    }
+    table thead {
+        height : 45px ;
+        background-color : #e4e4e4;
+    }
+    table thead tr th{
+        padding-left : 10px ;
+    }
+    table tbody tr {
+        height : 100px ;
+        border : 1px dotted gray ;
+    }
+    table tbody tr td{
+        border : 1px dotted gray ;
+        text-align: center ;
+    }
 </style>
 
 
@@ -72,11 +93,11 @@
             <form action="" method="post" class="px-2" onsubmit="">
                 <div class="form-group">
                     <label for="">Ngày nhận phòng</label> 
-                    <input type="date" name="check-in-date-booking" value="<?php echo $_GET['checkIn'] ?>"  class="form-control my-2" readonly>
+                    <input type="date" name="check-in-date-booking" value="<?php echo isset($_POST['check-in-date']) ? $_POST['check-in-date'] : $_GET['checkIn'] ; ?>"  class="form-control my-2" readonly>
                 </div>
                 <div class="form-group">
                     <label for="">Ngày trả phòng</label> 
-                    <input type="date" name="check-out-date-booking"  value="<?php echo $_GET['checkOut'] ?>"  class="form-control my-2" readonly>
+                    <input type="date" name="check-out-date-booking"  value="<?php echo isset($_POST['check-out-date']) ? $_POST['check-out-date'] : $_GET['checkOut'] ; ?>"  class="form-control my-2" readonly>
                 </div>
                 <div class="form-group">
                     <label for="">Giá phòng</label> 
@@ -170,6 +191,35 @@
             <p class="text-primary" data-bs-toggle="modal" data-bs-target="#staticBackdrop">Xem mô tả phòng</p>
         </div>
     </div>
+</div>
+<div style="margin-top:25px ;">
+    <h3>Phòng cùng khách sạn</h3>
+    <table class="table-responsive">
+            <thead>
+                <tr>
+                    <th>Tên phòng</th>
+                    <th>Ảnh phòng</th>
+                    <th>Loại phòng</th>
+                    <th>Số người</th>
+                    <th>Giá</th>
+                    <th>Đặt phòng</th>
+                </tr>
+            </thead>
+            <tbody>
+                <?php foreach($listRooms as $Rooms => $Room) : ?>
+                    <tr>
+                        <td><?php echo $Room -> RoomName ?></td>
+                        <td><img src="<?php echo explode(',' , $Room -> Image)[1] ; ?>" width="150px" height="auto" alt="Lỗi tải ảnh"></td>
+                        <td><?php echo $Room -> RoomTypeName ?></td>
+                        <td><?php echo $Room -> MaximumNumber ?></td>
+                        <td><?php echo $Room -> Price ?></td>
+                        <td>
+                            <a href="?action=roomDetails&&RoomID=<?php echo $Room -> RoomID ?>"  style="background-color:#86B817;padding:3px 5px;border-radius:3px;color:white;text-decoration:none;">Xem phòng</a>
+                        </td>
+                    </tr>
+                <?php endforeach ; ?>
+            </tbody>
+    </table>
 </div>
 
 
