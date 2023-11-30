@@ -68,7 +68,7 @@
         <div class="modal-body">
           <div class="form-group">
             <label for="" style="font-weight:500;">Tên khách sạn</label> <span id="nameHotel_err" style="color:red;font-size:14px;"></span>
-            <input type="text" id="nameHotel" name="name" placeholder="Tên khách sạn" class="form-control my-2">
+            <input type="text" id="nameHotelAdmin" name="name" placeholder="Tên khách sạn" class="form-control my-2">
           </div>
           <div class="form-group">
             <label for="" style="font-weight:500;">Ảnh khách sạn</label> <span id="image_err" style="color:red;font-size:14px;"></span>
@@ -120,3 +120,31 @@
     </div>
   </div>
 </div>
+
+
+<script>
+  function validateAddHotel() {
+    // Lấy giá trị từ các trường input
+    const nameHotel = document.getElementById('nameHotelAdmin').value.trim();
+    const image = document.getElementById('image').value.trim();
+    const province = document.getElementById('province').value.trim();
+    const district = document.getElementById('district').value.trim();
+    const ward = document.getElementById('ward').value.trim();
+    const apartmentNumber = document.getElementById('apartmentNumber').value.trim();
+    const phone = document.getElementById('phone').value.trim();
+    const email = document.getElementById('email').value.trim();
+
+    // Hiển thị lỗi nếu các trường bị bỏ trống
+    document.getElementById('nameHotel_err').innerText = nameHotel === "" ? "Vui lòng nhập tên khách sạn" : "";
+    document.getElementById('image_err').innerText = image === "" ? "Vui lòng thêm ảnh" : "";
+    document.getElementById('province_err').innerText = province === "" ? "Vui lòng chọn tỉnh/TP" : "";
+    document.getElementById('district_err').innerText = district === "" ? "Vui lòng chọn quận/huyện" : "";
+    document.getElementById('ward_err').innerText = ward === "" ? "Vui lòng chọn phường/xã" : "";
+    document.getElementById('apartmentNumber_err').innerText = apartmentNumber === "" ? "Hãy nhập chi tiết địa điểm" : "";
+    document.getElementById('phone_err').innerText = phone === "" ? "Vui lòng nhập SĐT" : "";
+    document.getElementById('email_err').innerText = email === "" ? "Vui lòng nhập địa chỉ email" : "";
+
+    // Trả về true nếu không có lỗi, ngược lại trả về false
+    return !(nameHotel === "" || image === "" || province === "" || district === "" || ward === "" || apartmentNumber === "" || phone === "" || email === "");
+  }
+</script>

@@ -21,3 +21,28 @@
             </form>
         </div>
     </div>
+
+    <script>
+        function validateRoomType() {
+            const RoomTypeName = document.getElementById('RoomTypeName') ,
+                RoomTypeName_err = document.getElementById('RoomTypeName_err') ,
+                Description = document.getElementById('Description') ,
+                Description_err = document.getElementById('Description_err') ;
+                let check = true ;
+                if(RoomTypeName.value.trim() == "") {
+                    RoomTypeName_err.innerText = "Hãy nhập loại phòng " ;
+                    check = false ;
+                }else {
+                    RoomTypeName_err.innerText = "" ;
+                }
+
+                if(Description.value.trim() == "") {
+                    Description_err.innerText = "Hãy nhập mô tả " ;
+                    check = false ;
+                }else {
+                    Description_err.innerText = "" ;
+                }
+
+                return check ;
+            }
+    </script>

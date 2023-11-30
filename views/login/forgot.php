@@ -21,3 +21,27 @@
         </div>
     </form>
 </div>
+
+<script>
+    
+
+function validateForgot() {
+    const email_forgot = document.getElementById('email_forgot') ;
+    const email_forgot_err = document.getElementById('email_forgot_err') ;
+    let check = true ;
+    let regexEmail = /^\w([_\.]?\w+)*@\w{2,}(\.\w{2,30})+$/;
+    if(email_forgot.value.trim() == "") {
+        email_forgot_err.innerText = "Vui lòng nhập email" ;
+        check = false ;
+    }
+    else if(regexEmail.test(email_forgot.value) == false) {
+        email_forgot_err.innerText = "Email không đúng định dạng" ;
+        check = false ;
+    }
+    else {
+        email_forgot_err.innerText = "" ;
+    }
+    return check ;
+}
+
+</script>

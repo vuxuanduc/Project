@@ -25,3 +25,40 @@
         </div>
     </form>
 </div>
+
+<script>
+    
+function validateSignup() {
+    const email_signup = document.getElementById('email_signup') ;
+    const email_signup_err = document.getElementById('email_signup_err') ;
+    const password_signup = document.getElementById('password_signup') ;
+    const password_signup_err = document.getElementById('password_signup_err') ;
+    let check = true ;
+    let regexEmail = /^\w([_\.]?\w+)*@\w{2,}(\.\w{2,30})+$/;
+    if(email_signup.value.trim() == "") {
+        email_signup_err.innerText = "Vui lòng nhập email" ;
+        check = false ;
+    }
+    else if(regexEmail.test(email_signup.value) == false) {
+        email_signup_err.innerText = "Email không đúng định dạng" ;
+        check = false ;
+    }
+    else {
+        email_signup_err.innerText = "" ;
+    }
+
+    let regaxPass = /^\w{6,}$/ ;
+    if(password_signup.value.trim() == "") {
+        password_signup_err.innerText = "Vui lòng nhập mật khẩu" ;
+        check = false ;
+    }
+    else if(regaxPass.test(password_signup.value) == false) {
+        password_signup_err.innerText = "Mật khẩu không đúng định dạng" ;
+        check = false ;
+    }
+    else {
+        password_signup_err.innerText = "" ;
+    }
+    return check ;
+}
+</script>

@@ -91,8 +91,8 @@
                             <td><?php echo $Booking -> ReservationDate ?></td>
                             <td><?php echo $Booking -> Check_In_Date ?></td>
                             <td><?php echo $Booking -> Check_Out_Date ?></td>
-                            <td><?php echo $Booking -> Price ?></td>
-                            <td><?php echo $Booking -> TotalAmount ?></td>
+                            <td><?php echo number_format($Booking -> Price) ?></td>
+                            <td><?php echo number_format($Booking -> TotalAmount) ?></td>
                             <td><?php echo $Booking -> NameStatus ?></td>
                             <td>
                                 <?php

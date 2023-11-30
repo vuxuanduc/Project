@@ -81,7 +81,7 @@
             JOIN roomtype rt ON rt.RoomTypeID = rm.RoomTypeID
         WHERE
             rm.MaximumNumber >= $quantity
-            AND '$checkIn' >= CURDATE()
+            AND '$checkIn' >= CURDATE() AND '$checkOut' >= '$checkIn'
             AND h.NameHotel LIKE '%$nameHotel%' 
             AND NOT EXISTS (
                 SELECT 1

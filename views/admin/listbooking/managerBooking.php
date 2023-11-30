@@ -39,8 +39,8 @@
                     <td><?php echo $Reservation -> ReservationDate ?></td>
                     <td><?php echo $Reservation -> Check_In_Date ?></td>
                     <td><?php echo $Reservation -> Check_Out_Date ?></td>
-                    <td><?php echo $Reservation -> Price ?></td>
-                    <td><?php echo $Reservation -> TotalAmount ?></td>
+                    <td><?php echo number_format($Reservation -> Price) ?></td>
+                    <td><?php echo number_format($Reservation -> TotalAmount) ?></td>
                     <td><?php echo $Reservation -> NameStatus ?></td>
             
                 </tr>
@@ -48,12 +48,6 @@
           </tbody>
           
       </table>
-      <!-- <tr>
-          <a class="btn open_checked button-admin">Chọn tất cả</a>
-          <a class="btn close_checked mx-2 button-admin">Bỏ chọn tất cả</a>
-          <button type="submit" class="btn delete_checked button-admin" onclick="return confirm('Bạn chắc chắn xóa chứ ?');" name="delete_checked">Xóa mục đã chọn</button>
-          <a href="?action=addSector" class="btn mx-2 button-admin" data-bs-toggle="modal" data-bs-target="#exampleModal">Thêm mới</a>
-      </tr> -->
     </form>
     </div>
 </div>

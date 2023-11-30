@@ -62,7 +62,7 @@
   <div class="modal-dialog">
     <div class="modal-content">
       <div class="modal-header">
-        <h1 class="modal-title fs-5" id="exampleModalLabel">Thêm loại phòng</h1>
+        <h1 class="modal-title fs-5" id="exampleModalLabel">Thêm phòng</h1>
         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
       </div>
       <form action="" method="post" enctype="multipart/form-data" onsubmit="return validateFormRoom();">
@@ -119,22 +119,23 @@
 
 <script>
   
-// Validate form thêm phòng ;
 
-const RoomInHotel = document.getElementById('RoomInHotel') ;
-const RoomInHotel_err = document.getElementById('RoomInHotel_err') ;
-const RoomInRoomType = document.getElementById('RoomInRoomType') ;
-const RoomInRoomType_err = document.getElementById('RoomInRoomType_err') ;
-const RoomName = document.getElementById('RoomName') ;
-const RoomName_err = document.getElementById('RoomName_err') ;
-const DescriptionRoom = document.getElementById('DescriptionRoom') ;
-const DescriptionRoom_err = document.getElementById('DescriptionRoom_err') ;
-const MaximumNumber = document.getElementById('MaximumNumber') ;
-const MaximumNumber_err = document.getElementById('MaximumNumber_err') ;
-const Price = document.getElementById('Price') ;
-const Price_err = document.getElementById('Price_err') ;
 
 function validateFormRoom() {
+    // Validate form thêm phòng ;
+
+    const RoomInHotel = document.getElementById('RoomInHotel') ;
+    const RoomInHotel_err = document.getElementById('RoomInHotel_err') ;
+    const RoomInRoomType = document.getElementById('RoomInRoomType') ;
+    const RoomInRoomType_err = document.getElementById('RoomInRoomType_err') ;
+    const RoomName = document.getElementById('RoomName') ;
+    const RoomName_err = document.getElementById('RoomName_err') ;
+    const DescriptionRoom = document.getElementById('DescriptionRoom') ;
+    const DescriptionRoom_err = document.getElementById('DescriptionRoom_err') ;
+    const MaximumNumber = document.getElementById('MaximumNumber') ;
+    const MaximumNumber_err = document.getElementById('MaximumNumber_err') ;
+    const Price = document.getElementById('Price') ;
+    const Price_err = document.getElementById('Price_err') ;
     let checkRoom = true ;
     if(RoomInHotel.value.trim() == "") {
         RoomInHotel_err.innerText = "Vui chọn khách sạn" ;

@@ -10,6 +10,9 @@ body {
     background-color: #86B817;
     
 }
+.btn-contact {
+    cursor: pointer;
+}
 .logo {
     width : 120px ;
     height :30px ;

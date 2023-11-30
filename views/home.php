@@ -100,7 +100,7 @@
 </div>
 
 <div class="row" style="padding: 10px;margin-top: 20px;">
-    <h5>DANH SÁCH KHÁCH SẠN</h5>
+    <h5>TOP LƯỢT XEM</h5>
     <?php $listHotels = getHotels() ; ?>
     <?php foreach($listHotels as $Hotels => $Hotel) : ?>
         <div class="col-lg-3 col-md-3 col-md-4 col-sm-6 col-12 my-2" style="padding: 20px;background-color: #ffffff;">

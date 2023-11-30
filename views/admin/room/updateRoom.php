@@ -31,7 +31,7 @@
           </div>
           <div class="form-group">
             <label for="" style="font-weight:500;">Số lượng người tối đa</label> <span id="MaximumNumber_err" style="color:red;font-size:14px;"></span>
-            <input type="number" class="form-control my-2" min="1" value="<?php echo $RoomID -> MaximumNumber ?>" step="1" id="MaximumNumber" name="MaximumNumber">
+            <input type="number" class="form-control my-2" value="<?php echo $RoomID -> MaximumNumber ?>" id="MaximumNumber" name="MaximumNumber">
           </div>
           <div class="form-group">
             <label for="" style="font-weight:500;">Mô tả</label> <span id="DescriptionRoom_err" style="color:red;font-size:14px;"></span>
@@ -52,7 +52,7 @@
           </div>
           <div class="form-group">
             <label for="" style="font-weight:500;">Giá phòng</label> <span id="Price_err" style="color:red;font-size:14px;"></span>
-            <input type="number" class="form-control my-2" value="<?php echo $RoomID -> Price ?>" min="1" step="1" id="Price" name="Price">
+            <input type="number" class="form-control my-2" value="<?php echo $RoomID -> Price ?>" id="Price" name="Price">
           </div>
           <div style="margin-top:15px;">
             <input class="btn button-admin" type="submit" name="btn-update-room" value="Cập nhật">
@@ -65,22 +65,27 @@
 
 <script>
   
-// Validate form thêm phòng ;
+// Validate form sửa thêm phòng ;
 
-const RoomInHotel = document.getElementById('RoomInHotel') ;
-const RoomInHotel_err = document.getElementById('RoomInHotel_err') ;
-const RoomInRoomType = document.getElementById('RoomInRoomType') ;
-const RoomInRoomType_err = document.getElementById('RoomInRoomType_err') ;
-const RoomName = document.getElementById('RoomName') ;
-const RoomName_err = document.getElementById('RoomName_err') ;
-const DescriptionRoom = document.getElementById('DescriptionRoom') ;
-const DescriptionRoom_err = document.getElementById('DescriptionRoom_err') ;
-const ImageInRoom = document.getElementById('ImageInRoom') ;
-const ImageInRoom_err = document.getElementById('ImageInRoom_err') ;
+
 function validateFormUpdateRoom() {
+    const RoomInHotel = document.getElementById('RoomInHotel') ;
+    const RoomInHotel_err = document.getElementById('RoomInHotel_err') ;
+    const RoomInRoomType = document.getElementById('RoomInRoomType') ;
+    const RoomInRoomType_err = document.getElementById('RoomInRoomType_err') ;
+    const RoomName = document.getElementById('RoomName') ;
+    const RoomName_err = document.getElementById('RoomName_err') ;
+    const DescriptionRoom = document.getElementById('DescriptionRoom') ;
+    const DescriptionRoom_err = document.getElementById('DescriptionRoom_err') ;
+    const MaximumNumber = document.getElementById('MaximumNumber') ;
+    const MaximumNumber_err = document.getElementById('MaximumNumber_err') ;
+    const ImageInRoom = document.getElementById('ImageInRoom') ;
+    const ImageInRoom_err = document.getElementById('ImageInRoom_err') ;
+    const Price = document.getElementById('Price') ;
+    const Price_err = document.getElementById('Price_err') ;
     let checkRoom = true ;
     if(RoomInHotel.value.trim() == "") {
-        RoomInHotel_err.innerText = "Vui chọn khách sạn" ;
+        RoomInHotel_err.innerText = "Vui lòng chọn khách sạn" ;
         checkRoom = false ;
     }else {
         RoomInHotel_err.innerText = "" ;
@@ -114,12 +119,6 @@ function validateFormUpdateRoom() {
         MaximumNumber_err.innerText = "" ;
     }
 
-    if(AvailableRooms.value.trim() == "") {
-        AvailableRooms_err.innerText = "Vui lòng nhập SL phòng" ;
-        checkRoom = false ;
-    }else {
-        AvailableRooms_err.innerText = "" ;
-    }
 
     if(Price.value.trim() == "") {
         Price_err.innerText = "Vui lòng nhập giá phòng" ;

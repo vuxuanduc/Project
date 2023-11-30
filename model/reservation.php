@@ -7,7 +7,7 @@
         $sql = "SELECT 1
                 FROM room r
                 WHERE r.RoomID = $roomID
-                  AND '$check_in_date' >= '$currentDate' -- Check if check_in_date is in the future
+                  AND '$check_in_date' >= '$currentDate' AND '$check_out_date' >= '$check_in_date' -- Check if check_in_date is in the future
                   AND NOT EXISTS (
                     SELECT 1
                     FROM reservation res

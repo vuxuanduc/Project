@@ -8,8 +8,8 @@
         <form action="" method="post" enctype="multipart/form-data" onsubmit="return validateAddHotelAdmin();">
             <input type="hidden" name="HotelID" value="<?php echo $hotel -> HotelID ?>" class="form-control my-1">
             <div class="form-group">
-                <label for="" style="font-weight:500;">Tên khách sạn</label> <span id="nameHotel_err" style="color:red;font-size:14px;"></span>
-                <input type="text" id="nameHotel" name="name" value="<?php echo $hotel -> NameHotel ?>" class="form-control my-1">
+                <label for="" style="font-weight:500;">Tên khách sạn</label> <span id="nameHotelUpdate_err" style="color:red;font-size:14px;"></span>
+                <input type="text" id="nameHotelUpdate" name="name" value="<?php echo $hotel -> NameHotel ?>" class="form-control my-1">
             </div>
             <div class="form-group">
                 <label class="my-1" for="" style="font-weight:500;">Ảnh khách sạn</label>
@@ -71,20 +71,21 @@
 </div>
 
 <script>
-  const nameHotel = document.getElementById('nameHotel') ,
-    nameHotel_err = document.getElementById('nameHotel_err') ,
-    phone = document.getElementById('phone') ,
-    phone_err = document.getElementById('phone_err') ,
-    email = document.getElementById('email') ,
-    email_err = document.getElementById('email_err') ;
+  
 
     function validateAddHotelAdmin() {
+      const nameHotel = document.getElementById('nameHotelUpdate') ;
+      const nameHotelUpdate_err = document.getElementById('nameHotelUpdate_err') ;
+      const phone = document.getElementById('phone') ;
+      const phone_err = document.getElementById('phone_err') ;
+      const email = document.getElementById('email') ;
+      const email_err = document.getElementById('email_err') ;
         let check = true ;
         if(nameHotel.value.trim() == "") {
-            nameHotel_err.innerText = "Vui lòng nhập tên KS" ;
+            nameHotelUpdate_err.innerText = "Vui lòng nhập tên KS" ;
             check = false ;
         }else {
-            nameHotel_err.innerText = "" ;
+            nameHotelUpdate_err.innerText = "" ;
         }
 
         if(phone.value.trim() == "") {
