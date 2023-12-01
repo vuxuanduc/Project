@@ -114,6 +114,7 @@
                         OR res.Check_In_Date BETWEEN '$checkIn' AND '$checkOut'
                         OR res.Check_Out_Date BETWEEN '$checkIn' AND '$checkOut'
                     )
+                    AND res.StatusID <> '3'
             )" ;
         $result = $conn -> query($sql) -> fetchAll() ;
         return $result ;

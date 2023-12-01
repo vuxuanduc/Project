@@ -14,6 +14,7 @@
                     WHERE res.RoomID = r.RoomID
                       AND ('$check_in_date' BETWEEN res.`Check_In_Date` AND res.`Check_Out_Date`
                         OR '$check_out_date' BETWEEN res.`Check_In_Date` AND res.`Check_Out_Date`)
+                        AND res.StatusID <> '3'
                   );";
     
         $result = $conn->query($sql)->fetchAll();
