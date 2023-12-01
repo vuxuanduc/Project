@@ -109,7 +109,7 @@
             // Trang chủ ;
             case 'home' : {
                 $topReservationHotel = topReservationHotel() ;
-                
+                $topViews = topViewsHotel() ;
                 require './views/home.php' ;
                 break ;
             }
@@ -133,6 +133,7 @@
             case 'hotel' : {
                 $listHotel = getHotels() ;
                 $topReservationHotel = topReservationHotel() ;
+                $topViews = topViewsHotel() ;
                 require './views/hotel.php' ;
                 break ;
             }
@@ -310,7 +311,9 @@
                 // Kiểm tra xem tài khoản có đúng là admin không ;
                 if(isset($_SESSION['login']) && isset($_SESSION['role']) && $_SESSION['role'] == 1) {
                     // Lấy danh sách khách sạn ;
-                    $listHotels = getHotels() ;
+                    $listHotels = getHotelsAdmin() ;
+                    // Lấy số lượng trang ;
+                    $count = getCountHotels() -> QuantityHotel ;
                 
                 // Thêm khách sạn ;
                     if(isset($_POST['btn-add-hotel'])) {
@@ -333,12 +336,12 @@
                     // Xóa từng khách sạn ;
                     if(isset($_GET['DeleteHotelID'])) {
                         $stringImage = getHotelsID($_GET['DeleteHotelID']) ;
-                        $imagePaths = explode(',' , $stringImage -> Image) ;
-                        foreach($imagePaths as $images => $image) {
-                            if(file_exists($image)) {
-                                unlink($image) ;
-                            }
-                        }
+                        // $imagePaths = explode(',' , $stringImage -> Image) ;
+                        // foreach($imagePaths as $images => $image) {
+                        //     if(file_exists($image)) {
+                        //         unlink($image) ;
+                        //     }
+                        // }
                         deleteHotel($_GET['DeleteHotelID']) ;
                     }
 
@@ -346,13 +349,13 @@
                     if(isset($_POST['delete_checked'])) {
                         $listIDHotel = $_POST['check'] ;
                         foreach($listIDHotel as $HotelIDs => $HotelID) {
-                            $stringImage = getHotelsID($HotelID) ;
-                            $imagePaths = explode(',' , $stringImage -> Image) ;
-                            foreach($imagePaths as $images => $image) {
-                                if(file_exists($image)) {
-                                    unlink($image) ;
-                                }
-                            }
+                            // $stringImage = getHotelsID($HotelID) ;
+                            // $imagePaths = explode(',' , $stringImage -> Image) ;
+                            // foreach($imagePaths as $images => $image) {
+                            //     if(file_exists($image)) {
+                            //         unlink($image) ;
+                            //     }
+                            // }
                             deleteHotel($HotelID) ;
                         }
                         
@@ -446,7 +449,9 @@
             case 'managerRoom' : {
                 if(isset($_SESSION['login']) && isset($_SESSION['role']) && $_SESSION['role'] == 1) {
                     // Lấy danh sách phòng ;
-                    $listRooms = getRoom() ;
+                    $listRooms = getRoomAdmin() ;
+                    // Lấy số lượng phòng ;
+                    $count = getCountRoom() -> CountRoom ;
                     // Lấy danh sách loại phòng đưa vào select box ;
                     $listRoomType = getRoomType() ;
                     // Thêm phòng ;
@@ -545,7 +550,9 @@
                     // Lấy danh sách kiểu người dùng ;
                     $listRoles = getRole() ;
                     // Lấy tất cả user ;
-                    $listUsers = getUsers() ;
+                    $listUsers = getUsersAdmin() ;
+                    // Đếm số lượng user ;
+                    $count = getCountUsers() -> CountUser ;
                     // Thêm mới user ;
                     if(isset($_POST['btn-add-user'])) {
                         // Kiểm tra xem email người dùng nhập đã tồn tại trong hệ thống hay chưa ;
@@ -598,7 +605,10 @@
             // Quản lí danh sách đặt phòng ;
             case 'listReservation' : {
                 if(isset($_SESSION['login']) && isset($_SESSION['role']) && $_SESSION['role'] == 1) {
+                    // Lấy danh sách đặt phòng ;
                     $listReservation = reservation() ;
+                    // Lấy số lượng đặt phòng ;
+                    $count = CountReservation() -> QuantityReservation ;
                     require './views/admin/listbooking/managerBooking.php' ;
                 }
                 break ;
@@ -662,7 +672,9 @@
                 if(isset($_SESSION['login']) && isset($_SESSION['role']) && $_SESSION['role'] == 1) {
                     if(isset($_GET['RatingDetailsHotel'])) {
                         // Lấy danh sách bình luận theo khách sạn ;
-                        $listRatingHotelID = getRatingHotelID($_GET['RatingDetailsHotel']) ;
+                        $listRatingHotelID = getRatingHotelIDAdmin($_GET['RatingDetailsHotel']) ;
+                        // Lấy số lượng đánh giá theo khách sạn ;
+                        $count = countRatingHotelID($_GET['RatingDetailsHotel']) -> CountRating ;
                         // Xóa từng đánh giá ;
                         if(isset($_GET['deleteRating'])) {
                             deleteRating($_GET['deleteRating'] , $_GET['RatingDetailsHotel']) ;
@@ -674,9 +686,9 @@
                                 deleteRating($Rating , $_GET['RatingDetailsHotel']) ;
                             }
                         }
-                        
+                        require './views/admin/rating/RatingHotel.php' ;
                     }
-                    require './views/admin/rating/RatingHotel.php' ;
+                    
                 }
                 break ;
             }
@@ -711,7 +723,10 @@
             // Quản lý thanh toán ;
             case 'managerPay' : {
                 if(isset($_SESSION['login']) && isset($_SESSION['role']) && $_SESSION['role'] == 1) {
+                    // Lấy danh sách thanh toán ;
                     $listPays = getPays() ;
+                    // Đếm số lượng thanh toán ;
+                    $count = CountPay() -> CountPay ;
                     require './views/admin/pay/managerPay.php' ;
                 }
                 break ;
@@ -719,12 +734,14 @@
             
             default : {
                 $topReservationHotel = topReservationHotel() ;
+                $topViews = topViewsHotel() ;
                 require './views/home.php' ;
                 break ;
             }
         }
     }else {
         $topReservationHotel = topReservationHotel() ;
+        $topViews = topViewsHotel() ;
         require './views/home.php' ;
     }
     require './views/footer.php' ;

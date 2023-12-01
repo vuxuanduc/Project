@@ -44,7 +44,7 @@
                                 <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
                                     <a style="font-size:15px;" class="dropdown-item" href="?action=hotel&&listHotel">Tất cả khách sạn</a>
                                     <a style="font-size:15px;" class="dropdown-item" href="?action=hotel&&topHotel">Top đặt phòng</a>
-                                    <a style="font-size:15px;" class="dropdown-item" href="">Top lượt xem</a>
+                                    <a style="font-size:15px;" class="dropdown-item" href="?action=hotel&&topViews">Top lượt xem</a>
                                 </div>
                             </li>
                             <li class="nav-item">

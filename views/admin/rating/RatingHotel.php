@@ -46,5 +46,14 @@
                 <a class="btn mx-2 button-admin" href="?action=managerRating">Trở về</a>
             </tr>
         </form>
+        <nav aria-label="..." class="mt-4">
+            <ul class="pagination">
+                <?php for($i = 1 ; $i <= ceil($count/10) ; $i ++) {
+                ?>
+                <li class="page-item"><a class="page-link" href="?action=RatingHotel&&RatingDetailsHotel=<?php echo $_GET['RatingDetailsHotel'] ?>&&pages=<?php echo $i ?>"><?php echo $i ?></a></li>
+                <?php
+                } ?>
+            </ul>
+        </nav>
     </div>
 </div>

@@ -9,10 +9,24 @@
 
     // Lấy danh sách thanh toán ;
     function getPays() {
+        if(isset($_GET['pages'])) {
+            $pages = $_GET['pages'] ;
+        }else {
+            $pages = 1 ;
+        }
+        $location = ($pages - 1) * 10 ;
         $conn = connectDB() ;
         $sql = "SELECT r.`TotalAmount` , p.* FROM `pay` p
-        JOIN `reservation` r ON r.`ReservationID` = p.`ReservationID`" ;
+        JOIN `reservation` r ON r.`ReservationID` = p.`ReservationID` LIMIT $location,10" ;
         $result = $conn -> query($sql) -> fetchAll() ;
+        return $result ;
+    }
+
+    // Đếm số lượng thanh toán ;
+    function CountPay() {
+        $conn = connectDB() ;
+        $sql = "SELECT COUNT(*) AS `CountPay` FROM `pay`";
+        $result = $conn -> query($sql) -> fetch() ;
         return $result ;
     }
 ?>

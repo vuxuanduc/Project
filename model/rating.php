@@ -21,6 +21,26 @@
         return $result ; 
     }
 
+    // Lấy đánh giá theo ID của khách sạn trong trang admin ;
+    function getRatingHotelIDAdmin($HotelID) {
+        if(isset($_GET['pages'])) {
+            $pages = $_GET['pages'] ;
+        }else {
+            $pages = 1 ;
+        }
+        $location = ($pages - 1) * 10 ;
+        $conn = connectDB() ;
+        $sql = "SELECT `hotel`.`NameHotel` , `user`.`Email` , `review`.`ReviewID` , `review`.`Rating` , `review`.`Comment`, `review`.`RatingDate`
+        FROM `hotel`
+        JOIN `room` ON `hotel`.`HotelID` = `room`.`HotelID`
+        JOIN `reservation` ON `room`.`RoomID` = `reservation`.`RoomID`
+        JOIN `user` ON `user`.`UserID` = `reservation`.`UserID`
+        JOIN `review` ON `reservation`.`ReservationID` = `review`.`ReservationID`
+        WHERE `hotel`.`HotelID` = '$HotelID' LIMIT $location,10" ;
+        $result = $conn -> query($sql) -> fetchAll() ;
+        return $result ; 
+    }
+
     // Tính điểm đánh giá trung bình của mỗi khách sạn ;
     function avgRating($HotelID) {
         $conn = connectDB() ;

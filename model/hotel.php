@@ -14,7 +14,28 @@
         $result = $conn -> query($sql) -> fetchAll() ;
         return $result ;
     }
+
+    // Lấy ra số lượng bản ghi ;
+    function getCountHotels() {
+        $conn = connectDB() ;
+        $sql = "SELECT COUNT(*) AS `QuantityHotel` FROM `hotel`" ;
+        $result = $conn -> query($sql) -> fetch() ;
+        return $result ;
+    }
     
+    // Lấy ra dữ liệu khách sạn đổ ra trang admin ;
+    function getHotelsAdmin() {
+        if(isset($_GET['pages'])) {
+            $pages = $_GET['pages'] ;
+        }else {
+            $pages = 1 ;
+        }
+        $location = ($pages - 1) * 10 ;
+        $conn = connectDB() ;
+        $sql = "SELECT * FROM `hotel` LIMIT $location,10" ;
+        $result = $conn -> query($sql) -> fetchAll() ;
+        return $result ;
+    }
 
     // Lấy dữ liệu khách sạn theo id ;
     function getHotelsID($hotelID) {
@@ -55,10 +76,10 @@
         $result = $conn -> query($sql) ;
     }
 
-    // Lấy top 10 khách sạn có lượt views cao nhất ;
+    // Lấy top 8 khách sạn có lượt views cao nhất ;
     function topViewsHotel() {
         $conn = connectDB() ;
-        $sql = "SELECT `HotelID` , `Image` , `NameHotel` FROM `hotel` ORDER BY `Views` DESC LIMIT 10" ;
+        $sql = "SELECT `HotelID` , `Image` , `NameHotel` FROM `hotel` ORDER BY `Views` DESC LIMIT 8" ;
         $result = $conn -> query($sql) -> fetchAll() ;
         return $result ;
     }

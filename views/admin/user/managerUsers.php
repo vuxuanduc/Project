@@ -56,6 +56,15 @@
                 <a class="btn mx-2 button-admin" data-bs-toggle="modal" data-bs-target="#exampleModal">Thêm mới</a>
             </tr>
         </form>
+        <nav aria-label="..." class="mt-4">
+            <ul class="pagination">
+                <?php for($i = 1 ; $i <= ceil($count/10) ; $i ++) {
+                ?>
+                <li class="page-item"><a class="page-link" href="?action=managerUsers&&pages=<?php echo $i ?>"><?php echo $i ?></a></li>
+                <?php
+                } ?>
+            </ul>
+        </nav>
     </div>
 </div>
 

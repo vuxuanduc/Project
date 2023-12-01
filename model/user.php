@@ -26,11 +26,26 @@
         echo '<script type="text/javascript">window.location.href = "?action=home";</script>';
     }
 
-    // Lấy tất cả thông tin user ra ;
-    function getUsers() {
+
+    // Lấy số lượng người dùng;
+    function getCountUsers() {
+        $conn = connectDB() ;
+        $sql = "SELECT COUNT(*) AS `CountUser` FROM `user`" ;
+        $result = $conn -> query($sql) -> fetch() ;
+        return $result ;
+    }
+
+    // Lấy tất cả thông tin user trong trang admin ;
+    function getUsersAdmin() {
+        if(isset($_GET['pages'])) {
+            $pages = $_GET['pages'] ;
+        }else {
+            $pages = 1 ;
+        }
+        $location = ($pages - 1) * 10 ;
         $conn = connectDB() ;
         $sql = "SELECT r.`Role` , u.* FROM `user` u 
-        JOIN `role` r ON r.`RoleID` = u.`RoleID`" ;
+        JOIN `role` r ON r.`RoleID` = u.`RoleID` LIMIT $location,10" ;
         $result = $conn -> query($sql) -> fetchAll() ;
         return $result ;
     }

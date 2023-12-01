@@ -31,7 +31,7 @@
         echo '<script type="text/javascript">window.location.href = "?action=historyBookingRoom";</script>';
     }
 
-    // Top 10 khách sạn có lượt đặt phòng nhiều nhất ;
+    // Top 8 khách sạn có lượt đặt phòng nhiều nhất ;
     function topReservationHotel() {
         $conn = connectDB() ;
         $sql = "SELECT
@@ -54,15 +54,29 @@
         $result = $conn -> query($sql) -> fetchAll() ;
         return $result ;
     }
+
+    // Lấy số lượng đặt phòng ;
+    function CountReservation() {
+        $conn = connectDB() ;
+        $sql = "SELECT COUNT(*) AS `QuantityReservation` FROM `reservation`" ;
+        $result = $conn -> query($sql) -> fetch() ;
+        return $result ;
+    }
     
     // Quản lí danh sách đặt phòng trong trang admin ;
     function reservation() {
+        if(isset($_GET['pages'])) {
+            $pages = $_GET['pages'] ;
+        }else {
+            $pages = 1 ;
+        }
+        $location = ($pages - 1) * 10 ;
         $conn = connectDB() ;
         $sql = "SELECT h.`NameHotel` , ro.`RoomName` , u.`Email`, s.`NameStatus` , r.*
         FROM `reservation` r JOIN `user` u ON r.`UserID` = u.`UserID`
         JOIN `room` ro ON r.`RoomID` = ro.`RoomID`
         JOIN `hotel` h ON h.`HotelID` = ro.`HotelID`
-        JOIN `status` s ON s.`StatusID` = r.`StatusID` ORDER BY `ReservationDate` DESC" ;
+        JOIN `status` s ON s.`StatusID` = r.`StatusID` ORDER BY `ReservationDate` DESC LIMIT $location,10" ;
         $result = $conn -> query($sql) -> fetchAll() ;
         return $result ;
     }

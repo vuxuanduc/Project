@@ -9,6 +9,30 @@
         return $result ;
     }
 
+    // Lấy số lượng phòng  ;
+    function getCountRoom() {
+        $conn = connectDB() ;
+        $sql = "SELECT COUNT(*) AS `CountRoom` FROM `room`" ; 
+        $result = $conn -> query($sql) -> fetch() ;
+        return $result ;
+    }
+
+    // Lấy ra tất cả các phòng trong trang admin ;
+    function getRoomAdmin() {
+        if(isset($_GET['pages'])) {
+            $pages = $_GET['pages'] ;
+        }else {
+            $pages = 1 ;
+        }
+        $location = ($pages - 1) * 10 ;
+        $conn = connectDB() ;
+        $sql = "SELECT `hotel`.`NameHotel` , `roomtype`.`RoomTypeName` , `room`.* FROM `room` 
+        JOIN `hotel` ON `hotel`.`HotelID` = `room`.`HotelID`
+        JOIN `roomtype` ON `roomtype`.`RoomTypeID` = `room`.`RoomTypeID` LIMIT $location,10" ;
+        $result = $conn -> query($sql) -> fetchAll() ;
+        return $result ;
+    }
+
     // Lấy danh sách phòng theo ID khách sạn ;
     function getRoomHotelID($HotelID) {
         $conn = connectDB() ;

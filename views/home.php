@@ -102,12 +102,12 @@
 <div class="row" style="padding: 10px;margin-top: 20px;">
     <h5>TOP LƯỢT XEM</h5>
     <?php $listHotels = getHotels() ; ?>
-    <?php foreach($listHotels as $Hotels => $Hotel) : ?>
+    <?php foreach($topViews as $Views => $View) : ?>
         <div class="col-lg-3 col-md-3 col-md-4 col-sm-6 col-12 my-2" style="padding: 20px;background-color: #ffffff;">
             <div class="card">
-                <img src="<?php echo explode(',' , $Hotel -> Image)[0] ?>" class="card-img-top" alt="Lỗi tải ảnh">
+                <img src="<?php echo explode(',' , $View -> Image)[0] ?>" class="card-img-top" alt="Lỗi tải ảnh">
                 <div class="card-name">
-                    <a href="?action=hotelDetails&&HotelID=<?php echo $Hotel -> HotelID ?>" style="text-decoration: none;color:black;"><h6 class="card-title my-2"><?php echo $Hotel -> NameHotel ?></h6></a>
+                    <a href="?action=hotelDetails&&HotelID=<?php echo $View -> HotelID ?>" style="text-decoration: none;color:black;"><h6 class="card-title my-2"><?php echo $View -> NameHotel ?></h6></a>
                     <!-- <span style="font-size: 13px;">Có công viên nước, từ 1.980k/đêm</span> -->
                 </div>
             </div>
