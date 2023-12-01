@@ -18,30 +18,30 @@
         <span class="carousel-control-next-icon" aria-hidden="true"></span>
         <span class="visually-hidden">Next</span>
     </button>
-    <form action="?action=searchHotel" method="post" onsubmit="return validateSearch();">
+    <form action="?action=searchHotel" method="post" onsubmit="return validateSearchHome();">
         <div class="row row-responsive">
             <div class="col-lg-3 col-md-3 col-md-4 col-sm-6 col-12 my-2">
                 <div class="card">
                     <label for="" class="search-label">ĐIỂM ĐẾN</label>
-                    <input type="text" id="nameHotel" name="nameHotel" placeholder="Tên khách sạn" class="form-control my-1">
+                    <input type="text" id="nameHotelSearch" name="nameHotel" placeholder="Tên khách sạn" class="form-control my-1">
                 </div>
             </div>
             <div class="col-lg-3 col-md-3 col-md-4 col-sm-6 col-12 my-2">
                 <div class="card">
                     <label for="" class="search-label">NGÀY NHẬN PHÒNG</label>
-                    <input type="date" id="checkIn" name="checkIn" class="form-control my-1">
+                    <input type="date" id="checkInSearch" name="checkIn" class="form-control my-1">
                 </div>
             </div>
             <div class="col-lg-3 col-md-3 col-md-4 col-sm-6 col-12 my-2">
                 <div class="card">
                     <label for="" class="search-label">NGÀY TRẢ PHÒNG</label>
-                    <input type="date" name="checkOut" id="checkOut" class="form-control my-1">
+                    <input type="date" name="checkOut" id="checkOutSearch" class="form-control my-1">
                 </div>
             </div>
             <div class="col-lg-3 col-md-3 col-md-4 col-sm-6 col-12 my-2">
                 <div class="card">
                     <label for="" class="search-label">SỐ NGƯỜI</label>
-                    <input type="number" name="quantity" id="quantity" min="0" step="1" placeholder="Số người" class="form-control my-1">
+                    <input type="number" name="quantity" id="quantitySearch" min="0" step="1" placeholder="Số người" class="form-control my-1">
                 </div>
             </div>
             <div class="col-lg-3 col-md-3 col-md-4 col-sm-6 col-12 my-2">
@@ -116,14 +116,15 @@
 </div>
 
 <script>
-    const nameHotel = document.getElementById('nameHotel') ;
-    const checkIn = document.getElementById('checkIn') ;
-    const checkOut = document.getElementById('checkOut') ;
-    const quantity = document.getElementById('quantity') ;
+    
 
-    function validateSearch() {
+    function validateSearchHome() {
+        const nameHotelSearch = document.getElementById('nameHotelSearch') ;
+        const checkInSearch = document.getElementById('checkInSearch') ;
+        const checkOutSearch = document.getElementById('checkOutSearch') ;
+        const quantitySearch = document.getElementById('quantitySearch') ;
         let check = true ;
-        if(nameHotel.value.trim() == "" || checkIn.value.trim() == "" || checkOut.value.trim() == "" || quantity.value.trim() == "") {
+        if(nameHotelSearch.value.trim() == "" || checkInSearch.value.trim() == "" || checkOutSearch.value.trim() == "" || quantitySearch.value.trim() == "") {
             alert("Vui lòng nhập đầy đủ thông tin !") ;
             check = false ;
         }
