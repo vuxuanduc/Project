@@ -10,13 +10,13 @@
     // Lấy đánh giá theo ID của khách sạn ;
     function getRatingHotelID($HotelID) {
         $conn = connectDB() ;
-        $sql = "SELECT `hotel`.`NameHotel` , `user`.`Email` , `review`.`ReviewID` , `review`.`Rating` , `review`.`Comment`, `review`.`RatingDate`
+        $sql = "SELECT `hotel`.`NameHotel` , `user`.`Email`, `user`.`DisplayStatusID` , `review`.`ReviewID` , `review`.`Rating` , `review`.`Comment`, `review`.`RatingDate`
         FROM `hotel`
         JOIN `room` ON `hotel`.`HotelID` = `room`.`HotelID`
         JOIN `reservation` ON `room`.`RoomID` = `reservation`.`RoomID`
         JOIN `user` ON `user`.`UserID` = `reservation`.`UserID`
         JOIN `review` ON `reservation`.`ReservationID` = `review`.`ReservationID`
-        WHERE `hotel`.`HotelID` = '$HotelID'" ;
+        WHERE `hotel`.`HotelID` = '$HotelID' AND `user`.`DisplayStatusID` = 1" ;
         $result = $conn -> query($sql) -> fetchAll() ;
         return $result ; 
     }

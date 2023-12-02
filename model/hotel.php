@@ -2,7 +2,7 @@
     // Thêm khách sạn ;
     function createHotel($name , $image , $address , $phone , $email) {
         $conn = connectDB() ;
-        $sql = "INSERT INTO `hotel` (`NameHotel` , `Image` , `Address` , `Phone` , `Email`) VALUES('$name' , '$image' , '$address' , '$phone' , '$email')" ;
+        $sql = "INSERT INTO `hotel` (`NameHotel` , `Image` , `Address` , `Phone` , `Email` , `DisplayHotelID`) VALUES('$name' , '$image' , '$address' , '$phone' , '$email' , 1)" ;
         $result = $conn -> query($sql)  ;
         echo '<script type="text/javascript">window.location.href = "?action=managerHotels";</script>';
     }
@@ -10,7 +10,7 @@
     // Lấy ra dữ liệu khách sạn ;
     function getHotels() {
         $conn = connectDB() ;
-        $sql = "SELECT * FROM `hotel`" ;
+        $sql = "SELECT * FROM `hotel` WHERE `DisplayHotelID` = '1'" ;
         $result = $conn -> query($sql) -> fetchAll() ;
         return $result ;
     }
@@ -54,17 +54,17 @@
     }
 
     // Cập nhật khách sạn kèm ảnh ;
-    function updateHotel($name , $image , $address , $phone , $email , $hotelID) {
+    function updateHotel($name , $image , $address , $phone , $email , $status , $hotelID) {
         $conn = connectDB() ;
-        $sql = "UPDATE `hotel` SET `NameHotel` = '$name' , `Image` = '$image' , `Address` = '$address' , `Phone` = '$phone' , `Email` = '$email' WHERE `HotelID` = '$hotelID'" ;
+        $sql = "UPDATE `hotel` SET `NameHotel` = '$name' , `Image` = '$image' , `Address` = '$address' , `Phone` = '$phone' , `Email` = '$email' , `DisplayHotelID` = '$status' WHERE `HotelID` = '$hotelID'" ;
         $result = $conn -> query($sql) ;
         echo '<script type="text/javascript">window.location.href = "?action=managerHotels";</script>';
     }
 
     // Cập nhật khách sạn không kèm ảnh ;
-    function updateHotelNoImage($name , $address , $phone , $email , $hotelID) {
+    function updateHotelNoImage($name , $address , $phone , $email , $status , $hotelID) {
         $conn = connectDB() ;
-        $sql = "UPDATE `hotel` SET `NameHotel` = '$name' , `Address` = '$address' , `Phone` = '$phone' , `Email` = '$email' WHERE `HotelID` = '$hotelID'" ;
+        $sql = "UPDATE `hotel` SET `NameHotel` = '$name' , `Address` = '$address' , `Phone` = '$phone' , `Email` = '$email' , `DisplayHotelID` = '$status' WHERE `HotelID` = '$hotelID'" ;
         $result = $conn -> query($sql) ;
         echo '<script type="text/javascript">window.location.href = "?action=managerHotels";</script>';
     }
@@ -79,7 +79,7 @@
     // Lấy top 8 khách sạn có lượt views cao nhất ;
     function topViewsHotel() {
         $conn = connectDB() ;
-        $sql = "SELECT `HotelID` , `Image` , `NameHotel` FROM `hotel` ORDER BY `Views` DESC LIMIT 8" ;
+        $sql = "SELECT `HotelID` , `Image` , `NameHotel` , `DisplayHotelID` FROM `hotel` WHERE `DisplayHotelID` = 1 ORDER BY `Views` DESC LIMIT 8" ;
         $result = $conn -> query($sql) -> fetchAll() ;
         return $result ;
     }
@@ -91,11 +91,13 @@
             h.HotelID,
             h.NameHotel,
             h.Address ,
+            h.DisplayHotelID,
             rm.RoomID,
             rm.RoomName,
             rm.Price,
             rm.Image ,
-            rt.RoomTypeName
+            rt.RoomTypeName ,
+            rt.DisplayRoomTypeID
         FROM
             hotel h
             JOIN room rm ON h.HotelID = rm.HotelID
@@ -104,6 +106,8 @@
             rm.MaximumNumber >= $quantity
             AND '$checkIn' >= CURDATE() AND '$checkOut' >= '$checkIn'
             AND h.NameHotel LIKE '%$nameHotel%' 
+            AND h.`DisplayHotelID` = 1
+            AND rt.DisplayRoomTypeID = 1
             AND NOT EXISTS (
                 SELECT 1
                 FROM reservation res

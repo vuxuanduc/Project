@@ -23,6 +23,16 @@
                     <input type="password" value="<?php echo $UserID -> Password ?>" id="password_signup_admin" name="password" class="form-control my-2">
                 </div>
                 <div class="form-group">
+                    <label for="">Trạng thái</label>
+                    <select name="status" id="" class="form-control my-2">
+                        <?php for($i = 1 ; $i <= 2 ; $i ++) {
+                        ?>
+                            <option <?php echo $UserID -> DisplayStatusID == $i ? "selected" : "" ?> value="<?php echo $i ?>"><?php echo $i == 1 ? "Đang sử dụng" : "Đã khóa" ?></option>
+                        <?php
+                        } ?>
+                    </select>
+                </div>
+                <div class="form-group">
                     <label for="">Kiểu người dùng</label>
                     <select name="role" id="role_signup_admin" class="form-control my-2">
                         <?php foreach($listRoles as $Roles => $Role) : ?>

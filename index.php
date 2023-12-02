@@ -28,12 +28,15 @@
                     $error = [] ;
                     if(!empty($user)) {
                         if($user -> Password == $_POST['password']) {
-                            $_SESSION['login'] = true ;
-                            $_SESSION['userID'] = $user -> UserID ;
-                            $_SESSION['email'] = $_POST['email'] ;
-                            $_SESSION['role'] = $user -> RoleID ;
+                            if($user -> DisplayStatusID == 1) {
+                                $_SESSION['login'] = true ;
+                                $_SESSION['userID'] = $user -> UserID ;
+                                $_SESSION['email'] = $_POST['email'] ;
+                                $_SESSION['role'] = $user -> RoleID ;
                             echo '<script type="text/javascript">window.location.href = "?action=home";</script>';
-
+                            }else {
+                                echo "<script>alert('Tài khoản của bạn đã bị khóa')</script>" ;
+                            }
                         }else {
                             $error['login']['password'] = "Mật khẩu không đúng" ;
                         }
@@ -383,7 +386,7 @@
                             if(!empty($imageUpload)) {
                                 $imagePaths = implode(',' , $imageUpload) ;
                                 $address = empty($_POST['province']) ? $hotel -> Address : $_POST['apartmentNumber'] .',' .$_POST['ward'] .',' .$_POST['district'] .',' .$_POST['province'] ;
-                                updateHotel($_POST['name'] , $imagePaths , $address , $_POST['phone'] , $_POST['email'] , $_POST['HotelID']) ;
+                                updateHotel($_POST['name'] , $imagePaths , $address , $_POST['phone'] , $_POST['email'] , $_POST['status'] , $_POST['HotelID']) ;
                                 foreach(explode(',' , $hotel -> Image) as $oldImage) {
                                     $isUsed = false;
                                     foreach($imageUpload as $image) {
@@ -399,7 +402,7 @@
                                 
                             }else {
                                 $address = empty($_POST['province']) ? $hotel -> Address : $_POST['apartmentNumber'] .',' .$_POST['ward'] .',' .$_POST['district'] .',' .$_POST['province'] ;
-                                updateHotelNoImage($_POST['name'] , $address , $_POST['phone'] , $_POST['email'] , $_POST['HotelID']) ;
+                                updateHotelNoImage($_POST['name'] , $address , $_POST['phone'] , $_POST['email'] , $_POST['status'] , $_POST['HotelID']) ;
                             }
                         }
                     }
@@ -438,7 +441,7 @@
                 if(isset($_SESSION['login']) && isset($_SESSION['role']) && $_SESSION['role'] == 1) {
                     $RoomTypeID = getRoomTypeID($_GET['UpdateRoomTypeID']) ;
                     if(isset($_POST['btn-update-roomType'])) {
-                        updateRoomType($_POST['RoomTypeName'] , $_POST['Description'] , $_POST['RoomTypeID']) ;
+                        updateRoomType($_POST['RoomTypeName'] , $_POST['Description'] , $_POST['status'] , $_POST['RoomTypeID']) ;
                     }
                     require './views/admin/roomtype/updateRoomType.php' ;
                 }
@@ -453,7 +456,7 @@
                     // Lấy số lượng phòng ;
                     $count = getCountRoom() -> CountRoom ;
                     // Lấy danh sách loại phòng đưa vào select box ;
-                    $listRoomType = getRoomType() ;
+                    $listRoomType = getRoomTypeDisplay() ;
                     // Thêm phòng ;
                     if(isset($_POST['btn-add-room'])) {
                         foreach($_FILES['image']['tmp_name'] as $key => $value) {
@@ -510,7 +513,7 @@
                     // Lấy thông tin phòng theo ID ;
                     $RoomID = getRoomID($_GET['UpdateRoomID']) ;
                     // Lấy danh sách loại phòng ;
-                    $listRoomType = getRoomType() ;
+                    $listRoomType = getRoomTypeDisplay() ;
                     if(isset($_POST['btn-update-room'])) {
                         foreach($_FILES['image']['tmp_name'] as $key => $value) {
                             $image = './image_room/' .basename($_FILES['image']['name'][$key]) ;
@@ -522,7 +525,7 @@
                         }
                         if(!empty($imageUpload)) {
                             $imagePaths = implode(',' , $imageUpload) ;
-                            updateRoom($_POST['RoomID'] , $_POST['HotelID'] , $_POST['RoomTypeID'] , $_POST['RoomName'] , $_POST['MaximumNumber'] , $_POST['Description'] , $imagePaths , $_POST['Price']) ;
+                            updateRoom($_POST['RoomID'] , $_POST['HotelID'] , $_POST['RoomTypeID'] , $_POST['RoomName'] , $_POST['MaximumNumber'] , $_POST['Description'] , $imagePaths , $_POST['Price'] , $_POST['status']) ;
                             foreach(explode(',' , $RoomID -> Image) as $oldImage) {
                                 $isUsed = false ;
                                 foreach($imageUpload as $newImage) {
@@ -536,7 +539,7 @@
                                 }
                             }
                         }else {
-                            updateRoomNoImage($_POST['RoomID'] , $_POST['HotelID'] , $_POST['RoomTypeID'] , $_POST['RoomName'] , $_POST['MaximumNumber'] , $_POST['Description'] , $_POST['Price']) ;
+                            updateRoomNoImage($_POST['RoomID'] , $_POST['HotelID'] , $_POST['RoomTypeID'] , $_POST['RoomName'] , $_POST['MaximumNumber'] , $_POST['Description'] , $_POST['Price'] , $_POST['status']) ;
                         }
                     }
                     require './views/admin/room/updateRoom.php' ;
@@ -594,7 +597,7 @@
                         if(!empty($checkEmail) && $_POST['email'] != $UserID -> Email) {
                             $error['edit_user']['email'] = "Email đã tồn tại , hãy nhập email khác" ;
                         }else {
-                            updateUser($_POST['email'] , $_POST['password'] , $_POST['UserID'] , $_POST['role']) ;
+                            updateUser($_POST['email'] , $_POST['password'] , $_POST['UserID'] , $_POST['status'] , $_POST['role']) ;
                         }
                     }
                     require './views/admin/user/updateUser.php' ;

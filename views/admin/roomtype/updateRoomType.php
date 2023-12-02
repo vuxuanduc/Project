@@ -14,6 +14,16 @@
                     <label for="" style="font-weight:500;">Mô tả</label> <span id="Description_err" style="color:red;font-size:14px;"></span>
                     <textarea class="form-control my-2" id="Description" name="Description"><?php echo $RoomTypeID -> Description ?></textarea>
                 </div>
+                <div class="form-group">
+                    <label for="">Trạng thái</label>
+                    <select name="status" class="form-control my-2">
+                        <?php for($i = 1 ; $i <= 2 ; $i ++) {
+                        ?>
+                            <option <?php echo $RoomTypeID -> DisplayRoomTypeID == $i ? "selected" : "" ; ?> value="<?php echo $i ?>"><?php echo $i == 1 ? "Hiển thị" : "Tạm ẩn" ; ?></option>
+                        <?php
+                        } ?>
+                    </select>
+                </div>
                 <div style="margin-top:15px;">
                     <input class="btn button-admin" type="submit" name="btn-update-roomType" value="Cập nhật">
                     <a href="?action=managerTypeRoom" class="btn mx-2 button-admin" >Danh sách</a>

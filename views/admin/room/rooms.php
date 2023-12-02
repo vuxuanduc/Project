@@ -23,6 +23,7 @@
                         <th>SL người tối đa</th>
                         <th>Mô tả</th>
                         <th>Giá</th>
+                        <th>Trạng thái</th>
                         <th>Thao tác</th>
                     </tr>
                 </thead>
@@ -38,6 +39,7 @@
                             <td><?php echo $Room -> MaximumNumber ?></td>
                             <td><?php echo substr($Room -> Description , 0 , 55) .'...' ?></td>
                             <td><?php echo number_format($Room -> Price) .'đ' ?></td>
+                            <td><?php echo $Room -> DisplayRoomID == 1 ? "Đang hiển thị" : "Tạm ẩn" ; ?></td>
                             <td>
                                 <a href="?action=managerRoom&&DeleteRoomID=<?php echo $Room -> RoomID ?>" onclick="return confirm('Bạn chắc chắn xóa chứ ?');" class="btn btn-danger">Xóa</a>
                                 <a href="?action=updateRoom&&UpdateRoomID=<?php echo $Room -> RoomID ?>" class="btn btn-primary my-1">Sửa</a>

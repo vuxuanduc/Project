@@ -62,6 +62,16 @@
             <label for="" style="font-weight:500;">Email</label> <span id="email_err" style="color:red;font-size:14px;"></span>
             <input type="text" value="<?php echo $hotel -> Email ?>" id="email" name="email" placeholder="Email" class="form-control my-2">
           </div>
+          <div class="form-group">
+            <label for="">Trạng thái</label>
+              <select name="status" id="" class="form-control my-2">
+                <?php for($i = 1 ; $i <= 2 ; $i ++) {
+                ?>
+                  <option <?php echo $hotel -> DisplayHotelID == $i ? "selected" : "" ?> value="<?php echo $i ?>"><?php echo $i == 1 ? "Hiển thị" : "Đã ẩn" ?></option>
+                <?php
+                } ?>
+              </select>
+          </div>
           <div style="margin-top:15px;">
             <input class="btn button-admin" type="submit" name="btn-update-hotel" value="Cập nhật">
             <a href="?action=managerHotels" class="btn mx-2 button-admin" >Danh sách</a>

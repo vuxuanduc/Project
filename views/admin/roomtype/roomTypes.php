@@ -18,6 +18,7 @@
                         <th>Mã loại phòng</th>
                         <th>Tên loại phòng</th>
                         <th>Mô tả</th>
+                        <th>Trạng thái</th>
                         <th>Thao tác</th>
                     </tr>
                 </thead>
@@ -29,6 +30,7 @@
                             <td><?php echo $roomType -> RoomTypeID ?></td>
                             <td><?php echo $roomType -> RoomTypeName ?></td>
                             <td><?php echo substr($roomType -> Description , 0 , 150) .'...' ?></td>
+                            <td><?php echo $roomType -> DisplayRoomTypeID == 1 ? "Đang hiển thị" : "Đã ẩn" ; ?></td>
                             <td>
                               <a href="?action=managerTypeRoom&&DeleteTypeRoomID=<?php echo $roomType -> RoomTypeID ?>" onclick="return confirm('Bạn chắc chắn xóa chứ ?');" class="btn btn-danger">Xóa</a>
                               <a href="?action=updateRoomType&&UpdateRoomTypeID=<?php echo $roomType -> RoomTypeID ?>" class="btn btn-primary my-1">Sửa</a>

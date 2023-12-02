@@ -17,6 +17,10 @@
             <input type="password" id="password_signup" name="password" class="form-control my-2" value="<?php echo isset($_POST['password']) ? $_POST['password'] : "" ; ?>">
         </div>
         <div class="form-group">
+            <label for="">Nhập lại mật khẩu</label> <span style="color:red;" id="confirm_password_signup_err"></span>
+            <input type="password" id="confirm_password_signup" name="confirm_password" class="form-control my-2" value="<?php echo isset($_POST['confirm_password']) ? $_POST['confirm_password'] : "" ; ?>">
+        </div>
+        <div class="form-group">
             <input type="submit" value="Đăng ký" name="btn-signup" class="form-control btn btn-primary my-2">
         </div>
         <div class="form-group">
@@ -33,6 +37,8 @@ function validateSignup() {
     const email_signup_err = document.getElementById('email_signup_err') ;
     const password_signup = document.getElementById('password_signup') ;
     const password_signup_err = document.getElementById('password_signup_err') ;
+    const confirm_password_signup = document.getElementById('confirm_password_signup') ;
+    const confirm_password_signup_err = document.getElementById('confirm_password_signup_err') ;
     let check = true ;
     let regexEmail = /^\w([_\.]?\w+)*@\w{2,}(\.\w{2,30})+$/;
     if(email_signup.value.trim() == "") {
@@ -58,6 +64,13 @@ function validateSignup() {
     }
     else {
         password_signup_err.innerText = "" ;
+    }
+
+    if(confirm_password_signup.value != password_signup.value) {
+        confirm_password_signup_err.innerText = "Mật khẩu không khớp" ;
+        check = false ;
+    }else {
+        confirm_password_signup_err.innerText = "" ;
     }
     return check ;
 }

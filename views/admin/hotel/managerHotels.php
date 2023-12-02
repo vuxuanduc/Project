@@ -22,6 +22,7 @@
                   <th>Email</th>
                   <th>Địa chỉ</th>
                   <th>Lượt xem</th>
+                  <th>Trạng thái</th>
                   <th>Thao tác</th>
               </tr>
           </thead>
@@ -36,6 +37,7 @@
                   <td><?php echo $hotel -> Email ?></td>
                   <td><?php echo $hotel -> Address ?></td>
                   <td><?php echo $hotel -> Views ?></td>
+                  <td><?php echo $hotel -> DisplayHotelID == 1 ? "Hiển thị" : "Bị ẩn" ; ?></td>
                   <td>
                     <a href="?action=managerHotels&&DeleteHotelID=<?php echo $hotel -> HotelID ?>" onclick="return confirm('Bạn chắc chắn xóa chứ ?');" class="btn btn-danger">Xóa</a>
                     <a href="?action=updateHotel&&updateHotelID=<?php echo $hotel -> HotelID ?>" class="btn btn-primary my-1">Sửa</a>

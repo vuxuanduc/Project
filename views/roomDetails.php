@@ -212,7 +212,7 @@
                         <td><img src="<?php echo explode(',' , $Room -> Image)[1] ; ?>" width="150px" height="auto" alt="Lỗi tải ảnh"></td>
                         <td><?php echo $Room -> RoomTypeName ?></td>
                         <td><?php echo $Room -> MaximumNumber ?></td>
-                        <td><?php echo $Room -> Price ?></td>
+                        <td><?php echo number_format($Room -> Price) ." đ" ?></td>
                         <td>
                             <a href="?action=roomDetails&&RoomID=<?php echo $Room -> RoomID ?>"  style="background-color:#86B817;padding:3px 5px;border-radius:3px;color:white;text-decoration:none;">Xem phòng</a>
                         </td>

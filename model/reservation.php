@@ -39,6 +39,7 @@
         h.`HotelID`,
         h.`NameHotel`,
         h.`Image` ,
+        h.`DisplayHotelID` ,
         COUNT(r.`ReservationID`) AS `TotalReservations`
         FROM
             `hotel` h
@@ -46,11 +47,12 @@
             `room` ro ON h.`HotelID` = ro.`HotelID`
         JOIN
             `reservation` r ON ro.`RoomID` = r.`RoomID`
+        WHERE h.`DisplayHotelID` = 1
         GROUP BY
-            h.`HotelID`, h.`NameHotel` , h.`Image`
+            h.`HotelID`, h.`NameHotel` , h.`Image` , h.`DisplayHotelID`
         ORDER BY
             `TotalReservations` DESC
-        LIMIT 10;
+        LIMIT 8;
         " ;
         $result = $conn -> query($sql) -> fetchAll() ;
         return $result ;

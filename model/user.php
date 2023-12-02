@@ -11,7 +11,7 @@
     // Phần đăng ký của người dùng ;
     function signup($password , $email , $RoleID) {
         $conn = connectDB() ;
-        $sql = "INSERT INTO `user`(`Password` , `Email` , `RoleID`) VALUES('$password' , '$email' , '$RoleID')" ;
+        $sql = "INSERT INTO `user`(`Password` , `Email` , `DisplayStatusID` , `RoleID`) VALUES('$password' , '$email' , 1 , '$RoleID')" ;
         $result = $conn -> query($sql) ;
         echo '<script type="text/javascript">window.location.href = "?action=login";</script>';
     }
@@ -62,7 +62,7 @@
     // Thêm người dùng trong trang admin ;
     function createUser($password , $email , $RoleID) {
         $conn = connectDB() ;
-        $sql = "INSERT INTO `user`(`Password` , `Email` , `RoleID`) VALUES('$password' , '$email' , '$RoleID')" ;
+        $sql = "INSERT INTO `user`(`Password` , `Email` , `DisplayStatusID` , `RoleID`) VALUES('$password' , '$email' , 1 , '$RoleID')" ;
         $result = $conn -> query($sql) ;
         echo '<script type="text/javascript">window.location.href = "?action=managerUsers";</script>';
     }
@@ -76,9 +76,9 @@
     }
 
     // Cập nhật tài khoản trong trong admin ;
-    function updateUser($email , $password , $UserID , $roleID) {
+    function updateUser($email , $password , $UserID , $status , $roleID) {
         $conn = connectDB() ;
-        $sql = "UPDATE `user` SET `Email` = '$email' , `Password` = '$password' , `RoleID` = '$roleID' WHERE `UserID` = '$UserID'" ;
+        $sql = "UPDATE `user` SET `Email` = '$email' , `Password` = '$password' , `DisplayStatusID` = '$status' , `RoleID` = '$roleID' WHERE `UserID` = '$UserID'" ;
         $result = $conn -> query($sql) ;
         echo '<script type="text/javascript">window.location.href = "?action=managerUsers";</script>';
     }

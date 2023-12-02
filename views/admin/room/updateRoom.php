@@ -4,7 +4,7 @@
         require './views/admin/navAdmin.php' ;
     ?>
     <div class="" style="padding : 0 10px;">
-        <h6 class="text-center">CHỈNH SỬA KHÁCH SẠN</h6>
+        <h6 class="text-center">CHỈNH SỬA PHÒNG</h6>
         <form action="" method="post" enctype="multipart/form-data" onsubmit="return validateFormUpdateRoom();">
             <input type="hidden" name="RoomID" value="<?php echo $RoomID -> RoomID ?>" class="form-control my-1">
             <div class="form-group">
@@ -54,6 +54,16 @@
             <label for="" style="font-weight:500;">Giá phòng</label> <span id="Price_err" style="color:red;font-size:14px;"></span>
             <input type="number" class="form-control my-2" value="<?php echo $RoomID -> Price ?>" id="Price" name="Price">
           </div>
+          <div class="form-group">
+                <label for="">Trạng thái</label>
+                <select name="status" class="form-control my-2">
+                    <?php for($i = 1 ; $i <= 2 ; $i ++) {
+                    ?>
+                        <option <?php echo $RoomID -> DisplayRoomID == $i ? "selected" : "" ; ?> value="<?php echo $i ?>"><?php echo $i == 1 ? "Hiển thị" : "Tạm ẩn" ; ?></option>
+                    <?php
+                    } ?>
+                </select>
+            </div>
           <div style="margin-top:15px;">
             <input class="btn button-admin" type="submit" name="btn-update-room" value="Cập nhật">
             <a href="?action=managerRoom" class="btn mx-2 button-admin" >Danh sách</a>

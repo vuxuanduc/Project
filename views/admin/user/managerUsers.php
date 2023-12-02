@@ -21,6 +21,7 @@
                         <th>Email</th>
                         <th>Số điện thoại</th>
                         <th>Quyền</th>
+                        <th>Trạng thái</th>
                         <th>Thao tác</th>
                     </tr>
                 </thead>
@@ -34,6 +35,7 @@
                             <td><?php echo $User -> Email ?></td>
                             <td><?php echo $User -> Phone ?></td>
                             <td><?php echo $User -> Role ?></td>
+                            <td><?php echo $User -> DisplayStatusID == 1 ? "Đang sử dụng" : "Bị khóa" ; ?></td>
                             <td>
                                 <?php
                                     if($_SESSION['userID'] != $User -> UserID) {
