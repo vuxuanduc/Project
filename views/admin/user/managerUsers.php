@@ -40,11 +40,11 @@
                                 <?php
                                     if($_SESSION['userID'] != $User -> UserID) {
                                 ?>
-                                    <a href="?action=managerUsers&&DeleteUserID=<?php echo $User -> UserID ?>" onclick="return confirm('Bạn chắc chắn xóa chứ ?');" class="btn btn-danger">Xóa</a>
+                                    <a href="?action=managerUsers&&DeleteUserID=<?php echo $User -> UserID ?>" onclick="return confirm('Bạn chắc chắn xóa chứ ?');" class="btn btn-danger"><i class="fa-solid fa-trash-can"></i></a>
                                 <?php
                                     }
                                 ?>
-                                <a href="?action=updateUser&&UpdateUserID=<?php echo $User -> UserID ?>" class="btn btn-primary my-1">Sửa</a>
+                                <a href="?action=updateUser&&UpdateUserID=<?php echo $User -> UserID ?>" class="btn btn-primary my-1"><i class="fa-solid fa-pen-to-square"></i></a>
                             </td>
                         </tr>
                     <?php endforeach ; ?>

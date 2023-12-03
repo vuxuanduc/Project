@@ -32,8 +32,8 @@
                             <td><?php echo substr($roomType -> Description , 0 , 150) .'...' ?></td>
                             <td><?php echo $roomType -> DisplayRoomTypeID == 1 ? "Đang hiển thị" : "Đã ẩn" ; ?></td>
                             <td>
-                              <a href="?action=managerTypeRoom&&DeleteTypeRoomID=<?php echo $roomType -> RoomTypeID ?>" onclick="return confirm('Bạn chắc chắn xóa chứ ?');" class="btn btn-danger">Xóa</a>
-                              <a href="?action=updateRoomType&&UpdateRoomTypeID=<?php echo $roomType -> RoomTypeID ?>" class="btn btn-primary my-1">Sửa</a>
+                              <a href="?action=managerTypeRoom&&DeleteTypeRoomID=<?php echo $roomType -> RoomTypeID ?>" onclick="return confirm('Bạn chắc chắn xóa chứ ?');" class="btn btn-danger"><i class="fa-solid fa-trash-can"></i></a>
+                              <a href="?action=updateRoomType&&UpdateRoomTypeID=<?php echo $roomType -> RoomTypeID ?>" class="btn btn-primary my-1"><i class="fa-solid fa-pen-to-square"></i></a>
                             </td>
                         </tr>
                     <?php endforeach ; ?>

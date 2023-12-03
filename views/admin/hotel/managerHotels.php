@@ -39,8 +39,8 @@
                   <td><?php echo $hotel -> Views ?></td>
                   <td><?php echo $hotel -> DisplayHotelID == 1 ? "Hiển thị" : "Bị ẩn" ; ?></td>
                   <td>
-                    <a href="?action=managerHotels&&DeleteHotelID=<?php echo $hotel -> HotelID ?>" onclick="return confirm('Bạn chắc chắn xóa chứ ?');" class="btn btn-danger">Xóa</a>
-                    <a href="?action=updateHotel&&updateHotelID=<?php echo $hotel -> HotelID ?>" class="btn btn-primary my-1">Sửa</a>
+                    <a href="?action=managerHotels&&DeleteHotelID=<?php echo $hotel -> HotelID ?>" onclick="return confirm('Bạn chắc chắn xóa chứ ?');" class="btn btn-danger"><i class="fa-solid fa-trash-can"></i></a>
+                    <a href="?action=updateHotel&&updateHotelID=<?php echo $hotel -> HotelID ?>" class="btn btn-primary my-1"><i class="fa-solid fa-pen-to-square"></i></a>
                   </td>
                 </tr>
               <?php endforeach ; ?>

@@ -27,7 +27,7 @@
                             <td><?php echo $status -> StatusID ?></td>
                             <td><?php echo $status -> NameStatus ?></td>
                             <td>
-                              <a href="?action=updateStatus&&UpdateStatusID=<?php echo $status -> StatusID ?>" class="btn btn-primary my-1">Sửa</a>
+                              <a href="?action=updateStatus&&UpdateStatusID=<?php echo $status -> StatusID ?>" class="btn btn-primary my-1"><i class="fa-solid fa-pen-to-square"></i></a>
                             </td>
                         </tr>
                     <?php endforeach ; ?>

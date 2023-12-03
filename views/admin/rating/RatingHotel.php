@@ -32,7 +32,7 @@
                             <td><?php echo $Rating -> Comment ?></td>
                             <td><?php echo $Rating -> Rating ?></td>
                             <td>
-                                <a href="?action=RatingHotel&&RatingDetailsHotel=<?php echo $_GET['RatingDetailsHotel'] ; ?>&&deleteRating=<?php echo $Rating -> ReviewID ?>" onclick="return confirm('Bạn chắc chắn xóa chứ ?')" class="btn btn-danger">Xóa</a>
+                                <a href="?action=RatingHotel&&RatingDetailsHotel=<?php echo $_GET['RatingDetailsHotel'] ; ?>&&deleteRating=<?php echo $Rating -> ReviewID ?>" onclick="return confirm('Bạn chắc chắn xóa chứ ?')" class="btn btn-danger"><i class="fa-solid fa-trash-can"></i></a>
                             </td>
                         </tr>
                     <?php endforeach ; ?>
