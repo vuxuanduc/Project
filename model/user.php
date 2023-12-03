@@ -13,6 +13,7 @@
         $conn = connectDB() ;
         $sql = "INSERT INTO `user`(`Password` , `Email` , `DisplayStatusID` , `RoleID`) VALUES('$password' , '$email' , 1 , '$RoleID')" ;
         $result = $conn -> query($sql) ;
+        echo "<script>alert('Đăng ký tài khoản thành công');</script>" ;
         echo '<script type="text/javascript">window.location.href = "?action=login";</script>';
     }
 
@@ -23,7 +24,7 @@
             session_destroy() ;
             
         }
-        echo '<script type="text/javascript">window.location.href = "?action=home";</script>';
+        echo '<script type="text/javascript">window.location.href = "?action=login";</script>';
     }
 
 

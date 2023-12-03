@@ -14,7 +14,7 @@
             <table class="table table-hover">
                 <thead class="table-success">
                     <tr>
-                        <th>Chọn</th>
+                        <!-- <th>Chọn</th> -->
                         <th>Mã trạng thái</th>
                         <th>Tên trạng thái</th>
                         <th>Thao tác</th>
@@ -24,11 +24,9 @@
                 <tbody> 
                     <?php foreach($listStatus as $Status => $status) : ?>
                         <tr>
-                            <td><input type="checkbox" name="check[]" value="<?php echo $status -> StatusID ?>" id="checkList"></td>
                             <td><?php echo $status -> StatusID ?></td>
                             <td><?php echo $status -> NameStatus ?></td>
                             <td>
-                              <a href="?action=managerStatus&&DeleteStatusID=<?php echo $status -> StatusID ?>" onclick="return confirm('Bạn chắc chắn xóa chứ ?');" class="btn btn-danger">Xóa</a>
                               <a href="?action=updateStatus&&UpdateStatusID=<?php echo $status -> StatusID ?>" class="btn btn-primary my-1">Sửa</a>
                             </td>
                         </tr>
@@ -36,12 +34,12 @@
                 </tbody>
                 
             </table>
-            <tr>
+            <!-- <tr>
                 <a class="btn open_checked button-admin">Chọn tất cả</a>
                 <a class="btn close_checked mx-2 button-admin">Bỏ chọn tất cả</a>
                 <button type="submit" class="btn delete_checked button-admin" onclick="return confirm('Bạn chắc chắn xóa chứ ?');" name="delete_checked_status">Xóa mục đã chọn</button>
                 <a class="btn mx-2 button-admin" data-bs-toggle="modal" data-bs-target="#exampleModal">Thêm mới</a>
-            </tr>
+            </tr> -->
         </form>
     </div>
 </div>

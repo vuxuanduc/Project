@@ -89,8 +89,8 @@
                         $mail->Username = "vuxuanduc54@gmail.com";
                         $mail->Password = "bbtretzcpbzkfqiv";
                         $mail->SetFrom("vuxuanduc54@gmail.com");
-                        $mail->Subject = "Forgot Password";
-                        $mail->Body = "Mat khau cua ban la : " .$emailForgot -> Password;
+                        $mail->Subject = "Lay lai mat khau";
+                        $mail->Body = "Xin chao ".$emailForgot -> Email .", mat khau dang nhap cua ban la : " .$emailForgot -> Password;
                         $email = $emailForgot -> Email ;
                         $mail->AddAddress("$email");
                         if (!$mail->Send()) {

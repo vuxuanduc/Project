@@ -96,6 +96,7 @@
             rm.RoomName,
             rm.Price,
             rm.Image ,
+            rm.DisplayRoomID ,
             rt.RoomTypeName ,
             rt.DisplayRoomTypeID
         FROM
@@ -108,6 +109,7 @@
             AND h.NameHotel LIKE '%$nameHotel%' 
             AND h.`DisplayHotelID` = 1
             AND rt.DisplayRoomTypeID = 1
+            AND rm.DisplayRoomID = 1
             AND NOT EXISTS (
                 SELECT 1
                 FROM reservation res
