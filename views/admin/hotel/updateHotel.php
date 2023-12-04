@@ -67,7 +67,7 @@
               <select name="status" id="" class="form-control my-2">
                 <?php for($i = 1 ; $i <= 2 ; $i ++) {
                 ?>
-                  <option <?php echo $hotel -> DisplayHotelID == $i ? "selected" : "" ?> value="<?php echo $i ?>"><?php echo $i == 1 ? "Hiển thị" : "Đã ẩn" ?></option>
+                  <option <?php echo $hotel -> DisplayHotelID == $i ? "selected" : "" ?> value="<?php echo $i ?>"><?php echo $i == 1 ? "Hiển thị" : "Tạm ẩn" ?></option>
                 <?php
                 } ?>
               </select>

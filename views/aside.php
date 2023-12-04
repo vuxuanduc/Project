@@ -11,15 +11,15 @@
                     </div>
                     <div class="form-group">
                         <label for="">NGÀY NHẬN PHÒNG</label>
-                        <input style="height:30px;" name="checkIn" id="checkInSearch" type="date" class="form-control my-2">
+                        <input style="height:30px;" name="checkIn" id="myID" placeholder="Ngày đến..." class="form-control my-2 checkInSearch">
                     </div>
                     <div class="form-group">
                         <label for="">NGÀY TRẢ PHÒNG</label>
-                        <input style="height:30px;" name="checkOut" id="checkOutSearch" type="date" class="form-control my-2">
+                        <input style="height:30px;" name="checkOut" placeholder="Ngày đi..." id="myID" class="form-control my-2 checkOutSearch">
                     </div>
                     <div class="form-group">
                         <label for="">SỐ NGƯỜI</label>
-                        <input style="height:30px;" name="quantity" id="quantitySearch" type="number" min="0" step="1" class="form-control my-2">
+                        <input style="height:30px;" name="quantity" placeholder="Số người" id="quantitySearch" type="number" min="0" step="1" class="form-control my-2">
                     </div>
                     <div class="form-group">
                         <input type="submit" value="TÌM PHÒNG" name="btn-search-room" class="form-control my-3" style="background-color:#86B817;color:white;">
@@ -64,8 +64,8 @@
     
     function validateSearch() {
         const nameHotelSearch = document.getElementById('nameHotelSearch') ;
-        const checkInSearch = document.getElementById('checkInSearch') ;
-        const checkOutSearch = document.getElementById('checkOutSearch') ;
+        const checkInSearch = document.querySelector('.checkInSearch') ;
+        const checkOutSearch = document.querySelector('.checkOutSearch') ;
         const quantitySearch = document.getElementById('quantitySearch') ;
 
         let check = true ;

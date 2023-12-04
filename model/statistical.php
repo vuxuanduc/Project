@@ -3,32 +3,32 @@
     function SQLQueryBookings($time) {
         switch ($time) {
             case "day":
-                return "SELECT h.NameHotel, COUNT(r.ReservationID) AS total_rooms
+                return "SELECT h.NameHotel, r.StatusID , COUNT(r.ReservationID) AS total_rooms
                         FROM hotel h
                         LEFT JOIN room rm ON h.HotelID = rm.HotelID
                         LEFT JOIN reservation r ON rm.RoomID = r.RoomID
-                        WHERE DATE(r.ReservationDate) = CURDATE()
+                        WHERE DATE(r.ReservationDate) = CURDATE() AND StatusID IN (2,4)
                         GROUP BY h.HotelID";
             case "week":
-                return "SELECT h.NameHotel, COUNT(r.ReservationID) AS total_rooms
+                return "SELECT h.NameHotel, r.StatusID , COUNT(r.ReservationID) AS total_rooms
                         FROM hotel h
                         LEFT JOIN room rm ON h.HotelID = rm.HotelID
                         LEFT JOIN reservation r ON rm.RoomID = r.RoomID
-                        WHERE YEARWEEK(r.ReservationDate) = YEARWEEK(CURDATE())
+                        WHERE YEARWEEK(r.ReservationDate) = YEARWEEK(CURDATE()) AND StatusID IN (2,4)
                         GROUP BY h.HotelID";
             case "month":
-                return "SELECT h.NameHotel, COUNT(r.ReservationID) AS total_rooms
+                return "SELECT h.NameHotel , r.StatusID , COUNT(r.ReservationID) AS total_rooms
                         FROM hotel h
                         LEFT JOIN room rm ON h.HotelID = rm.HotelID
                         LEFT JOIN reservation r ON rm.RoomID = r.RoomID
-                        WHERE MONTH(r.ReservationDate) = MONTH(CURDATE())
+                        WHERE MONTH(r.ReservationDate) = MONTH(CURDATE()) AND StatusID IN (2,4)
                         GROUP BY h.HotelID";
             case "year":
-                return "SELECT h.NameHotel, COUNT(r.ReservationID) AS total_rooms
+                return "SELECT h.NameHotel, r.StatusID , COUNT(r.ReservationID) AS total_rooms
                         FROM hotel h
                         LEFT JOIN room rm ON h.HotelID = rm.HotelID
                         LEFT JOIN reservation r ON rm.RoomID = r.RoomID
-                        WHERE YEAR(r.ReservationDate) = YEAR(CURDATE())
+                        WHERE YEAR(r.ReservationDate) = YEAR(CURDATE()) AND StatusID IN (2,4)
                         GROUP BY h.HotelID";
             default:
                 return "";
@@ -39,31 +39,31 @@
     function RevenueSQLQuery($time) {
         switch ($time) {
             case "day":
-                return "SELECT h.NameHotel, SUM(r.TotalAmount) AS total_revenue
+                return "SELECT h.NameHotel, r.StatusID , SUM(r.TotalAmount) AS total_revenue
                         FROM hotel h
                         LEFT JOIN room rm ON h.HotelID = rm.HotelID
                         LEFT JOIN reservation r ON rm.RoomID = r.RoomID
-                        WHERE DATE(r.ReservationDate) = CURDATE()
+                        WHERE DATE(r.ReservationDate) = CURDATE() AND StatusID IN (2,4)
                         GROUP BY h.HotelID";
             case "week":
-                return "SELECT h.NameHotel, SUM(r.TotalAmount) AS total_revenue
+                return "SELECT h.NameHotel, r.StatusID , SUM(r.TotalAmount) AS total_revenue
                         FROM hotel h
                         LEFT JOIN room rm ON h.HotelID = rm.HotelID
                         LEFT JOIN reservation r ON rm.RoomID = r.RoomID
-                        WHERE YEARWEEK(r.ReservationDate) = YEARWEEK(CURDATE())
+                        WHERE YEARWEEK(r.ReservationDate) = YEARWEEK(CURDATE()) AND StatusID IN (2,4)
                         GROUP BY h.HotelID";
             case "month":
-                return "SELECT h.NameHotel, SUM(r.TotalAmount) AS total_revenue
+                return "SELECT h.NameHotel, r.StatusID , SUM(r.TotalAmount) AS total_revenue
                         FROM hotel h JOIN room rm ON h.HotelID = rm.HotelID
                         LEFT JOIN reservation r ON rm.RoomID = r.RoomID
-                        WHERE MONTH(r.ReservationDate) = MONTH(CURDATE())
+                        WHERE MONTH(r.ReservationDate) = MONTH(CURDATE()) AND StatusID IN (2,4)
                         GROUP BY h.HotelID";
             case "year":
-                return "SELECT h.NameHotel, SUM(r.TotalAmount) AS total_revenue
+                return "SELECT h.NameHotel, r.StatusID , SUM(r.TotalAmount) AS total_revenue
                         FROM hotel h
                         LEFT JOIN room rm ON h.HotelID = rm.HotelID
                         LEFT JOIN reservation r ON rm.RoomID = r.RoomID
-                        WHERE YEAR(r.ReservationDate) = YEAR(CURDATE())
+                        WHERE YEAR(r.ReservationDate) = YEAR(CURDATE()) AND StatusID IN (2,4)
                         GROUP BY h.HotelID";
             default:
                 return "";

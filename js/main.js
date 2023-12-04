@@ -37,7 +37,7 @@ function validateLogin() {
         check = false ;
     }
     else if(regaxPass.test(password_login.value) == false) {
-        password_login_err.innerText = "Mật khẩu không đúng định dạng" ;
+        password_login_err.innerText = "Mật khẩu phải trên 6 kí tự" ;
         check = false ;
     }
     else {
@@ -63,6 +63,5 @@ close_check.addEventListener('click' , () => {
         check.checked = false ;
     })
 }) ;
-
 
 

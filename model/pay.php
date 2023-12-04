@@ -16,8 +16,10 @@
         }
         $location = ($pages - 1) * 10 ;
         $conn = connectDB() ;
-        $sql = "SELECT r.`TotalAmount` , p.* FROM `pay` p
-        JOIN `reservation` r ON r.`ReservationID` = p.`ReservationID` LIMIT $location,10" ;
+        $sql = "SELECT r.`TotalAmount` , u.`Email` , p.* FROM `pay` p
+        JOIN `reservation` r ON r.`ReservationID` = p.`ReservationID`
+        JOIN `user` u ON u.`UserID` = `r`.`UserID`
+        LIMIT $location,10" ;
         $result = $conn -> query($sql) -> fetchAll() ;
         return $result ;
     }

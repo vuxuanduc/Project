@@ -29,13 +29,13 @@
             <div class="col-lg-3 col-md-3 col-md-4 col-sm-6 col-12 my-2">
                 <div class="card">
                     <label for="" class="search-label">NGÀY NHẬN PHÒNG</label>
-                    <input type="date" id="checkInSearch" name="checkIn" class="form-control my-1">
+                    <input id="myID" name="checkIn" placeholder="Ngày đến..." class="form-control my-1 checkInSearch">
                 </div>
             </div>
             <div class="col-lg-3 col-md-3 col-md-4 col-sm-6 col-12 my-2">
                 <div class="card">
                     <label for="" class="search-label">NGÀY TRẢ PHÒNG</label>
-                    <input type="date" name="checkOut" id="checkOutSearch" class="form-control my-1">
+                    <input name="checkOut" placeholder="Ngày đi..." id="myID" class="form-control my-1 checkOutSearch">
                 </div>
             </div>
             <div class="col-lg-3 col-md-3 col-md-4 col-sm-6 col-12 my-2">
@@ -120,8 +120,8 @@
 
     function validateSearchHome() {
         const nameHotelSearch = document.getElementById('nameHotelSearch') ;
-        const checkInSearch = document.getElementById('checkInSearch') ;
-        const checkOutSearch = document.getElementById('checkOutSearch') ;
+        const checkInSearch = document.querySelector('.checkInSearch') ;
+        const checkOutSearch = document.querySelector('.checkOutSearch') ;
         const quantitySearch = document.getElementById('quantitySearch') ;
         let check = true ;
         if(nameHotelSearch.value.trim() == "" || checkInSearch.value.trim() == "" || checkOutSearch.value.trim() == "" || quantitySearch.value.trim() == "") {

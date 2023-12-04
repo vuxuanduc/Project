@@ -32,7 +32,7 @@
         }
         $location = ($pages - 1) * 10 ;
         $conn = connectDB() ;
-        $sql = "SELECT * FROM `hotel` LIMIT $location,10" ;
+        $sql = "SELECT * FROM `hotel` ORDER BY `Views` DESC LIMIT $location,10" ;
         $result = $conn -> query($sql) -> fetchAll() ;
         return $result ;
     }

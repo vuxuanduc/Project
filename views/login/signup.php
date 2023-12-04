@@ -59,7 +59,7 @@ function validateSignup() {
         check = false ;
     }
     else if(regaxPass.test(password_signup.value) == false) {
-        password_signup_err.innerText = "Mật khẩu không đúng định dạng" ;
+        password_signup_err.innerText = "Mật khẩu phải trên 6 kí tự" ;
         check = false ;
     }
     else {

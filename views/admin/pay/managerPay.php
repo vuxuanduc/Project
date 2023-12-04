@@ -16,6 +16,7 @@
                     <tr>
                         <th>Mã thanh toán</th>
                         <th>Mã đặt phòng</th>
+                        <th>Tài khoản đặt</th>
                         <th>Tổng tiền</th>
                         <th>Phương thức thanh toán</th>
                     </tr>
@@ -26,7 +27,8 @@
                         <tr>
                             <td><?php echo $Pay -> PayID ?></td>
                             <td><?php echo $Pay -> ReservationID ?></td>
-                            <td><?php echo $Pay -> TotalAmount ?></td>
+                            <td><?php echo $Pay -> Email ?></td>
+                            <td><?php echo number_format($Pay -> TotalAmount) .' đ' ?></td>
                             <td><?php echo $Pay -> PayInfo ?></td>
                         </tr>
                     <?php endforeach ; ?>

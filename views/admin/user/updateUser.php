@@ -27,7 +27,7 @@
                     <select name="status" id="" class="form-control my-2">
                         <?php for($i = 1 ; $i <= 2 ; $i ++) {
                         ?>
-                            <option <?php echo $UserID -> DisplayStatusID == $i ? "selected" : "" ?> value="<?php echo $i ?>"><?php echo $i == 1 ? "Đang sử dụng" : "Đã khóa" ?></option>
+                            <option <?php echo $UserID -> DisplayStatusID == $i ? "selected" : "" ?> value="<?php echo $i ?>"><?php echo $i == 1 ? "Đang sử dụng" : "Tạm khóa" ?></option>
                         <?php
                         } ?>
                     </select>
