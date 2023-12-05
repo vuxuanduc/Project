@@ -181,7 +181,7 @@
             checkPass = false ;
         }
         else if(reGaxPass.test(new_password.value) == false) {
-            new_password_err.innerText = "Mật khẩu không đúng định dạng" ;
+            new_password_err.innerText = "Mật khẩu ít nhất 6 kí tự" ;
             checkPass = false ;
         }else {
             new_password_err.innerText = "" ;

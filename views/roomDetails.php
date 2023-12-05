@@ -75,11 +75,11 @@
             <form action="" method="post" class="px-2" onsubmit="return validateCheckRoom();">
                 <div class="form-group">
                     <label for="">Ngày nhận phòng</label> <span id="check-in-date-err" style="color:red;"></span>
-                    <input type="date" name="check-in-date" id="check-in-date" class="form-control my-2">
+                    <input placeholder="Ngày đi..."  name="check-in-date" id="myID" class="form-control my-2 check-in-date">
                 </div>
                 <div class="form-group">
                     <label for="">Ngày trả phòng</label> <span id="check-out-date-err" style="color:red;"></span>
-                    <input type="date" name="check-out-date" id="check-out-date" class="form-control my-2">
+                    <input placeholder="Ngày đi..." name="check-out-date" id="myID" class="form-control my-2 check-out-date">
                 </div>
 
                 <div class="form-group">
@@ -243,14 +243,12 @@
 
 
 <script>
-    const check_in_date = document.getElementById('check-in-date') ;
-    const check_in_date_err = document.getElementById('check-in-date-err') ;
-    const check_out_date = document.getElementById('check-out-date') ;
-    const check_out_date_err = document.getElementById('check-out-date-err') ;
-    const room_number = document.getElementById('room-number') ;
-    const room_number_err = document.getElementById('room-number-err') ;
 
     function validateCheckRoom() {
+        const check_in_date = document.querySelector('.check-in-date') ;
+        const check_in_date_err = document.getElementById('check-in-date-err') ;
+        const check_out_date = document.querySelector('.check-out-date')
+        const check_out_date_err = document.getElementById('check-out-date-err') ;
         let checkRoom = true ;
         if(check_in_date.value.trim() == "") {
             check_in_date_err.innerText = "Hãy nhập ngày nhận phòng" ;
@@ -265,14 +263,6 @@
         }else {
             check_out_date_err.innerText = "" ;
         }
-
-        if(room_number.value.trim() == "") {
-            room_number_err.innerText = "Hãy nhập số lượng phòng" ;
-            checkRoom = false ;
-        }else {
-            room_number_err.innerText = "" ;
-        }
-
         return checkRoom ;
     }
 </script>

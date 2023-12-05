@@ -76,7 +76,7 @@ function validateSignupAdmin() {
         check = false ;
     }
     else if(regaxPass.test(password_signup_admin.value) == false) {
-        password_signup_admin_err.innerText = "Mật khẩu không đúng định dạng" ;
+        password_signup_admin_err.innerText = "Mật khẩu ít nhất 6 kí tự" ;
         check = false ;
     }
     else {
