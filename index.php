@@ -293,7 +293,7 @@
                     }
 
                     // Cập nhật lại thông tin sau khi thanh toán thành công ;
-                    if(isset($_GET['partnerCode'])) {
+                    if(isset($_GET['partnerCode']) && $_GET['message'] == 'Successful.') {
                         // Cập nhật lại trạng thái đơn đặt hàng (Trong trường hợp này thì biến $extraData sẽ thay thế cho ReservationID)
                         updateStatusReservation($_GET['extraData']) ;
                         // Thêm thông tin thanh toán vào bảng thanh toán ;
@@ -315,7 +315,7 @@
                 if(isset($_SESSION['login']) && isset($_SESSION['role']) && $_SESSION['role'] == 1) {
                     // Lấy danh sách khách sạn ;
                     $listHotels = getHotelsAdmin() ;
-                    // Lấy số lượng trang ;
+                    // Lấy số lượng bản ghi ;
                     $count = getCountHotels() -> QuantityHotel ;
                 
                 // Thêm khách sạn ;

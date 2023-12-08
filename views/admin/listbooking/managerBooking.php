@@ -53,7 +53,7 @@
         <ul class="pagination">
             <?php for($i = 1 ; $i <= ceil($count/10) ; $i ++) {
             ?>
-            <li class="page-item"><a class="page-link" href="?action=managerRoom&&pages=<?php echo $i ?>"><?php echo $i ?></a></li>
+            <li class="page-item"><a class="page-link" href="?action=listReservation&&pages=<?php echo $i ?>"><?php echo $i ?></a></li>
             <?php
             } ?>
         </ul>

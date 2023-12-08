@@ -75,7 +75,7 @@
             <form action="" method="post" class="px-2" onsubmit="return validateCheckRoom();">
                 <div class="form-group">
                     <label for="">Ngày nhận phòng</label> <span id="check-in-date-err" style="color:red;"></span>
-                    <input placeholder="Ngày đi..."  name="check-in-date" id="myID" class="form-control my-2 check-in-date">
+                    <input placeholder="Ngày đến..."  name="check-in-date" id="myID" class="form-control my-2 check-in-date">
                 </div>
                 <div class="form-group">
                     <label for="">Ngày trả phòng</label> <span id="check-out-date-err" style="color:red;"></span>

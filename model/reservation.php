@@ -108,10 +108,10 @@
     // Kiểm tra xem người dùng đã từng đặt phòng tại khách sạn đó hay chưa để hiển thị nút đánh giá ;
     function checkBooking($UserID , $HotelID) {
         $conn = connectDB() ;
-        $sql = "SELECT h.`HotelID` , ro.`RoomName` , r.`ReservationID` , r.`StatusID` FROM `reservation` r
+        $sql = "SELECT h.`HotelID` , ro.`RoomName` , r.`ReservationID` , r.`UserID` , r.`StatusID` FROM `reservation` r
         JOIN `room` ro ON ro.`RoomID` = r.`RoomID`
         JOIN `hotel` h ON h.`HotelID` = ro.`HotelID`
-        WHERE `UserID` = '$UserID' AND h.`HotelID` = '$HotelID'" ;
+        WHERE r.`UserID` = '$UserID' AND h.`HotelID` = '$HotelID' AND r.`StatusID` = 4" ;
         $result = $conn -> query($sql) -> fetch();
         return $result ;
     }

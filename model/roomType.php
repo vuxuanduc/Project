@@ -15,7 +15,7 @@
         return $result ;
     }
 
-    // Lấy ra tất cả loại phòng đổ ra select box ;
+    // Lấy ra tất cả loại phòng có trường DisplayRoomTypeID = 1 (Đang hiển thị) đổ ra select box trong phần thêm phòng ;
     function getRoomTypeDisplay() {
         $conn = connectDB() ;
         $sql = "SELECT * FROM `roomtype` WHERE `DisplayRoomTypeID` = 1" ;
